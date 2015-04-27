@@ -73,20 +73,7 @@ int remaining_trials(int pid)		/*245*/
 
 
 
-int remaining_trials(int pid)		/*246- for debug using*/
+int debug(int pid)					/*246 - for debug using*/
 {
-    unsigned int res;
-    __asm__
-    (
-                    "int $0x80;"
-                    : "=a" (res)
-                    : "0" (245) ,"b" (pid)
-                    : "memory"
-    );
-    if (res>=(unsigned long)(-125))
-    {
-            errno = -res;
-            res = -1;
-    }
-    return (int) res;
+
 }
