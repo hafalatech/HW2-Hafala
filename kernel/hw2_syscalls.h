@@ -1,13 +1,6 @@
 #include <asm/errno.h>
 extern int errno;
 
-
-/*== ************************* [DEFINES] ************************* ==*/
-#define SCHED_SHORT﻿ 4  ﻿ 
-/*== ************************************************** ==*/
-
-
-
 /*== ************************* [STRUCTS] ************************* ==*/
 struct switch_info {
     int previous_pid;
@@ -17,28 +10,12 @@ struct switch_info {
     unsigned long time;
     int reason;
 };
-
-struct short_sched_param {
-   int requested_time;
-   int trial_num;
-};
-
-struct sched_param {﻿
-﻿  union {
-﻿  ﻿  int sched_priority;
-﻿  ﻿  struct short_sched_param short_params;
-﻿  };
-};
 /*== ************************************************** ==*/
 
 
-
-/************************************************
- * ﻿  ﻿  ﻿  ﻿  wrapper functions
- ***********************************************/
-int lshort_query_remaining_time(int pid)
+int is_SHORT(int pid)				/*243*/
 {
-    unsigned int res;
+	unsigned int res;
     __asm__
     (
                     "int $0x80;"
@@ -53,10 +30,12 @@ int lshort_query_remaining_time(int pid)
     }
     return (int) res;
 }
-/************************************************/
-int lshort_query_overdue_time(int pid)
+
+
+
+int remaining_time(int pid) 		/*244*/
 {
-    unsigned int res;
+	unsigned int res;
     __asm__
     (
                     "int $0x80;"
@@ -71,15 +50,37 @@ int lshort_query_overdue_time(int pid)
     }
     return (int) res;
 }
-/************************************************/
-int get_scheduling_statistic(struct switch_info * tasks_info)﻿  /*HW2-yoav*/
+
+
+
+int remaining_trials(int pid)		/*245*/
 {
     unsigned int res;
     __asm__
     (
                     "int $0x80;"
                     : "=a" (res)
-                    : "0" (245) ,"b" (tasks_info)
+                    : "0" (245) ,"b" (pid)
+                    : "memory"
+    );
+    if (res>=(unsigned long)(-125))
+    {
+            errno = -res;
+            res = -1;
+    }
+    return (int) res;
+}
+
+
+
+int remaining_trials(int pid)		/*246- for debug using*/
+{
+    unsigned int res;
+    __asm__
+    (
+                    "int $0x80;"
+                    : "=a" (res)
+                    : "0" (245) ,"b" (pid)
                     : "memory"
     );
     if (res>=(unsigned long)(-125))
