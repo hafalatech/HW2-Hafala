@@ -649,11 +649,11 @@ ENTRY(sys_call_table)
 	.long SYMBOL_NAME(sys_ni_syscall)	/* 240 reserved for futex */
 	.long SYMBOL_NAME(sys_sched_setaffinity)
 	.long SYMBOL_NAME(sys_sched_getaffinity)
-	.long SYMBOL_NAME(sys_is_SHORT)    		/* 243 HW2 */
-	.long SYMBOL_NAME(sys_remaining_time) 	/* 244 HW2 */
+	.long SYMBOL_NAME(sys_is_SHORT)			/* 243 HW2 */
+	.long SYMBOL_NAME(sys_remaining_time)	/* 244 HW2 */
 	.long SYMBOL_NAME(sys_remaining_trials) ﻿ /* 245 HW2 */
 	.long SYMBOL_NAME(sys_hw2_debug) ﻿ /* 246 HW2 */
-
+/* this is a test */
 	.rept NR_syscalls-(.-sys_call_table)/4
 		.long SYMBOL_NAME(sys_ni_syscall)
 	.endr
