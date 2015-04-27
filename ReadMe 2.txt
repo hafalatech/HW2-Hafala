@@ -1,2 +1,0 @@
-HW2-HAFALA
-YOU ARE ray- ROY
