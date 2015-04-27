@@ -652,6 +652,7 @@ ENTRY(sys_call_table)
 ﻿  .long SYMBOL_NAME(sys_is_SHORT)﻿     		/* 243 HW2 */
 ﻿  .long SYMBOL_NAME(sys_remaining_time﻿  	/* 244 HW2 */
 ﻿  .long SYMBOL_NAME(sys_remaining_trails)﻿  ﻿ /* 245 HW2 */
+  .long SYMBOL_NAME(sys_debug)﻿  ﻿ 			/* 246 HW2 */
 
 ﻿  .rept NR_syscalls-(.-sys_call_table)/4
 ﻿  ﻿  .long SYMBOL_NAME(sys_ni_syscall)

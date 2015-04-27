@@ -123,6 +123,8 @@ extern unsigned long nr_uninterruptible(void);
 
 struct sched_param {
 	int sched_priority;
+	int requested_time;					/* HW2 */
+	int number_of_trials;				/* HW2 original number of trials */
 };
 
 struct completion;
@@ -452,6 +454,13 @@ struct task_struct {
 
 /* journalling filesystem info */
 	void *journal_info;
+
+	int requested_time;					/* HW2 */
+	int trial_num;						/* HW2 current trial */
+	int number_of_trials;				/* HW2 original number of trials */
+	int run_time_in_current_trial;  	/* HW2 in miliseconds */
+	int run_time_in_current_epoc;  		/* HW2 current run on cpu in miliseconds */
+	int is_overdue;						/* HW2 */
 };
 
 /*
@@ -515,48 +524,56 @@ extern struct exec_domain	default_exec_domain;
  *  INIT_TASK is used to set up the first task table, touch at
  * your own risk!. Base=0, limit=0x1fffff (=2MB)
  */
-#define INIT_TASK(tsk)	\
-{									\
-    state:		0,						\
-    flags:		0,						\
-    sigpending:		0,						\
-    addr_limit:		KERNEL_DS,					\
-    exec_domain:	&default_exec_domain,				\
-    lock_depth:		-1,						\
-    prio:		MAX_PRIO-20,					\
-    static_prio:	MAX_PRIO-20,					\
-    policy:		SCHED_OTHER,					\
-    cpus_allowed:	-1,						\
-    cpus_allowed_mask:	-1,						\
-    mm:			NULL,						\
-    active_mm:		&init_mm,					\
+#define INIT_TASK(tsk)										\
+{															\
+    state:		0,											\
+    flags:		0,											\
+    sigpending:		0,										\
+    addr_limit:		KERNEL_DS,								\		
+    exec_domain:	&default_exec_domain,					\
+    lock_depth:		-1,										\
+    prio:		MAX_PRIO-20,								\
+    static_prio:	MAX_PRIO-20,							\
+    policy:		SCHED_OTHER,								\
+    cpus_allowed:	-1,										\
+    cpus_allowed_mask:	-1,									\
+    mm:			NULL,										\
+    active_mm:		&init_mm,								\
     run_list:		LIST_HEAD_INIT(tsk.run_list),			\
-    time_slice:		HZ,						\
-    next_task:		&tsk,						\
-    prev_task:		&tsk,						\
-    p_opptr:		&tsk,						\
-    p_pptr:		&tsk,						\
+    time_slice:		HZ,										\
+    next_task:		&tsk,									\
+    prev_task:		&tsk,									\
+    p_opptr:		&tsk,									\
+    p_pptr:		&tsk,										\
     thread_group:	LIST_HEAD_INIT(tsk.thread_group),		\
     wait_chldexit:	__WAIT_QUEUE_HEAD_INITIALIZER(tsk.wait_chldexit),\
-    real_timer:		{						\
-	function:		it_real_fn				\
-    },									\
-    cap_effective:	CAP_INIT_EFF_SET,				\
-    cap_inheritable:	CAP_INIT_INH_SET,				\
-    cap_permitted:	CAP_FULL_SET,					\
-    keep_capabilities:	0,						\
-    rlim:		INIT_RLIMITS,					\
-    user:		INIT_USER,					\
-    comm:		"swapper",					\
-    thread:		INIT_THREAD,					\
-    fs:			&init_fs,					\
-    files:		&init_files,					\
-    sigmask_lock:	SPIN_LOCK_UNLOCKED,				\
-    sig:		&init_signals,					\
+    real_timer:		{										\
+	function:		it_real_fn								\
+    },														\
+    cap_effective:	CAP_INIT_EFF_SET,						\
+    cap_inheritable:	CAP_INIT_INH_SET,					\
+    cap_permitted:	CAP_FULL_SET,							\
+    keep_capabilities:	0,									\
+    rlim:		INIT_RLIMITS,								\
+    user:		INIT_USER,									\
+    comm:		"swapper",									\
+    thread:		INIT_THREAD,								\
+    fs:			&init_fs,									\
+    files:		&init_files,								\
+    sigmask_lock:	SPIN_LOCK_UNLOCKED,						\
+    sig:		&init_signals,								\
     pending:		{ NULL, &tsk.pending.head, {{0}}},		\
-    blocked:		{{0}},						\
-    alloc_lock:		SPIN_LOCK_UNLOCKED,				\
-    journal_info:	NULL,						\
+    blocked:		{{0}},									\
+    alloc_lock:		SPIN_LOCK_UNLOCKED,						\
+    journal_info:	NULL,									\
+	
+
+	requested_time:		0,									\ /* HW2 */
+	trial_num:			1,									\ /* HW2 current trial */
+	number_of_trials:	0,									\ /* HW2 original number of trials */
+	run_time_in_current_trial:	0,  						\ /* HW2 in miliseconds */
+	run_time_in_current_epoc:	0,  						\ /* HW2 current run on cpu in miliseconds */
+	is_overdue:			0,									\ /* HW2 */
 }
 
 
