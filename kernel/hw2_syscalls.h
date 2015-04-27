@@ -73,7 +73,7 @@ int remaining_trials(int pid)		/*245*/
 
 
 
-int debug(int pid)					/*246 - for debug using*/
+int hw2_debug(int pid)					/*246 - for debug using*/
 {
 
 }

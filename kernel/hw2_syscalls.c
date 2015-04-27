@@ -1,6 +1,6 @@
 #include <linux/kernel.h>
 #include <linux/sched.h>
-#include "hw2_syscall.h"
+#include "hw2_syscalls.h"
 
 int sys_is_SHORT(int pid) {    			/*syscall 243*/
 	//Checking if pid is neg
@@ -30,8 +30,7 @@ int sys_is_SHORT(int pid) {    			/*syscall 243*/
 }
 
 
-int sys_remaining_time(int pid)	    	/*syscall 244*/
-{
+int sys_remaining_time(int pid)	{ /*syscall 244*/
 	//Checking if pid is neg
 	if (pid < 0) {
 		return -EINVAL;
@@ -50,7 +49,7 @@ int sys_remaining_time(int pid)	    	/*syscall 244*/
 	int res = -EINVAL;
 	//Returning 0 in case process is OVERDUE or remaining_time if process is SHORT
 	if(target->policy == SCHED_SHORT) {
-		res = target->requested_time - target->remaining_time;
+		res = target->requested_time - target->run_time_in_current_trial;
 		if(target->is_overdue == 1){
 			res = 0;
 		}
@@ -60,8 +59,7 @@ int sys_remaining_time(int pid)	    	/*syscall 244*/
 
 
 
-int sys_remaining_trials(int pid) 		  /*syscall 245*/
-{
+int sys_remaining_trials(int pid) {		  /*syscall 245*/
     //Checking if pid is neg
 	if (pid < 0) {
 		return -EINVAL;
@@ -80,7 +78,7 @@ int sys_remaining_trials(int pid) 		  /*syscall 245*/
 	int res = -EINVAL;
 	//Returning 0 in case process is OVERDUE or remaining_trials if process is SHORT
 	if(target->policy == SCHED_SHORT) {
-		res = target->trial_num - target->remaining_time;
+		res = target->number_of_trials - target->trial_num;
 		if(target->is_overdue == 1){
 			res = 0;
 		}
@@ -90,8 +88,7 @@ int sys_remaining_trials(int pid) 		  /*syscall 245*/
 
 
 
-int sys_debug(int pid)	    			/*syscall 246*/
-{
-	
+int sys_hw2_debug(int pid) {	  /*syscall 246*/
+	return 0;
 }
 
