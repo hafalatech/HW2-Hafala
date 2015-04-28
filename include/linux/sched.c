@@ -276,25 +276,22 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 	        /*
 	         * HW2 Roy - This manages Short processes' activate procedure
 	         */
-	        array = rq->lshort;
+	        array = rq->shorts;
 	        if (IS_OVERDUE(p)) {
 	                array = rq->overdues;
 	                p->prio = 0;
 	        } 
 	        else 
-	        {      	// Not overdue process
+	        {      	// short process
 	                p->prio = effective_short_prio(p); // todo: is this neccessary?
 	                goto enqueue_task_hw2;
 	        }
 	}
 
-
-	
-	list_add_tail(p, rq->overdues);							/* HW2 Roy  todo: check if this line is ok */
+	list_add_tail(p, array);								/* HW2 Roy  todo: check if this line is ok */
 	p->array = array;										/* HW2 Roy */
 	return;													/* HW2 Roy */
-
-
+	
 enqueue_task_hw2: /* HW2 Roy */
 	enqueue_task(p, array);
 	rq->nr_running++;
