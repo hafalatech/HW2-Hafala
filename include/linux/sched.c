@@ -36,6 +36,12 @@
 #define PRIO_TO_NICE(prio)	((prio) - MAX_RT_PRIO - 20)
 #define TASK_NICE(p)		PRIO_TO_NICE((p)->static_prio)
 
+
+#define SHORT_OR_OVERDUE_PROCESS 0 	/* HW2 Roy */
+#define REAL_TIME_PROCESS 1 			/* HW2 Roy */
+#define SCHED_OTHER_PROCESS 2 		/* HW2 Roy */
+
+
 /*
  * 'User priority' is the nice value converted to something we
  * can work with better when scaling various scheduler parameters,
@@ -890,7 +896,7 @@ need_resched:
 	rq = this_rq();
 
 	release_kernel_lock(prev, smp_processor_id());
-	prepare_arch_schedule(prev);
+	prepare_arch_schedule(prev);  // its an empty statement, please ignore this line (but do not delete)
 	prev->sleep_timestamp = jiffies;
 	spin_lock_irq(&rq->lock);
 
@@ -919,24 +925,57 @@ pick_next_task:
 		goto switch_tasks;
 	}
 
-	array = rq->active;
-	if (unlikely(!array->nr_active)) {
-		/*
-		 * Switch the active and expired arrays.
-		 */
-		rq->active = rq->expired;
-		rq->expired = array;
+	int process_type = SHORT_OR_OVERDUE_PROCESS; /* HW2 Henn SHORT_OR_OVERDUE_PROCESS unless said otherwise */
+
+    if (((rq->active)->nr_active || (rq->expired)->nr_active)) { /* HW2 Henn */
 		array = rq->active;
-		rq->expired_timestamp = 0;
+		if (unlikely(!array->nr_active)) {
+			/*
+			 * Switch the active and expired arrays.
+			 */
+			rq->active = rq->expired;
+			rq->expired = array;
+			array = rq->active;
+			rq->expired_timestamp = 0;
+		}
+
+		idx = sched_find_first_bit(array->bitmap);
+
+        if (idx < MAX_RT_PRIO) {           						/* HW2 Henn */    
+            process_type = REAL_TIME_PROCESS; 					/* HW2 Henn */
+        } else {												/* HW2 Henn */
+            process_type = SCHED_OTHER_PROCESS;					/* HW2 Henn */
+        }														/* HW2 Henn */
 	}
 
-	idx = sched_find_first_bit(array->bitmap);
+    if (process_type == SHORT_OR_OVERDUE_PROCESS) 
+    {															/* HW2 Henn */
+        array = rq->shorts;										/* HW2 Henn */
+        idx = sched_find_first_bit(array->bitmap);				/* HW2 Henn */
+
+        if (unlikely(!array->nr_active)) {						/* HW2 Henn */
+            next = rq->overdues;								/* HW2 Henn */
+            goto switch_tasks;									/* HW2 Henn */
+        }
+    } else if (process_type == SCHED_OTHER_PROCESS) {			/* HW2 Henn */
+        if ((rq->shorts)->nr_active) {							/* HW2 Henn */
+            array = rq->shorts;									/* HW2 Henn */
+            idx = sched_find_first_bit(array->bitmap);			/* HW2 Henn */
+        }
+    }
+
+
+
 	queue = array->queue + idx;
 	next = list_entry(queue->next, task_t, run_list);
 
 switch_tasks:
 	prefetch(next);
 	clear_tsk_need_resched(prev);
+
+
+	//todo: put here the log_monitor code
+
 
 	if (likely(prev != next)) {
 		rq->nr_switches++;
@@ -1130,6 +1169,14 @@ void set_user_nice(task_t *p, long nice)
 		dequeue_task(p, array);
 	p->static_prio = NICE_TO_PRIO(nice);
 	p->prio = NICE_TO_PRIO(nice);
+    if (IS_SHORT(p))								/* HW2 Roy */
+    {												/* HW2 Roy */
+        if (IS_OVERDUE(p)) {						/* HW2 Roy */
+            p->prio = 0;							/* HW2 Roy */
+        } else {									/* HW2 Roy */
+            p->prio = effective_prio(p);			/* HW2 Roy */
+        }											/* HW2 Roy */
+    }												/* HW2 Roy */
 	if (array) {
 		enqueue_task(p, array);
 		/*
@@ -1243,8 +1290,8 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
      * This prevents a SHORT process from changing it's policy
      */
     if (p->policy == SCHED_SHORT) {				/* HW2 - Henn - todo - should we  check also about SCHED_FIFO and SCHED_RR ?*/ 
-            retval = -EPERM;
-            goto out_unlock;
+        retval = -EPERM;
+        goto out_unlock;
     }
 
 
@@ -1276,27 +1323,24 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
         			"Operation not permitted" error should return.
         		*/   
                 if ((p->uid != current->uid) && (current->uid != 0)) { 
-                        retval = -EPERM;
-                        goto out_unlock;
+                    retval = -EPERM;
+                    goto out_unlock;
                 }
-
                 /*
                 * Input check
                 */
                 if ((lp.requested_time < 1) || (lp.requested_time > 5000))
-                        goto out_unlock;
+                    goto out_unlock;
 
                 if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
-                        goto out_unlock;
-
-
+                    goto out_unlock;
                 /*
                 * here we make the actual set
                 */
                 current->need_resched = 1; // when returning from kernel to userland, we need to resched because we are changing prio
                 array = p->array;
                 if (array)
-                        deactivate_task(p, task_rq(p));
+                    deactivate_task(p, task_rq(p));
 
                 /*  i.e.  (10 * HZ / 1000) is equals to 10 msec */
                 p->requested_time = lp.requested_time * HZ / 1000;// Converting requested time to ticks
@@ -1310,20 +1354,19 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
                 p->prio = effective_prio(p); //todo: handle prio  ****** GUY ******* should be effective_short_prio?????
                 p->policy = policy;
                 if (p->time_slice == 0) {
-                        /*
-                         * Even though the requested_time is POSITIVE, it might be less than 1 tick,
-                         * therefore we set the process to overdue from the start
-                         */
-                        p->is_overdue = 1;
-                        p->prio = 0;
+                    /*
+                     * Even though the requested_time is POSITIVE, it might be less than 1 tick,
+                     * therefore we set the process to overdue from the start
+                     */
+                    p->is_overdue = 1;
+                    p->prio = 0;
                 }
                 if (array) {
-                        activate_task(p, task_rq(p));
+                    activate_task(p, task_rq(p));
                 }
                 retval = 0;
                 goto out_unlock;
         }  
-
         /*  HW2 Roy - block ended */
 
 	if (lp.sched_priority < 0 || lp.sched_priority > MAX_USER_RT_PRIO-1)
@@ -1531,11 +1574,21 @@ asmlinkage long sys_sched_yield(void)
 		goto out_unlock;
 	}
 
+	if (IS_OVERDUE(current)) /* HW2 */
+	{ /* HW2 */
+		list_add_tail(&current->run_list, rq->overdues); /* HW2 */
+		goto out_unlock; /* HW2 */
+	} /* HW2 */
+
 	list_del(&current->run_list);
 	if (!list_empty(array->queue + current->prio)) {
 		list_add(&current->run_list, array->queue[current->prio].next);
 		goto out_unlock;
 	}
+
+
+
+
 	__clear_bit(current->prio, array->bitmap);
 
 	i = sched_find_first_bit(array->bitmap);
