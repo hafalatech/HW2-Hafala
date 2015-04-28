@@ -151,7 +151,7 @@ static struct runqueue runqueues[NR_CPUS] __cacheline_aligned;
 #define this_rq()		cpu_rq(smp_processor_id())
 #define task_rq(p)		cpu_rq((p)->cpu)
 #define cpu_curr(cpu)		(cpu_rq(cpu)->curr)
-#define rt_task(p)		((p)->prio < MAX_RT_PRIO)
+#define rt_task(p)     (((p)->prio < MAX_RT_PRIO) && ((p)->policy != SCHED_SHORT))    /* HW2 - Henn */
 
 /*
  * Default context-switch locking:
@@ -257,7 +257,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 {
 	unsigned long sleep_time = jiffies - p->sleep_timestamp;
 	prio_array_t *array = rq->active;
-	if (p->policy != SCHED_SHORT) {  				/* HW2 Henn */
+	if (p->policy != SCHED_SHORT) {  						/* HW2 Henn */
 		if (!rt_task(p) && sleep_time) {
 			/*
 			 * This code gives a bonus to interactive tasks. We update
@@ -271,7 +271,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 				p->sleep_avg = MAX_SLEEP_AVG;
 			p->prio = effective_prio(p);
 		}
-		goto enqueue_task_hw2;
+		goto enqueue_task_hw2;								/* HW2 Roy */
 	} else {
 	        /*
 	         * HW2 Roy - This manages Short processes' activate procedure
@@ -283,15 +283,15 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 	        } 
 	        else 
 	        {      	// short process
-	                p->prio = effective_short_prio(p); // todo: is this neccessary?
+	                p->prio = effective_prio(p); // todo: should it be effective_short_prio ???
 	                goto enqueue_task_hw2;
 	        }
 	}
 
-	list_add_tail(p, array);								/* HW2 Roy  todo: check if this line is ok */
+	list_add_tail(p->run_list, array);						/* HW2 Roy  todo: check if this line is ok */
 	p->array = array;										/* HW2 Roy */
 	return;													/* HW2 Roy */
-	
+
 enqueue_task_hw2: /* HW2 Roy */
 	enqueue_task(p, array);
 	rq->nr_running++;
@@ -737,6 +737,17 @@ static inline void idle_tick(void)
 		(jiffies - (rq)->expired_timestamp >= \
 			STARVATION_LIMIT * ((rq)->nr_running) + 1))
 
+
+void make_short_an_overdue(task_t *p){
+	dequeue_task(p, rq->shorts);
+	p->is_overdue = 1;
+	p->prio = 0; // this doesnt matter cause an Overdue-SHORT-processes do not consider their priority
+	p->time_slice = 0; // again, this doesnt matter
+	list_add_tail(p->run_list, rq->overdues);	/* HW2 Roy  todo: check if this line is ok */	
+}
+
+
+
 /*
  * This function gets called by the timer code, with HZ frequency.
  * We call it with interrupts disabled.
@@ -744,7 +755,7 @@ static inline void idle_tick(void)
 void scheduler_tick(int user_tick, int system)
 {
 	int cpu = smp_processor_id();
-	runqueue_t *rq = this_rq();
+	runqueue_t *rq = this_rq(); // the runqueue of the current cpu
 	task_t *p = current;
 
 	if (p == rq->idle) {
@@ -793,7 +804,50 @@ void scheduler_tick(int user_tick, int system)
 	 */
 	if (p->sleep_avg)
 		p->sleep_avg--;
-	if (!--p->time_slice) {
+
+
+
+   	/* HW2 - Henn - start */
+    if (IS_SHORT(p)) 
+    {
+    	// update fields
+		(p->run_time_in_current_trial)++;  
+		(p->run_time_in_current_cpu_run)++; 
+		(p->time_slice)--;
+        if (p->time_slice == 0) {     	                   
+        	(p->trial_num)++;	//finished current timeslice so increment its trialNum  
+        }      
+        // handle SHORT processes
+        if (!IS_OVERDUE(p) && (p->time_slice == 0)) 
+        { 
+        	if(p->trial_num > p->number_of_trials)
+        	{
+        		// this process was a SHORT but reached its limit
+        		make_short_an_overdue(p);
+        		set_tsk_need_resched(p);
+        		goto out;
+        	} 
+        	else 
+        	{
+        		//calculate new time_slice
+				p->time_slice = (p->requested_time)/(p->trial_num);
+				if(p->time_slice == 0)
+				{
+					// next time_slice is 0 so make it an overdue
+					make_short_an_overdue(p);
+					set_tsk_need_resched(p);
+					goto out;
+				}
+        	}
+		} 
+		else if (IS_OVERDUE(p)) 
+		{
+			//set_tsk_need_resched(p); //todo: should we add this???
+			goto out;
+		}
+   	/* HW2 - Henn - end */
+
+	} else if (!--p->time_slice) {
 		dequeue_task(p, rq->active);
 		set_tsk_need_resched(p);
 		p->prio = effective_prio(p);
@@ -1249,11 +1303,11 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
                 p->number_of_trials = lp.number_of_trials;
                 p->trial_num = 1;
                 p->run_time_in_current_trial = 0; //in ticks
-                p->run_time_in_current_epoc = 0; //in ticks
+                p->run_time_in_current_cpu_run = 0; //in ticks
                 p->is_overdue = 0;
 
                 p->time_slice = p->requested_time; //in ticks
-                p->prio = effective_short_prio(p); //todo: handle prio  ****** GUY *******
+                p->prio = effective_prio(p); //todo: handle prio  ****** GUY ******* should be effective_short_prio?????
                 p->policy = policy;
                 if (p->time_slice == 0) {
                         /*
