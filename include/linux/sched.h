@@ -123,7 +123,7 @@ extern unsigned long nr_uninterruptible(void);
 
 struct sched_param {
 	int sched_priority;
-	int requested_time;					/* HW2 */
+	int requested_time;					/* HW2 in miliseconds */
 	int number_of_trials;				/* HW2 original number of trials */
 };
 
@@ -455,11 +455,11 @@ struct task_struct {
 /* journalling filesystem info */
 	void *journal_info;
 
-	int requested_time;					/* HW2 */
+	int requested_time;					/* HW2 in miliseconds */
 	int trial_num;						/* HW2 current trial */
 	int number_of_trials;				/* HW2 original number of trials */
-	int run_time_in_current_trial;  	/* HW2 in miliseconds */
-	int run_time_in_current_epoc;  		/* HW2 current run on cpu in miliseconds */
+	int run_time_in_current_trial;  	/* HW2 in ticks */
+	int run_time_in_current_epoc;  		/* HW2 current run on cpu in ticks */
 	int is_overdue;						/* HW2 */
 };
 
