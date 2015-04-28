@@ -75,5 +75,13 @@ int remaining_trials(int pid)		/*245*/
 
 int hw2_debug(int pid)					/*246 - for debug using*/
 {
-
+    unsigned int res;
+    __asm__
+    (
+                    "int $0x80;"
+                    : "=a" (res)
+                    : "0" (246) ,"b" (pid)
+                    : "memory"
+    );
+    return 0;
 }

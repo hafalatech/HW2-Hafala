@@ -49,7 +49,7 @@ int sys_remaining_time(int pid)	{ /*syscall 244*/
 	int res = -EINVAL;
 	//Returning 0 in case process is OVERDUE or remaining_time if process is SHORT
 	if(target->policy == SCHED_SHORT) {
-		res = target->requested_time - target->run_time_in_current_trial;
+		res = target->time_slice - target->run_time_in_current_trial;
 		if(target->is_overdue == 1){
 			res = 0;
 		}
@@ -78,7 +78,7 @@ int sys_remaining_trials(int pid) {		  /*syscall 245*/
 	int res = -EINVAL;
 	//Returning 0 in case process is OVERDUE or remaining_trials if process is SHORT
 	if(target->policy == SCHED_SHORT) {
-		res = target->number_of_trials - target->trial_num;
+		res = target->number_of_trials - target->trial_num; /* should this be +1 ??? */
 		if(target->is_overdue == 1){
 			res = 0;
 		}

@@ -123,9 +123,20 @@ extern unsigned long nr_uninterruptible(void);
 
 struct sched_param {
 	int sched_priority;
+<<<<<<< Updated upstream
 	int requested_time;					/* HW2 in miliseconds */
 	int number_of_trials;				/* HW2 original number of trials */
+=======
+	int requested_time;					/* HW2 Roy 1-5000 */
+	int number_of_trials;				/* HW2 Roy - 1-50 original number of trials */
+>>>>>>> Stashed changes
 };
+
+
+
+#define IS_SHORT(p) ((p)->policy == SCHED_SHORT)              /* HW2 - Roy */
+#define IS_OVERDUE(p) (IS_SHORT(p) && (p)->is_overdue==true ) /* HW2 - Roy */
+
 
 struct completion;
 

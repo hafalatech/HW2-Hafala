@@ -138,7 +138,8 @@ struct runqueue {
 	unsigned long nr_running, nr_switches, expired_timestamp;
 	signed long nr_uninterruptible;
 	task_t *curr, *idle;
-	prio_array_t *active, *expired, arrays[2];
+	prio_array_t *active, *expired, *shorts, arrays[3];  /* HW2 Roy */
+	list_t *overdues;									 /* HW2 Roy */
 	int prev_nr_running[NR_CPUS];
 	task_t *migration_thread;
 	list_t migration_queue;
@@ -256,20 +257,45 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 {
 	unsigned long sleep_time = jiffies - p->sleep_timestamp;
 	prio_array_t *array = rq->active;
-
-	if (!rt_task(p) && sleep_time) {
-		/*
-		 * This code gives a bonus to interactive tasks. We update
-		 * an 'average sleep time' value here, based on
-		 * sleep_timestamp. The more time a task spends sleeping,
-		 * the higher the average gets - and the higher the priority
-		 * boost gets as well.
-		 */
-		p->sleep_avg += sleep_time;
-		if (p->sleep_avg > MAX_SLEEP_AVG)
-			p->sleep_avg = MAX_SLEEP_AVG;
-		p->prio = effective_prio(p);
+	if (p->policy != SCHED_SHORT) {  				/* HW2 Henn */
+		if (!rt_task(p) && sleep_time) {
+			/*
+			 * This code gives a bonus to interactive tasks. We update
+			 * an 'average sleep time' value here, based on
+			 * sleep_timestamp. The more time a task spends sleeping,
+			 * the higher the average gets - and the higher the priority
+			 * boost gets as well.
+			 */
+			p->sleep_avg += sleep_time;
+			if (p->sleep_avg > MAX_SLEEP_AVG)
+				p->sleep_avg = MAX_SLEEP_AVG;
+			p->prio = effective_prio(p);
+		}
+		goto enqueue_task_hw2;
+	} else {
+	        /*
+	         * HW2 Roy - This manages Short processes' activate procedure
+	         */
+	        array = rq->lshort;
+	        if (IS_OVERDUE(p)) {
+	                array = rq->overdues;
+	                p->prio = 0;
+	        } 
+	        else 
+	        {      	// Not overdue process
+	                p->prio = effective_short_prio(p); // todo: is this neccessary?
+	                goto enqueue_task_hw2;
+	        }
 	}
+
+
+	
+	list_add_tail(p, rq->overdues);							/* HW2 Roy  todo: check if this line is ok */
+	p->array = array;										/* HW2 Roy */
+	return;													/* HW2 Roy */
+
+
+enqueue_task_hw2: /* HW2 Roy */
 	enqueue_task(p, array);
 	rq->nr_running++;
 }
@@ -1162,12 +1188,21 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 	 */
 	rq = task_rq_lock(p, &flags);
 
+    /*
+     * This prevents a SHORT process from changing it's policy
+     */
+    if (p->policy == SCHED_SHORT) {				/* HW2 - Henn - todo - should we  check also about SCHED_FIFO and SCHED_RR ?*/ 
+            retval = -EPERM;
+            goto out_unlock;
+    }
+
+
 	if (policy < 0)
 		policy = p->policy;
 	else {
 		retval = -EINVAL;
-		if (policy != SCHED_FIFO && policy != SCHED_RR &&
-				policy != SCHED_OTHER)
+		if (policy != SCHED_FIFO && policy != SCHED_RR && policy != SCHED_OTHER
+				 && policy != SCHED_SHORT)  	/* HW2 - Henn */
 			goto out_unlock;
 	}
 
@@ -1176,6 +1211,70 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 	 * 1..MAX_USER_RT_PRIO-1, valid priority for SCHED_OTHER is 0.
 	 */
 	retval = -EINVAL;
+
+
+		/*  HW2 Roy - block started */
+        /*
+         * If the chosen policy is Short, this verifies parameters and updates the process accordingly
+         */
+        if (policy == SCHED_SHORT) {      
+        		/*
+        		*	Make sure that the user can change the policy for all his processes, 
+        			and root can change the policy for all processes in the system , 
+        			but neither user nor root can change the policy of a SHORT-process, 
+        			"Operation not permitted" error should return.
+        		*/   
+                if ((p->uid != current->uid) && (current->uid != 0)) { 
+                        retval = -EPERM;
+                        goto out_unlock;
+                }
+
+                /*
+                * Input check
+                */
+                if ((lp.requested_time < 1) || (lp.requested_time > 5000))
+                        goto out_unlock;
+
+                if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
+                        goto out_unlock;
+
+
+                /*
+                * here we make the actual set
+                */
+                current->need_resched = 1; // when returning from kernel to userland, we need to resched because we are changing prio
+                array = p->array;
+                if (array)
+                        deactivate_task(p, task_rq(p));
+
+                /*  i.e.  (10 * HZ / 1000) is equals to 10 msec */
+                p->requested_time = lp.requested_time * HZ / 1000;// Converting requested time to ticks
+                p->number_of_trials = lp.number_of_trials;
+                p->trial_num = 1;
+                p->run_time_in_current_trial = 0; //in ticks
+                p->run_time_in_current_epoc = 0; //in ticks
+                p->is_overdue = 0;
+
+                p->time_slice = p->requested_time; //in ticks
+                p->prio = effective_short_prio(p); //todo: handle prio  ****** GUY *******
+                p->policy = policy;
+                if (p->time_slice == 0) {
+                        /*
+                         * Even though the requested_time is POSITIVE, it might be less than 1 tick,
+                         * therefore we set the process to overdue from the start
+                         */
+                        p->is_overdue = 1;
+                        p->prio = 0;
+                }
+                if (array) {
+                        activate_task(p, task_rq(p));
+                }
+                retval = 0;
+                goto out_unlock;
+        }  
+
+        /*  HW2 Roy - block ended */
+
 	if (lp.sched_priority < 0 || lp.sched_priority > MAX_USER_RT_PRIO-1)
 		goto out_unlock;
 	if ((policy == SCHED_OTHER) != (lp.sched_priority == 0))
