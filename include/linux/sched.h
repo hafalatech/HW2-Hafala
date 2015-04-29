@@ -128,10 +128,11 @@ struct sched_param {
 };
 
 
-
+#define IS_REAL(p) (((p)->policy == SCHED_RR) || ((p)->policy == SCHED_FIFO))   /* HW2 - Roy */          	/* HW2 - Roy */
 #define IS_SHORT(p) ((p)->policy == SCHED_SHORT)              	/* HW2 - Roy */
-#define IS_OVERDUE(p) (IS_SHORT(p) && (p)->is_overdue==1 ) 		/* HW2 - Roy */
-
+#define IS_OTHER(p) ((p)->policy == SCHED_OTHER)              	/* HW2 - Roy */
+#define IS_OVERDUE(p) ((IS_SHORT(p)) && ((p)->is_overdue == 1) 		/* HW2 - Roy */
+#define IS_IDLE(p)  ((p)->pid == 0)								/* HW2 - Roy */		
 
 struct completion;
 

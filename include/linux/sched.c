@@ -144,7 +144,7 @@ struct runqueue {
 	unsigned long nr_running, nr_switches, expired_timestamp;
 	signed long nr_uninterruptible;
 	task_t *curr, *idle;
-	prio_array_t *active, *expired, *shorts, arrays[3];  /* HW2 Roy */
+	prio_array_t *active, *expired, *shorts, arrays[3];  /* HW2 Roy */ //todo
 	list_t *overdues;									 /* HW2 Roy */
 	int prev_nr_running[NR_CPUS];
 	task_t *migration_thread;
@@ -368,6 +368,46 @@ void kick_if_running(task_t * p)
 }
 #endif
 
+
+
+/* HW2 Roy - new function starts */
+static inline int is_wake_up_aux(task_t *p , task_t *curr) {
+    if (IS_OVERDUE(p) && IS_IDLE(curr)) 
+    {
+        return 1;
+    }
+
+    if (IS_OTHER(p) && (IS_OVERDUE(curr) || IS_IDLE(curr))
+    {
+    	return 1;
+    }
+    if (IS_OTHER(p) && IS_OTHER(curr)) {
+    	return (p->prio < curr->prio);
+    }
+
+
+    if (IS_SHORT(p) && (IS_OTHER(curr) || IS_OVERDUE(curr) || IS_IDLE(curr)))
+    {
+    	return 1;	
+    }
+    if (IS_SHORT(p) && IS_SHORT(curr)) 
+    {
+    	return (p->prio < curr->prio);
+    }
+
+
+    if (IS_REAL(p) && (IS_SHORT(p) || IS_OTHER(curr) || IS_OVERDUE(curr) || IS_IDLE(curr)))
+    {
+    	return 1;	
+    }
+    if (IS_REAL(p) && IS_REAL(curr)) 
+    {
+    	return (p->prio < curr->prio);
+    }
+    return 0;
+}
+/* HW2 Roy - new function ends */
+
 /*
  * Wake up a process. Put it on the run-queue if it's not
  * already there.  The "current" process is always on the
@@ -405,7 +445,8 @@ repeat_lock_task:
 		/*
 		 * If sync is set, a resched_task() is a NOOP
 		 */
-		if (p->prio < rq->curr->prio)
+		if (is_wake_up_aux(p ,rq->curr)) /* HW2 Roy */
+		//if (p->prio < rq->curr->prio)	 /* HW2 Roy */
 			resched_task(rq->curr);
 		success = 1;
 	}
@@ -1620,6 +1661,7 @@ asmlinkage long sys_sched_get_priority_max(int policy)
 		ret = MAX_USER_RT_PRIO-1;
 		break;
 	case SCHED_OTHER:
+	case SCHED_SHORT:
 		ret = 0;
 		break;
 	}
@@ -1636,6 +1678,7 @@ asmlinkage long sys_sched_get_priority_min(int policy)
 		ret = 1;
 		break;
 	case SCHED_OTHER:
+	case SCHED_SHORT:
 		ret = 0;
 	}
 	return ret;
@@ -1826,10 +1869,11 @@ void __init sched_init(void)
 		rq = cpu_rq(i);
 		rq->active = rq->arrays;
 		rq->expired = rq->arrays + 1;
+		rq->shorts = rq-> arrays + 2;                   // HW2 - Henn
 		spin_lock_init(&rq->lock);
 		INIT_LIST_HEAD(&rq->migration_queue);
 
-		for (j = 0; j < 2; j++) {
+		for (j = 0; j < 3; j++) {			// HW2 - Henn
 			array = rq->arrays + j;
 			for (k = 0; k < MAX_PRIO; k++) {
 				INIT_LIST_HEAD(array->queue + k);
@@ -1838,6 +1882,7 @@ void __init sched_init(void)
 			// delimiter for bitsearch
 			__set_bit(MAX_PRIO, array->bitmap);
 		}
+		INIT_LIST_HEAD(rq->overdues);		// HW2 - Henn
 	}
 	/*
 	 * We have to do a little magic to get the first
