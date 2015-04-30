@@ -144,7 +144,7 @@ struct runqueue {
 	unsigned long nr_running, nr_switches, expired_timestamp;
 	signed long nr_uninterruptible;
 	task_t *curr, *idle;
-	prio_array_t *active, *expired, *shorts, arrays[3];  /* HW2 Roy */ //todo
+	prio_array_t *active, *expired, *shorts, arrays[3];  /* HW2 Roy */
 	list_t *overdues;									 /* HW2 Roy */
 	int prev_nr_running[NR_CPUS];
 	task_t *migration_thread;
@@ -289,7 +289,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 	        } 
 	        else 
 	        {      	// short process
-	                p->prio = effective_prio(p); // todo: should it be effective_short_prio ???
+	                p->prio = effective_prio(p);
 	                goto enqueue_task_hw2;
 	        }
 	}
@@ -858,8 +858,6 @@ void scheduler_tick(int user_tick, int system)
     if (IS_SHORT(p)) 
     {
     	// update fields
-		(p->run_time_in_current_trial)++;  
-		(p->run_time_in_current_cpu_run)++; 
 		(p->time_slice)--;
         if (p->time_slice == 0) {     	                   
         	(p->trial_num)++;	//finished current timeslice so increment its trialNum  
@@ -1387,12 +1385,10 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
                 p->requested_time = lp.requested_time * HZ / 1000;// Converting requested time to ticks
                 p->number_of_trials = lp.number_of_trials;
                 p->trial_num = 1;
-                p->run_time_in_current_trial = 0; //in ticks
-                p->run_time_in_current_cpu_run = 0; //in ticks
                 p->is_overdue = 0;
 
                 p->time_slice = p->requested_time; //in ticks
-                p->prio = effective_prio(p); //todo: handle prio  ****** GUY ******* should be effective_short_prio?????
+                p->prio = effective_prio(p); 
                 p->policy = policy;
                 if (p->time_slice == 0) {
                     /*
@@ -1617,7 +1613,7 @@ asmlinkage long sys_sched_yield(void)
 
 	if (IS_OVERDUE(current)) /* HW2 */
 	{ /* HW2 */
-		list_add_tail(&current->run_list, rq->overdues); /* HW2 */
+		list_add_tail(&current->run_list, rq->overdues); /* HW2 todo: is this line working? */
 		goto out_unlock; /* HW2 */
 	} /* HW2 */
 

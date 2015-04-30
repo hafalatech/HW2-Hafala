@@ -465,8 +465,6 @@ struct task_struct {
 	int requested_time;					/* HW2 in miliseconds */
 	int trial_num;						/* HW2 current trial */
 	int number_of_trials;				/* HW2 original number of trials */
-	int run_time_in_current_trial;  	/* HW2 in ticks */
-	int run_time_in_current_cpu_run;  		/* HW2 current run on cpu in ticks */
 	int is_overdue;						/* HW2 */
 };
 
@@ -576,8 +574,6 @@ extern struct exec_domain	default_exec_domain;
 	requested_time:		0,						/* HW2 */	\
 	trial_num:			1,						/* HW2 current trial */	\
 	number_of_trials:	0,						/* HW2 original number of trials */	\
-	run_time_in_current_trial:	0,  			/* HW2 in miliseconds */	\
-	run_time_in_current_cpu_run:	0,  			/* HW2 current run on cpu in miliseconds */	\
 	is_overdue:			0,						/* HW2 */	\
 }
 
