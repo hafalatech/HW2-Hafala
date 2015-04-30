@@ -1,6 +1,8 @@
 #include <asm/errno.h>
 extern int errno;
 
+#define SCHED_SHORT    3               /* HW2 - Roy for sched_tester.c*/
+
 int is_SHORT(int pid)				/*243*/
 {
 	unsigned int res;
