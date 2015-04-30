@@ -87,56 +87,6 @@ int sys_remaining_trials(int pid) {		  /*syscall 245*/
 }
 
 
-#define COPY_STRUCT(target, source) \
-        target.time = source.time;      \
-        target.previous_pid = source.previous_pid;      \
-        target.previous_policy = source.previous_policy;        \
-        target.next_pid = source.next_pid;      \
-        target.next_policy = source.next_policy;        \
-        target.reason = source.reason;
-
-int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 246*/
-        unsigned long flags; //todo: Check if needed
-        
-		runqueue_t *rq;
-        int index = rq->monitor_index;
-        int result = rq->monitor_counter;
-        int i = 0;
-        if (!tasks_info) {
-			return -EINVAL;
-        }
-
-        local_irq_save(flags); //todo: Check if needed
-        
-		rq = this_rq();
-		if(result >= MONITOR_MAX_SIZE) { 
-			result = MONITOR_MAX_SIZE;
- 		}		
-
-        struct switch_info monitor_copy[MONITOR_MAX_SIZE];
-		for (i = index; i >= 0; i--) {
-			COPY_STRUCT(monitor_copy[i], (rq->monitoringArray)[i]);
-		}
-		
-		for (i = index; i < MONITOR_MAX_SIZE; i++) {
-			COPY_STRUCT(monitor_copy[i], (rq->monitoringArray)[i]);
-		}
-        
-		local_irq_restore(flags); //todo: Check if needed
-        
-		if (copy_to_user(tasks_info, monitor_copy, sizeof(struct switch_info[150]))) {
-            return -EFAULT;
-        }
-
-        return result;
-}
-
-
-
-
-
-
-
 int sys_hw2_debug(int pid) {	  /*syscall 247*/
 	return 0;
 }

@@ -155,6 +155,9 @@ struct runqueue {
 	int left_to_save;									 /* HW2 Roy up to 30*/
 } ____cacheline_aligned;
 
+Reason_Of_Switching last_reason;	/* HW2 Roy */
+
+
 static struct runqueue runqueues[NR_CPUS] __cacheline_aligned;
 
 #define cpu_rq(cpu)		(runqueues + (cpu))
@@ -299,7 +302,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		 * HW2 Roy - This manages Short processes' activate procedure
 		 */
 		array = rq->shorts;
-		if (IS_OVERDUE(p)) {									/* HW2 Henn */
+		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
 			list_add_tail(&p->run_list, &rq->overdues); 		/* HW2 Henn- todo: will work????????? I wish */
 			p->prio = 0;										/* HW2 Henn */
 			return;												/* HW2 Henn */
@@ -388,7 +391,7 @@ static inline int is_wake_up_aux(task_t *p , task_t *curr) {
         return 1;
     }
 
-    if (IS_OTHER(p) && (IS_OVERDUE(curr) || IS_IDLE(curr))
+    if (IS_OTHER(p) && (IS_OVERDUE(curr) || IS_IDLE(curr)) )
     {
     	return 1;
     }
@@ -397,7 +400,7 @@ static inline int is_wake_up_aux(task_t *p , task_t *curr) {
     }
 
 
-    if (IS_SHORT(p) && (IS_OTHER(curr) || IS_OVERDUE(curr) || IS_IDLE(curr)))
+    if (IS_SHORT(p) && (IS_OTHER(curr) || IS_OVERDUE(curr) || IS_IDLE(curr) ) )
     {
     	return 1;	
     }
@@ -799,7 +802,9 @@ static inline void idle_tick(void)
 			STARVATION_LIMIT * ((rq)->nr_running) + 1))
 
 
+/* HW2 */
 void make_short_an_overdue(task_t *p){
+	runqueue_t *rq = this_rq(); // the runqueue of the current cpu
 	dequeue_task(p, rq->shorts);
 	p->is_overdue = 1;
 	p->prio = 0; // this doesnt matter cause an Overdue-SHORT-processes do not consider their priority
@@ -2178,6 +2183,43 @@ int ll_copy_from_user(void *to, const void *from_user, unsigned long len)
 	}
 	return 0;
 }
+
+int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 246*/
+        unsigned long flags; //todo: Check if needed
+        
+		runqueue_t *rq = this_rq(); // the runqueue of the current cpu
+        int index = rq->monitor_index;
+        int result = rq->monitor_counter;
+        int i = 0;
+        if (!tasks_info) {
+			return -EINVAL;
+        }
+
+        local_irq_save(flags); //todo: Check if needed
+        
+		rq = this_rq();
+		if(result >= MONITOR_MAX_SIZE) { 
+			result = MONITOR_MAX_SIZE;
+ 		}		
+
+        struct switch_info monitor_copy[MONITOR_MAX_SIZE];
+		for (i = index; i >= 0; i--) {
+			COPY_STRUCT(monitor_copy[i], (rq->monitor_array)[i]);
+		}
+		
+		for (i = index; i < MONITOR_MAX_SIZE; i++) {
+			COPY_STRUCT(monitor_copy[i], (rq->monitor_array)[i]);
+		}
+        
+		local_irq_restore(flags); //todo: Check if needed
+        
+		if (copy_to_user(tasks_info, monitor_copy, sizeof(struct switch_info[150]))) {
+            return -EFAULT;
+        }
+
+        return result;
+}
+
 
 #ifdef CONFIG_LOLAT_SYSCTL
 struct low_latency_enable_struct __enable_lowlatency = { 0, };

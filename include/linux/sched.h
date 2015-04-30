@@ -131,11 +131,21 @@ struct sched_param {
 #define IS_REAL(p) (((p)->policy == SCHED_RR) || ((p)->policy == SCHED_FIFO))   
 #define IS_SHORT(p) ((p)->policy == SCHED_SHORT)              	
 #define IS_OTHER(p) ((p)->policy == SCHED_OTHER)              	
-#define IS_OVERDUE(p) ((IS_SHORT(p)) && ((p)->is_overdue == 1) 		
-#define IS_IDLE(p)  ((p)->pid == 0)								
+#define IS_OVERDUE(p)    ((IS_SHORT(p))  &&  ((p)->is_overdue == 1))	
+#define IS_IDLE(p)  ( (p)->pid == 0 )								
 
 #define MONITOR_MAX_SIZE 150				
 #define MONITOR_THRESHOLD 30
+
+#define COPY_STRUCT(target, source) \
+        target.time = source.time;      \
+        target.previous_pid = source.previous_pid;      \
+        target.previous_policy = source.previous_policy;        \
+        target.next_pid = source.next_pid;      \
+        target.next_policy = source.next_policy;        \
+        target.reason = source.reason;
+
+
 /*HW2-Roy end*/
 
 typedef enum {                                  /*HW2-Roy*/
@@ -148,8 +158,6 @@ typedef enum {                                  /*HW2-Roy*/
         A_task_with_higher_priority_returns_from_waiting,       
         The_time_slice_of_the_previous_task_has_ended,          
 } Reason_Of_Switching;							/*HW2-Roy*/
-
-Reason_Of_Switching last_reason;
 
 struct switch_info {							/*HW2-Roy*/
     int previous_pid;

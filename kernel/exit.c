@@ -23,6 +23,7 @@
 
 extern void sem_exit (void);
 extern struct task_struct *child_reaper;
+extern Reason_Of_Switching last_reason;  /* HW2 Roy */
 
 int getrusage(struct task_struct *, int, struct rusage *);
 

@@ -29,6 +29,8 @@
 #include <asm/uaccess.h>
 #include <asm/mmu_context.h>
 
+extern Reason_Of_Switching last_reason; /* HW2 Roy */
+
 /* The idle threads do not count.. */
 int nr_threads;
 
