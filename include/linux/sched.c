@@ -1032,20 +1032,21 @@ switch_tasks:
 	prefetch(next);
 	clear_tsk_need_resched(prev);
 	
-	if(rq->left_to_save > 0)
-	{
-		struct switch_info* new_entry = &(rq->monitor_array[rq->monitor_index]);									/* HW2 Roy */
-		rq->monitor_index = (rq->monitor_index + 1) % 150; 															/* HW2 Roy */
-		(rq->left_to_save)--;																						/* HW2 Roy */
-		(rq->monitor_counter)++;																					/* HW2 Roy */
-		unsigned long time= jiffies;																				/* HW2 Roy */													
-		CREATE_NEW_MONITOR_ENTRY(new_entry, prev->pid, next->pid, prev->policy, next->policy, time, last_reason); 	/* HW2 Roy */
-	}
+
 
 	//todo: put here the log_monitor code
 
 
 	if (likely(prev != next)) {
+		if(rq->left_to_save > 0)
+		{
+			struct switch_info* new_entry = &(rq->monitor_array[rq->monitor_index]);									/* HW2 Roy */
+			rq->monitor_index = (rq->monitor_index + 1) % 150; 															/* HW2 Roy */
+			(rq->left_to_save)--;																						/* HW2 Roy */
+			(rq->monitor_counter)++;																					/* HW2 Roy */
+			unsigned long time= jiffies;																				/* HW2 Roy */													
+			CREATE_NEW_MONITOR_ENTRY(new_entry, prev->pid, next->pid, prev->policy, next->policy, time, last_reason); 	/* HW2 Roy */
+		}
 		rq->nr_switches++;
 		rq->curr = next;
 	
@@ -1255,6 +1256,7 @@ void set_user_nice(task_t *p, long nice)
 		 * or increased its priority then reschedule its CPU:
 		 */
 		if ((NICE_TO_PRIO(nice) < p->static_prio) || (p == rq->curr))
+			//todo reason??? higher prio
 			resched_task(rq->curr);
 	}
 out_unlock:
