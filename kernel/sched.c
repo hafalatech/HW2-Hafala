@@ -149,24 +149,11 @@ struct runqueue {
 	int prev_nr_running[NR_CPUS];
 	task_t *migration_thread;
 	list_t migration_queue;
-	
-	switch_info monitor_array[MONITOR_MAX_SIZE];		 				 /* HW2 Roy */
+	struct switch_info monitor_array[MONITOR_MAX_SIZE];	 				 /* HW2 Roy */
 	int monitor_index;								 	/* HW2 Roy up to 150 */
 	int monitor_counter;								/* HW2 Roy  */
 	int left_to_save;									 /* HW2 Roy up to 30*/
 } ____cacheline_aligned;
-
-
-/*HW2-Roy*/
-void resetLogMonitor() {
-        unsigned long flags;
-        struct runqueue *rq;                    
-        rq = this_rq();                                 
-        local_irq_save(flags); //lock
-        rq->left_to_save = MONITOR_THRESHOLD;                  
-        local_irq_restore(flags); //unlock
-}
-
 
 static struct runqueue runqueues[NR_CPUS] __cacheline_aligned;
 
@@ -185,6 +172,19 @@ static struct runqueue runqueues[NR_CPUS] __cacheline_aligned;
 # define prepare_arch_switch(rq)	do { } while(0)
 # define finish_arch_switch(rq)		spin_unlock_irq(&(rq)->lock)
 #endif
+
+
+
+/*HW2-Roy*/
+void resetLogMonitor() {
+    unsigned long flags;
+    struct runqueue *rq;                    
+    rq = this_rq();                                 
+    local_irq_save(flags); //lock
+    rq->left_to_save = MONITOR_THRESHOLD;                  
+    local_irq_restore(flags); //unlock
+}
+
 
 /*
  * task_rq_lock - lock the runqueue a given task resides on and disable
@@ -280,7 +280,6 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 {
 	unsigned long sleep_time = jiffies - p->sleep_timestamp;
 	prio_array_t *array = rq->active;
-	list_t ovedues_array;
 	if (p->policy != SCHED_SHORT) {  						/* HW2 Henn */
 		if (!rt_task(p) && sleep_time) {
 			/*
@@ -1670,9 +1669,7 @@ asmlinkage long sys_sched_yield(void)
 out_unlock:
 	last_reason = A_task_yields_the_CPU; /*HW2- Henn*/
 	spin_unlock(&rq->lock);
-
 	schedule();
-
 	return 0;
 }
 
@@ -1895,7 +1892,7 @@ void __init sched_init(void)
 		rq = cpu_rq(i);
 		rq->active = rq->arrays;
 		rq->expired = rq->arrays + 1;
-		rq->shorts = rq-> arrays + 2;                   // HW2 - Henn
+		rq->shorts = rq->arrays + 2;                   // HW2 - Henn
 		spin_lock_init(&rq->lock);
 		INIT_LIST_HEAD(&rq->migration_queue);
 
@@ -1911,7 +1908,6 @@ void __init sched_init(void)
 		INIT_LIST_HEAD(&rq->overdues);					// HW2 - Henn
 		rq->monitor_index = 0;						// HW2 - Henn
 		rq->monitor_counter = 0;						// HW2 - Henn
-		INIT_LIST_HEAD(&(rq->monitor_list->list));				// HW2 - Henn
 		rq->left_to_save = MONITOR_THRESHOLD;			// HW2 - Henn
 		last_reason = Default;							// HW2 - Henn
 	}

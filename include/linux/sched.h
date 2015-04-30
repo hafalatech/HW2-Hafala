@@ -146,7 +146,7 @@ typedef enum {                                  /*HW2-Roy*/
         A_SHORT_process_became_overdue,                                       
         A_previous_task_goes_out_for_waiting,                            
         A_task_with_higher_priority_returns_from_waiting,       
-        The_time_slice_of_the_previous_task_has_ended           
+        The_time_slice_of_the_previous_task_has_ended,          
 } Reason_Of_Switching;							/*HW2-Roy*/
 
 Reason_Of_Switching last_reason;
