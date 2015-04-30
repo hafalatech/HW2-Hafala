@@ -760,7 +760,8 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
     		p->time_slice = 0;
             p->prio = 0;
         }
-    }
+		last_reason = A_task_was_created; /*HW2- Henn*/
+	}
     /* HW2 - Henn block end */
 
 
@@ -807,6 +808,8 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
 		 * Let the child process run first, to avoid most of the
 		 * COW overhead when the child exec()s afterwards.
 		 */
+		last_reason = A_task_was_created;        /* HW2 - Henn  */
+		resetLogMonitor(); 						 /* HW2 - Henn  */
 		current->need_resched = 1;
 
 fork_out:

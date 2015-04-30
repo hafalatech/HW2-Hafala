@@ -528,6 +528,8 @@ fake_volatile:
 
 	tsk->exit_code = code;
 	exit_notify();
+	last_reason = A_task_ended;        /* HW2 - Henn  */
+	resetLogMonitor(); 											/* HW2 - Henn  */
 	schedule();
 	BUG();
 /*
@@ -647,6 +649,7 @@ repeat:
 		retval = -ERESTARTSYS;
 		if (signal_pending(current))
 			goto end_wait4;
+		last_reason = A_previous_task_goes_out_for_waiting;        /* HW2 - Henn  */
 		schedule();
 		goto repeat;
 	}

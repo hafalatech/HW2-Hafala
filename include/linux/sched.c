@@ -145,11 +145,28 @@ struct runqueue {
 	signed long nr_uninterruptible;
 	task_t *curr, *idle;
 	prio_array_t *active, *expired, *shorts, arrays[3];  /* HW2 Roy */
-	list_t *overdues;									 /* HW2 Roy */
+	list_t overdues;									 /* HW2 Roy */
 	int prev_nr_running[NR_CPUS];
 	task_t *migration_thread;
 	list_t migration_queue;
+	
+	switch_info monitor_array[MONITOR_MAX_SIZE];		 				 /* HW2 Roy */
+	int monitor_index;								 	/* HW2 Roy up to 150 */
+	int monitor_counter;								/* HW2 Roy  */
+	int left_to_save;									 /* HW2 Roy up to 30*/
 } ____cacheline_aligned;
+
+
+/*HW2-Roy*/
+void resetLogMonitor() {
+        unsigned long flags;
+        struct runqueue *rq;                    
+        rq = this_rq();                                 
+        local_irq_save(flags); //lock
+        rq->left_to_save = MONITOR_THRESHOLD;                  
+        local_irq_restore(flags); //unlock
+}
+
 
 static struct runqueue runqueues[NR_CPUS] __cacheline_aligned;
 
@@ -263,6 +280,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 {
 	unsigned long sleep_time = jiffies - p->sleep_timestamp;
 	prio_array_t *array = rq->active;
+	list_t ovedues_array;
 	if (p->policy != SCHED_SHORT) {  						/* HW2 Henn */
 		if (!rt_task(p) && sleep_time) {
 			/*
@@ -277,28 +295,22 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 				p->sleep_avg = MAX_SLEEP_AVG;
 			p->prio = effective_prio(p);
 		}
-		goto enqueue_task_hw2;								/* HW2 Roy */
 	} else {
-	        /*
-	         * HW2 Roy - This manages Short processes' activate procedure
-	         */
-	        array = rq->shorts;
-	        if (IS_OVERDUE(p)) {
-	                array = rq->overdues;
-	                p->prio = 0;
-	        } 
-	        else 
-	        {      	// short process
-	                p->prio = effective_prio(p);
-	                goto enqueue_task_hw2;
-	        }
+		/*
+		 * HW2 Roy - This manages Short processes' activate procedure
+		 */
+		array = rq->shorts;
+		if (IS_OVERDUE(p)) {									/* HW2 Henn */
+			list_add_tail(&p->run_list, &rq->overdues); 		/* HW2 Henn- todo: will work????????? I wish */
+			p->prio = 0;										/* HW2 Henn */
+			return;												/* HW2 Henn */
+		} 
+		else 
+		{      	// short process
+			p->prio = effective_prio(p);
+		}
 	}
-
-	list_add_tail(p->run_list, array);						/* HW2 Roy  todo: check if this line is ok */
-	p->array = array;										/* HW2 Roy */
-	return;													/* HW2 Roy */
-
-enqueue_task_hw2: /* HW2 Roy */
+	
 	enqueue_task(p, array);
 	rq->nr_running++;
 }
@@ -446,8 +458,11 @@ repeat_lock_task:
 		 * If sync is set, a resched_task() is a NOOP
 		 */
 		if (is_wake_up_aux(p ,rq->curr)) /* HW2 Roy */
+		{
 		//if (p->prio < rq->curr->prio)	 /* HW2 Roy */
-			resched_task(rq->curr);
+			last_reason = A_task_with_higher_priority_returns_from_waiting; /* HW2 Roy */
+			resched_task(rq->curr); /* HW2 Roy */
+		}
 		success = 1;
 	}
 	p->state = TASK_RUNNING;
@@ -790,7 +805,7 @@ void make_short_an_overdue(task_t *p){
 	p->is_overdue = 1;
 	p->prio = 0; // this doesnt matter cause an Overdue-SHORT-processes do not consider their priority
 	p->time_slice = 0; // again, this doesnt matter
-	list_add_tail(p->run_list, rq->overdues);	/* HW2 Roy  todo: check if this line is ok */	
+	list_add_tail(&p->run_list, &rq->overdues);	/* HW2 Roy  todo: check if this line is ok */	
 }
 
 
@@ -820,8 +835,9 @@ void scheduler_tick(int user_tick, int system)
 	kstat.per_cpu_system[cpu] += system;
 
 	/* Task might have expired already, but not scheduled off yet */
-	if (p->array != rq->active) {
+	if ((p->array != rq->active) && (!IS_SHORT(p))) {
 		set_tsk_need_resched(p);
+		last_reason = The_time_slice_of_the_previous_task_has_ended; /* HW2 Roy */
 		return;
 	}
 	spin_lock(&rq->lock);
@@ -834,6 +850,7 @@ void scheduler_tick(int user_tick, int system)
 			p->time_slice = TASK_TIMESLICE(p);
 			p->first_time_slice = 0;
 			set_tsk_need_resched(p);
+			last_reason = The_time_slice_of_the_previous_task_has_ended; /* HW2 Roy */
 
 			/* put it at the end of the queue: */
 			dequeue_task(p, rq->active);
@@ -870,6 +887,7 @@ void scheduler_tick(int user_tick, int system)
         		// this process was a SHORT but reached its limit
         		make_short_an_overdue(p);
         		set_tsk_need_resched(p);
+				last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
         		goto out;
         	} 
         	else 
@@ -881,6 +899,7 @@ void scheduler_tick(int user_tick, int system)
 					// next time_slice is 0 so make it an overdue
 					make_short_an_overdue(p);
 					set_tsk_need_resched(p);
+					last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
 					goto out;
 				}
         	}
@@ -961,6 +980,7 @@ pick_next_task:
 #endif
 		next = rq->idle;
 		rq->expired_timestamp = 0;
+		last_reason = A_previous_task_goes_out_for_waiting; /* HW2 Roy*/
 		goto switch_tasks;
 	}
 
@@ -993,7 +1013,7 @@ pick_next_task:
         idx = sched_find_first_bit(array->bitmap);				/* HW2 Henn */
 
         if (unlikely(!array->nr_active)) {						/* HW2 Henn */
-            next = rq->overdues;								/* HW2 Henn */
+            next = &rq->overdues;								/* HW2 Henn */
             goto switch_tasks;									/* HW2 Henn */
         }
     } else if (process_type == SCHED_OTHER_PROCESS) {			/* HW2 Henn */
@@ -1011,7 +1031,16 @@ pick_next_task:
 switch_tasks:
 	prefetch(next);
 	clear_tsk_need_resched(prev);
-
+	
+	if(rq->left_to_save > 0)
+	{
+		struct switch_info* new_entry = &(rq->monitor_array[rq->monitor_index]);									/* HW2 Roy */
+		rq->monitor_index = (rq->monitor_index + 1) % 150; 															/* HW2 Roy */
+		(rq->left_to_save)--;																						/* HW2 Roy */
+		(rq->monitor_counter)++;																					/* HW2 Roy */
+		unsigned long time= jiffies;																				/* HW2 Roy */													
+		CREATE_NEW_MONITOR_ENTRY(new_entry, prev->pid, next->pid, prev->policy, next->policy, time, last_reason); 	/* HW2 Roy */
+	}
 
 	//todo: put here the log_monitor code
 
@@ -1112,6 +1141,7 @@ void wait_for_completion(struct completion *x)
 		do {
 			__set_current_state(TASK_UNINTERRUPTIBLE);
 			spin_unlock_irq(&x->wait.lock);
+			last_reason = A_previous_task_goes_out_for_waiting; /* HW2 Roy */
 			schedule();
 			spin_lock_irq(&x->wait.lock);
 		} while (!x->done);
@@ -1141,8 +1171,9 @@ void interruptible_sleep_on(wait_queue_head_t *q)
 	SLEEP_ON_VAR
 
 	current->state = TASK_INTERRUPTIBLE;
-
+	
 	SLEEP_ON_HEAD
+	last_reason = A_previous_task_goes_out_for_waiting;  /* HW2- Henn*/
 	schedule();
 	SLEEP_ON_TAIL
 }
@@ -1152,7 +1183,7 @@ long interruptible_sleep_on_timeout(wait_queue_head_t *q, long timeout)
 	SLEEP_ON_VAR
 
 	current->state = TASK_INTERRUPTIBLE;
-
+	last_reason = A_previous_task_goes_out_for_waiting;  /* HW2- Henn*/
 	SLEEP_ON_HEAD
 	timeout = schedule_timeout(timeout);
 	SLEEP_ON_TAIL
@@ -1167,6 +1198,7 @@ void sleep_on(wait_queue_head_t *q)
 	current->state = TASK_UNINTERRUPTIBLE;
 
 	SLEEP_ON_HEAD
+	last_reason = A_previous_task_goes_out_for_waiting;  /* HW2- Henn*/
 	schedule();
 	SLEEP_ON_TAIL
 }
@@ -1176,7 +1208,7 @@ long sleep_on_timeout(wait_queue_head_t *q, long timeout)
 	SLEEP_ON_VAR
 	
 	current->state = TASK_UNINTERRUPTIBLE;
-
+	last_reason = A_previous_task_goes_out_for_waiting;  /* HW2- Henn*/
 	SLEEP_ON_HEAD
 	timeout = schedule_timeout(timeout);
 	SLEEP_ON_TAIL
@@ -1613,7 +1645,7 @@ asmlinkage long sys_sched_yield(void)
 
 	if (IS_OVERDUE(current)) /* HW2 */
 	{ /* HW2 */
-		list_add_tail(&current->run_list, rq->overdues); /* HW2 todo: is this line working? */
+		list_add_tail(&current->run_list, &rq->overdues); /* HW2 todo: is this line working? */
 		goto out_unlock; /* HW2 */
 	} /* HW2 */
 
@@ -1637,8 +1669,9 @@ asmlinkage long sys_sched_yield(void)
 
 	list_add(&current->run_list, array->queue[i].next);
 	__set_bit(i, array->bitmap);
-
+	
 out_unlock:
+	last_reason = A_task_yields_the_CPU; /*HW2- Henn*/
 	spin_unlock(&rq->lock);
 
 	schedule();
@@ -1869,7 +1902,7 @@ void __init sched_init(void)
 		spin_lock_init(&rq->lock);
 		INIT_LIST_HEAD(&rq->migration_queue);
 
-		for (j = 0; j < 3; j++) {			// HW2 - Henn
+		for (j = 0; j < 3; j++) {						// HW2 - Henn
 			array = rq->arrays + j;
 			for (k = 0; k < MAX_PRIO; k++) {
 				INIT_LIST_HEAD(array->queue + k);
@@ -1878,7 +1911,12 @@ void __init sched_init(void)
 			// delimiter for bitsearch
 			__set_bit(MAX_PRIO, array->bitmap);
 		}
-		INIT_LIST_HEAD(rq->overdues);		// HW2 - Henn
+		INIT_LIST_HEAD(&rq->overdues);					// HW2 - Henn
+		rq->monitor_index = 0;						// HW2 - Henn
+		rq->monitor_counter = 0;						// HW2 - Henn
+		INIT_LIST_HEAD(&(rq->monitor_list->list));				// HW2 - Henn
+		rq->left_to_save = MONITOR_THRESHOLD;			// HW2 - Henn
+		last_reason = Default;							// HW2 - Henn
 	}
 	/*
 	 * We have to do a little magic to get the first

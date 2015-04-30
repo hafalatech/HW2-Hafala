@@ -127,12 +127,54 @@ struct sched_param {
 	int number_of_trials;				/* HW2 Roy: Range: 1-50 original number of trials */
 };
 
+/*HW2-Roy start*/
+#define IS_REAL(p) (((p)->policy == SCHED_RR) || ((p)->policy == SCHED_FIFO))   
+#define IS_SHORT(p) ((p)->policy == SCHED_SHORT)              	
+#define IS_OTHER(p) ((p)->policy == SCHED_OTHER)              	
+#define IS_OVERDUE(p) ((IS_SHORT(p)) && ((p)->is_overdue == 1) 		
+#define IS_IDLE(p)  ((p)->pid == 0)								
 
-#define IS_REAL(p) (((p)->policy == SCHED_RR) || ((p)->policy == SCHED_FIFO))   /* HW2 - Roy */          	/* HW2 - Roy */
-#define IS_SHORT(p) ((p)->policy == SCHED_SHORT)              	/* HW2 - Roy */
-#define IS_OTHER(p) ((p)->policy == SCHED_OTHER)              	/* HW2 - Roy */
-#define IS_OVERDUE(p) ((IS_SHORT(p)) && ((p)->is_overdue == 1) 		/* HW2 - Roy */
-#define IS_IDLE(p)  ((p)->pid == 0)								/* HW2 - Roy */		
+#define MONITOR_MAX_SIZE 150				
+#define MONITOR_THRESHOLD 30
+/*HW2-Roy end*/
+
+typedef enum {                                  /*HW2-Roy*/
+        Default,
+		A_task_was_created,                                                                     
+        A_task_ended,                                                                           
+        A_task_yields_the_CPU,                                                          
+        A_SHORT_process_became_overdue,                                       
+        A_previous_task_goes_out_for_waiting,                            
+        A_task_with_higher_priority_returns_from_waiting,       
+        The_time_slice_of_the_previous_task_has_ended           
+} Reason_Of_Switching;							/*HW2-Roy*/
+
+Reason_Of_Switching last_reason;
+
+struct switch_info {							/*HW2-Roy*/
+    int previous_pid;
+    int next_pid;
+    int previous_policy;
+    int next_policy;
+    unsigned long time;
+    Reason_Of_Switching reason;
+};												/*HW2-Roy*/
+
+
+
+/*HW2-Roy*/
+#define CREATE_NEW_MONITOR_ENTRY(info_struct,prevPid,nextPid,prevPolicy,nextPolicy,Time,Reason)\
+{\
+        info_struct->previous_pid = prevPid;\
+        info_struct->next_pid = nextPid;\
+        info_struct->previous_policy = prevPolicy;\
+        info_struct-> next_policy = nextPolicy;\
+        info_struct->  time = Time;\
+        info_struct-> reason = Reason;\
+} 
+/*HW2-Roy*/
+
+
 
 struct completion;
 

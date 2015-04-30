@@ -1,18 +1,6 @@
 #include <asm/errno.h>
 extern int errno;
 
-/*== ************************* [STRUCTS] ************************* ==*/
-struct switch_info {
-    int previous_pid;
-    int next_pid;
-    int previous_policy;
-    int next_policy;
-    unsigned long time;
-    int reason;
-};
-/*== ************************************************************* ==*/
-
-
 int is_SHORT(int pid)				/*243*/
 {
 	unsigned int res;
@@ -73,14 +61,35 @@ int remaining_trials(int pid)		/*245*/
 
 
 
-int hw2_debug(int pid)					/*246 - for debug using*/
+int get_scheduling_statistic(struct switch_info * tasks_info)   /*246*/
 {
     unsigned int res;
     __asm__
     (
                     "int $0x80;"
                     : "=a" (res)
-                    : "0" (246) ,"b" (pid)
+                    : "0" (246) ,"b" (tasks_info)
+                    : "memory"
+    );
+    if (res>=(unsigned long)(-125))
+    {
+		errno = -res;
+		res = -1;
+    }
+    return (int) res;
+}
+
+
+
+
+int hw2_debug(int pid)					/*247 - for debug using*/
+{
+    unsigned int res;
+    __asm__
+    (
+                    "int $0x80;"
+                    : "=a" (res)
+                    : "0" (247) ,"b" (pid)
                     : "memory"
     );
     return 0;
