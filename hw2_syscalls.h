@@ -1,7 +1,24 @@
 #include <asm/errno.h>
 extern int errno;
 
+
 #define SCHED_SHORT    3               /* HW2 - Roy for sched_tester.c*/
+
+struct switch_info {                            /*HW2-Roy*/
+    int previous_pid;
+    int next_pid;
+    int previous_policy;
+    int next_policy;
+    unsigned long time;
+    int reason;
+};                                              /*HW2-Roy*/
+
+
+struct sched_param {
+    int sched_priority;
+    int requested_time;                 /* HW2 Roy: Range: 1-5000 in miliseconds */
+    int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
+};
 
 int is_SHORT(int pid)				/*243*/
 {

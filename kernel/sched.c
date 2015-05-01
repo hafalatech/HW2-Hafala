@@ -322,7 +322,7 @@ static inline void deactivate_task(struct task_struct *p, runqueue_t *rq)
 	rq->nr_running--;
 	if (p->state == TASK_UNINTERRUPTIBLE)
 		rq->nr_uninterruptible++;
-	dequeue_task(p, p->array);
+	dequeue_task(p, p->array); //todo is this going to work on overdue
 	p->array = NULL;
 }
 
@@ -2185,39 +2185,42 @@ int ll_copy_from_user(void *to, const void *from_user, unsigned long len)
 }
 
 int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 246*/
-        unsigned long flags; //todo: Check if needed
-        
-		runqueue_t *rq = this_rq(); // the runqueue of the current cpu
-        int index = rq->monitor_index;
-        int result = rq->monitor_counter;
-        int i = 0;
-        if (!tasks_info) {
-			return -EINVAL;
-        }
+    unsigned long flags; //todo: Check if needed   
+	runqueue_t *rq = this_rq(); // the runqueue of the current cpu
+    int index = rq->monitor_index;
+    int result = rq->monitor_counter;
+    int i = 0;
+    int j = 0; //j is the fill index in the user array
+	struct switch_info monitor_copy[MONITOR_MAX_SIZE];
 
-        local_irq_save(flags); //todo: Check if needed
-        
-		rq = this_rq();
-		if(result >= MONITOR_MAX_SIZE) { 
-			result = MONITOR_MAX_SIZE;
- 		}		
+    if (!tasks_info) {
+		return -EINVAL;
+    }
 
-        struct switch_info monitor_copy[MONITOR_MAX_SIZE];
-		for (i = index; i >= 0; i--) {
-			COPY_STRUCT(monitor_copy[i], (rq->monitor_array)[i]);
-		}
-		
-		for (i = index; i < MONITOR_MAX_SIZE; i++) {
-			COPY_STRUCT(monitor_copy[i], (rq->monitor_array)[i]);
-		}
-        
-		local_irq_restore(flags); //todo: Check if needed
-        
-		if (copy_to_user(tasks_info, monitor_copy, sizeof(struct switch_info[150]))) {
-            return -EFAULT;
-        }
+    local_irq_save(flags); //todo: Check if needed
+    
+	if(result >= MONITOR_MAX_SIZE) { 
+		result = MONITOR_MAX_SIZE;
+	}		
 
-        return result;
+
+	for (i = index; i >= 0; i--) {
+		COPY_STRUCT(monitor_copy[j], (rq->monitor_array)[i]);
+		j++;
+	}
+	
+	for (i = index+1; i < MONITOR_MAX_SIZE; i++) {
+		COPY_STRUCT(monitor_copy[j], (rq->monitor_array)[i]);
+		j++;
+	}
+    
+	local_irq_restore(flags); //todo: Check if needed
+    
+	if (copy_to_user(tasks_info, monitor_copy, sizeof(struct switch_info[MONITOR_MAX_SIZE]))) {
+        return -EFAULT;
+    }
+
+    return result;
 }
 
 

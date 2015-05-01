@@ -1,6 +1,5 @@
 #include <linux/kernel.h>
 #include <linux/sched.h>
-#include "hw2_syscalls.h"
 
 int sys_is_SHORT(int pid) {    			/*syscall 243*/
 	//Checking if pid is neg

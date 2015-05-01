@@ -165,7 +165,7 @@ struct switch_info {							/*HW2-Roy*/
     int previous_policy;
     int next_policy;
     unsigned long time;
-    Reason_Of_Switching reason;
+    int reason;
 };												/*HW2-Roy*/
 
 
