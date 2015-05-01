@@ -303,6 +303,8 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		 */
 		array = rq->shorts;
 		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
+        	printk("[HW2 activate_task]\n"); 
+        	printk("[HW2 activate_task]\n"); 
 			printk("[HW2 activate_task] - pid %d is IS_OVERDUE, inserting it to rq->overdues\n",p->pid);
 			list_add_tail(&p->run_list, &rq->overdues); 		/* HW2 Henn- todo: will work????????? I wish */
 			p->prio = 0;										/* HW2 Henn */
@@ -810,6 +812,9 @@ void make_short_an_overdue(task_t *p){
 	p->is_overdue = 1;
 	p->prio = 0; // this doesnt matter cause an Overdue-SHORT-processes do not consider their priority
 	p->time_slice = 0; // again, this doesnt matter
+	printk("[HW2 make_short_an_overdue]\n");
+	printk("[HW2 make_short_an_overdue]\n");
+	printk("[HW2 make_short_an_overdue] - Trying to make pid=%d an OVERDUE\n",p->pid);
 	list_add_tail(&p->run_list, &rq->overdues);	/* HW2 Roy  todo: check if this line is ok */	
 }
 
@@ -1390,9 +1395,9 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
          * If the chosen policy is Short, this verifies parameters and updates the process accordingly
          */
         if (policy == SCHED_SHORT) {    
+        	printk("[HW2 setscheduler]\n"); 
+        	printk("[HW2 setscheduler]\n"); 
         	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
-        	printk("[HW2 setscheduler]\n"); 
-        	printk("[HW2 setscheduler]\n"); 
     		/*
     		*	Make sure that the user can change the policy for all his processes, 
     			and root can change the policy for all processes in the system , 
@@ -1430,7 +1435,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             {
                 deactivate_task(p, task_rq(p));
             }
-            else
+            else // todo - delete this else
             { 
             	printk("[HW2 setscheduler] - array is null \n"); // todo - delete this else
 			}
@@ -1448,7 +1453,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 
             p->time_slice = p->requested_time; //in ticks
             printk("[HW2 setscheduler] - time_slice = %d\n",p->time_slice);
-            p->prio = effective_prio(p); 
+            p->prio = p->static_prio;
             printk("[HW2 setscheduler] - p->prio is set to %d\n" , p->prio);
             p->policy = policy;
             if (p->time_slice == 0) {
