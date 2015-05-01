@@ -303,8 +303,28 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		 */
 		array = rq->shorts;
 		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
-			printk("[HW2 activate_task] - pid %d is IS_OVERDUE, inserting it to rq->overdues",p->pid);
+			printk("[HW2 activate_task] - pid %d is IS_OVERDUE, inserting it to rq->overdues\n",p->pid);
+
+		 int count = 0; /* HW2 Roy  debug to delete */
+		 task_struct iter;	/* HW2 Roy  debug to delete */
+		 list_for_each(iter, &p->run_list)	/* HW2 Roy  debug to delete */
+		 {
+		 	count++;	/* HW2 Roy  debug to delete */
+		 }
+		printk("[HW2 activate_task]\n");
+		printk("[HW2 activate_task] - overdues count before insert = %d\n",count); /* HW2 Roy  debug to delete */
+
+
 			list_add_tail(&p->run_list, &rq->overdues); 		/* HW2 Henn- todo: will work????????? I wish */
+			
+		 count = 0;
+		 list_for_each(iter, &p->run_list)	/* HW2 Roy  debug to delete */
+		 {
+		 	count++;	/* HW2 Roy  debug to delete */
+		 }
+		 printk("[HW2 activate_task] - overdues count after insert = %d\n",count); /* HW2 Roy  debug to delete */
+
+
 			p->prio = 0;										/* HW2 Henn */
 			return;												/* HW2 Henn */
 		} 
@@ -1018,7 +1038,8 @@ pick_next_task:
         idx = sched_find_first_bit(array->bitmap);				/* HW2 Henn */
 
         if (unlikely(!array->nr_active)) {						/* HW2 Henn */
-            next = &rq->overdues;								/* HW2 Henn */
+    		next =list_entry(&rq->overdues, task_t, run_list);  /* HW2 Roy test */
+            //next = &rq->overdues;								/* HW2 Henn */
             goto switch_tasks;									/* HW2 Henn */
         }
     } else if (process_type == SCHED_OTHER_PROCESS) {			/* HW2 Henn */
@@ -1390,8 +1411,8 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
          */
         if (policy == SCHED_SHORT) {   
         	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
-        	printk("[HW2 setscheduler]"); 
-        	printk("[HW2 setscheduler]"); 
+        	printk("[HW2 setscheduler]\n"); 
+        	printk("[HW2 setscheduler]\n"); 
     		/*
     		*	Make sure that the user can change the policy for all his processes, 
     			and root can change the policy for all processes in the system , 
