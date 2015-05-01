@@ -2,7 +2,7 @@
 extern int errno;
 
 
-#define SCHED_SHORT    3               /* HW2 - Roy for sched_tester.c*/
+#define SCHED_SHORT    4               /* HW2 - Roy for sched_tester.c*/
 
 struct switch_info {                            /*HW2-Roy*/
     int previous_pid;

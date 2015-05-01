@@ -72,7 +72,10 @@ int main(int argc, char *argv[])
                                 struct sched_param param;
                                 param.number_of_trials = number_of_trials;
                                 param.requested_time = requested_time_array[j];
-                                sched_setscheduler(pid, 2, &param);
+                                int res = sched_setscheduler(pid, SCHED_SHORT, &param);
+                                if (res != 0) {
+                                        printf("sched_setscheduler FAILED , got %d\n",res);
+                                }
                         }
                         else {
                                 sched_yield();
@@ -102,9 +105,9 @@ int main(int argc, char *argv[])
                 for (i=0; i < result; i++)
                 {
                         printf("%lu\t|%d\t|", monitor[i].time, monitor[i].previous_pid);
-                        printf("%s", policies[monitor[i].previous_policy]);
+                        printf("%d", monitor[i].previous_policy);
                         printf("\t|%d\t|", monitor[i].next_pid);
-                        printf("%s", policies[monitor[i].next_policy]);
+                        printf("%d", monitor[i].next_policy);
                         printf("\t|");
                         printf("%s", reasons[monitor[i].reason]);
                         printf("\n");
