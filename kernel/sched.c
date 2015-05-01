@@ -304,27 +304,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		array = rq->shorts;
 		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
 			printk("[HW2 activate_task] - pid %d is IS_OVERDUE, inserting it to rq->overdues\n",p->pid);
-
-		 int count = 0; /* HW2 Roy  debug to delete */
-		 task_struct iter;	/* HW2 Roy  debug to delete */
-		 list_for_each(iter, &p->run_list)	/* HW2 Roy  debug to delete */
-		 {
-		 	count++;	/* HW2 Roy  debug to delete */
-		 }
-		printk("[HW2 activate_task]\n");
-		printk("[HW2 activate_task] - overdues count before insert = %d\n",count); /* HW2 Roy  debug to delete */
-
-
 			list_add_tail(&p->run_list, &rq->overdues); 		/* HW2 Henn- todo: will work????????? I wish */
-			
-		 count = 0;
-		 list_for_each(iter, &p->run_list)	/* HW2 Roy  debug to delete */
-		 {
-		 	count++;	/* HW2 Roy  debug to delete */
-		 }
-		 printk("[HW2 activate_task] - overdues count after insert = %d\n",count); /* HW2 Roy  debug to delete */
-
-
 			p->prio = 0;										/* HW2 Henn */
 			return;												/* HW2 Henn */
 		} 
@@ -1409,7 +1389,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
         /*
          * If the chosen policy is Short, this verifies parameters and updates the process accordingly
          */
-        if (policy == SCHED_SHORT) {   
+        if (policy == SCHED_SHORT) {    
         	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
         	printk("[HW2 setscheduler]\n"); 
         	printk("[HW2 setscheduler]\n"); 
@@ -1429,13 +1409,13 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             */
             if ((lp.requested_time < 1) || (lp.requested_time > 5000))
             {
-            	printk("[HW2 setscheduler] - requested_time value invalid, got \n" , lp.requested_time);
+            	printk("[HW2 setscheduler] - requested_time value invalid, got %d\n" , lp.requested_time);
                 goto out_unlock;
             }
 
             if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
             {
-            	printk("[HW2 setscheduler] - number_of_trials value invalid got \n" , lp.number_of_trials);
+            	printk("[HW2 setscheduler] - number_of_trials value invalid got %d\n" , lp.number_of_trials);
                 goto out_unlock;
             }
 
@@ -1444,7 +1424,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             * here we make the actual set
             */
             current->need_resched = 1; // when returning from kernel to userland, we need to resched because we are changing prio
-            printk("[HW2 setscheduler] - setting current->need_resched = 1;\n"); 
+            printk("[HW2 setscheduler] - setting current->need_resched = 1\n"); 
             array = p->array;
             if (array)
             {
@@ -1486,7 +1466,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             }
             else
             { 
-            	printk("[HW2 setscheduler] - array is null \n"); // todo - delete this else
+            	printk("[HW2 setscheduler] - array is null\n"); // todo - delete this else
             }
 
             retval = 0;
