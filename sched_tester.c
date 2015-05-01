@@ -14,11 +14,11 @@ int fibonaci(int n)
 
 const char* policies[] =
 {
-        "SCHED_OTHER",
-        "SCHED_FIFO",
-        "SCHED_RR",
-        "SCHED_SHORT",
-        "Default"
+        "SCHED_OTHER", //0
+        "SCHED_FIFO",//1
+        "SCHED_RR",//2
+        "Default", // not real, 
+        "SCHED_SHORT",//4
 };
 
 const char* reasons[] =
@@ -44,9 +44,9 @@ int main(int argc, char *argv[])
         int mid_requested_time = 2500;        
         int short_requested_time = 1;
         int requested_time_array[3] = {long_requested_time,mid_requested_time,short_requested_time};
-
         int i = 1;
         int j = 0;
+
         if ((argc-1) % 2 != 0)
         {
                 printf ("Wrong number of arguments, got %d\n" , argc);
@@ -57,8 +57,7 @@ int main(int argc, char *argv[])
                 i = 1; //reset i for new iteration
                 printf("*************************************************\n");
                 printf("Starting fibonaci test with requested_time = %d\n",requested_time_array[j]);
-                printf("*************************************************\n");
-                printf("\n");               
+                printf("*************************************************\n");              
                 while (i < argc)
                 {
                         // Parse the arguments from strings to integers
@@ -68,7 +67,7 @@ int main(int argc, char *argv[])
                         i++;
                         // Create a child process which will run the fibonaci as a SHORT
                         pid = fork();
-                        if (pid != 0) {
+                        if (pid > 0) {
                                 struct sched_param param;
                                 param.number_of_trials = number_of_trials;
                                 param.requested_time = requested_time_array[j];
@@ -100,14 +99,15 @@ int main(int argc, char *argv[])
                 if (result > 150)
                         result = 150;
                 printf("                Got monitor result = %d\n",result );
+                printf("\n"); 
                 // Print the output
                 printf("|Time\t|Prev\t|PreviousPolicy\t|Next\t|Next Policy\t|Reason\n");
                 for (i=0; i < result; i++)
                 {
                         printf("%lu\t|%d\t|", monitor[i].time, monitor[i].previous_pid);
-                        printf("%d", monitor[i].previous_policy);
+                        printf("%s", policies[monitor[i].previous_policy]);
                         printf("\t|%d\t|", monitor[i].next_pid);
-                        printf("%d", monitor[i].next_policy);
+                        printf("%s", policies[monitor[i].next_policy]);
                         printf("\t|");
                         printf("%s", reasons[monitor[i].reason]);
                         printf("\n");
@@ -120,4 +120,5 @@ int main(int argc, char *argv[])
                 printf("\n");
                 printf("\n");
         }
+        return 0;
 }

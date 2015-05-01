@@ -1388,7 +1388,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
          * If the chosen policy is Short, this verifies parameters and updates the process accordingly
          */
         if (policy == SCHED_SHORT) {   
-        	printk("[HW2 setscheduler] - Trying to make a SCHED_SHORT\n");  
+        	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n\n\n",pid);  
     		/*
     		*	Make sure that the user can change the policy for all his processes, 
     			and root can change the policy for all processes in the system , 
@@ -1396,7 +1396,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
     			"Operation not permitted" error should return.
     		*/   
             if ((p->uid != current->uid) && (current->uid != 0)) { 
-            	printk("[HW2 setscheduler] - no autorities to change\n");
+            	printk("[HW2 setscheduler] - no autorities to change , invalid\n");
                 retval = -EPERM;
                 goto out_unlock;
             }
@@ -1405,13 +1405,13 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             */
             if ((lp.requested_time < 1) || (lp.requested_time > 5000))
             {
-            	printk("[HW2 setscheduler] - requested_time value invalid\n");
+            	printk("[HW2 setscheduler] - requested_time value invalid, got \n" , lp.requested_time);
                 goto out_unlock;
             }
 
             if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
             {
-            	printk("[HW2 setscheduler] - number_of_trials value invalid\n");
+            	printk("[HW2 setscheduler] - number_of_trials value invalid got \n" , lp.number_of_trials);
                 goto out_unlock;
             }
 
@@ -1448,7 +1448,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             printk("[HW2 setscheduler] - p->prio is set to %d\n" , p->prio);
             p->policy = policy;
             if (p->time_slice == 0) {
-            	printk("[HW2 setscheduler] - p->time_slice == 0\n");
+            	printk("[HW2 setscheduler] - p->time_slice == 0 so making p overdue\n");
                 /*
                  * Even though the requested_time is POSITIVE, it might be less than 1 tick,
                  * therefore we set the process to overdue from the start
