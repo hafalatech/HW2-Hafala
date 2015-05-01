@@ -1404,12 +1404,16 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             * Input check
             */
             if ((lp.requested_time < 1) || (lp.requested_time > 5000))
+            {
             	printk("[HW2 setscheduler] - requested_time value invalid\n");
                 goto out_unlock;
+            }
 
             if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
+            {
             	printk("[HW2 setscheduler] - number_of_trials value invalid\n");
                 goto out_unlock;
+            }
 
             printk("[HW2 setscheduler] - Passed all validations\n");  
             /*
@@ -1419,10 +1423,13 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             printk("[HW2 setscheduler] - setting current->need_resched = 1;\n"); 
             array = p->array;
             if (array)
+            {
                 deactivate_task(p, task_rq(p));
-            else 
+            }
+            else
+            { 
             	printk("[HW2 setscheduler] - array is null \n"); // todo - delete this else
-
+			}
 
             printk("[HW2 setscheduler] - setting p fields;\n"); 
             /*  i.e.  (10 * HZ / 1000) is equals to 10 msec */
@@ -1449,10 +1456,12 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
                 p->is_overdue = 1;
                 p->prio = 0;
             }
-            if (array) {
+            if (array) 
+            {
                 activate_task(p, task_rq(p));
             }
-            else{ 
+            else
+            { 
             	printk("[HW2 setscheduler] - array is null \n"); // todo - delete this else
             }
 
