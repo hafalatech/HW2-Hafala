@@ -303,6 +303,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		 */
 		array = rq->shorts;
 		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
+			printk("[HW2 activate_task] - pid %d is IS_OVERDUE, inserting it to rq->overdues",p->pid);
 			list_add_tail(&p->run_list, &rq->overdues); 		/* HW2 Henn- todo: will work????????? I wish */
 			p->prio = 0;										/* HW2 Henn */
 			return;												/* HW2 Henn */
@@ -1388,7 +1389,9 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
          * If the chosen policy is Short, this verifies parameters and updates the process accordingly
          */
         if (policy == SCHED_SHORT) {   
-        	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n\n\n",pid);  
+        	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
+        	printk("[HW2 setscheduler]"); 
+        	printk("[HW2 setscheduler]"); 
     		/*
     		*	Make sure that the user can change the policy for all his processes, 
     			and root can change the policy for all processes in the system , 
@@ -1448,7 +1451,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             printk("[HW2 setscheduler] - p->prio is set to %d\n" , p->prio);
             p->policy = policy;
             if (p->time_slice == 0) {
-            	printk("[HW2 setscheduler] - p->time_slice == 0 so making p overdue\n");
+            	printk("[HW2 setscheduler] - pid=%d time_slice is 0 so making it overdue\n", p->pid);
                 /*
                  * Even though the requested_time is POSITIVE, it might be less than 1 tick,
                  * therefore we set the process to overdue from the start
@@ -1466,7 +1469,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             }
 
             retval = 0;
-            printk("[HW2 setscheduler] - setting retval = 0 (good) and going out_unlock\n");
+            printk("[HW2 setscheduler] - Going out_unlock\n");
             goto out_unlock;
         }  
         /*  HW2 Roy - block ended */
