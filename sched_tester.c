@@ -2,16 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int fibonaci(int n)
-{
-        if (n < 2)
-        {
-                return n;
-        }
-        return fibonaci(n-1) + fibonaci(n-2);
-}
-
-
 const char* policies[] =
 {
         "SCHED_OTHER", //0
@@ -19,6 +9,7 @@ const char* policies[] =
         "SCHED_RR",//2
         "Default", // not real, 
         "SCHED_SHORT",//4
+        "SCHED_OVERDUE", // "SCHED_SHORT" WITH is_overdue==1
 };
 
 const char* reasons[] =
@@ -33,6 +24,60 @@ const char* reasons[] =
         "The time slice of the previous task has ended"
 };
 
+int fibonaci(int n)
+{
+        if (n < 2)
+        {
+                return n;
+        }
+        return fibonaci(n-1) + fibonaci(n-2);
+}
+
+void print_debug(int pid)
+{
+        int res_debug;
+        struct debug_struct* debug = malloc(sizeof( struct debug_struct));
+        res_debug = hw2_debug(pid, debug);
+        if(res_debug != 0){
+                printf("print_debug failed\n");
+                return;
+        }
+        
+        char* policy_string;
+        if (debug->policy != 4)
+        {
+                policy_string = policies[debug->policy];
+        }
+        else
+        {
+                if(debug->is_overdue == 0)
+                {
+                        policy_string = policies[4];
+                }
+                else
+                {
+                        policy_string = policies[5];
+                }
+        }
+
+        printf("------------------DEBUG FOR PID=%d------------------\n",pid);
+        
+
+        printf("|Priority\t|Policy\t\t|requested_time\t|number_of_trials\t|trial_num\t\n");
+        printf("|%d\t\t|%s\t|", debug->priority, policy_string);
+        printf("%d\t\t|%d\t\t\t|", debug->requested_time, debug->number_of_trials);
+        printf("%d\t\t", debug->trial_num);
+        printf("\n");
+
+
+        printf("--------------------------------------------------------\n");
+        printf("\n");
+        return;
+}
+
+
+
+
 int main(int argc, char *argv[])
 {
         char *endptr;
@@ -46,7 +91,6 @@ int main(int argc, char *argv[])
         int requested_time_array[3] = {long_requested_time,mid_requested_time,short_requested_time};
         int i = 1;
         int j = 0;
-		int res_debug;
 
         if ((argc-1) % 2 != 0)
         {
@@ -73,32 +117,12 @@ int main(int argc, char *argv[])
                                 param.number_of_trials = number_of_trials;
                                 param.requested_time = requested_time_array[j];
                                 
-								struct debug_struct* debug = malloc(sizeof( struct debug_struct));
-								res_debug = hw2_debug(pid, debug);
-								if(res_debug == 0){
-									printf("|Priority\t|Policy\t|requested_time\t|number_of_trials\t|trial_num\t|is_overdue\n");
-									printf("%d\t|%d\t|", debug->priority, debug->policy);
-									printf("%d\t|%d\t|", debug->requested_time, debug->number_of_trials);
-									printf("%d\t|%d\t|", debug->trial_num, debug->is_overdue);
-									printf("\n");
-								}
-								
-								int res = sched_setscheduler(pid, SCHED_SHORT, &param);
-
+                                print_debug(pid);                        
+                                int res = sched_setscheduler(pid, SCHED_SHORT, &param);
+                                print_debug(pid);
                                 if (res != 0) {
                                         printf("sched_setscheduler FAILED , got %d\n",res);
-                                }
-								
-								
-								res_debug = hw2_debug(pid, debug);
-								if(res_debug == 0){
-									printf("|Priority\t|Policy\t|requested_time\t|number_of_trials\t|trial_num\t|is_overdue\n");
-									printf("%d\t|%d\t|", debug->priority, debug->policy);
-									printf("%d\t|%d\t|", debug->requested_time, debug->number_of_trials);
-									printf("%d\t|%d\t|", debug->trial_num, debug->is_overdue);
-									printf("\n");
-								}
-								
+                                }                                                                                
                         }
                         else {
                                 sched_yield();

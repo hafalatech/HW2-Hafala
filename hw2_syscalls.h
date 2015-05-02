@@ -111,23 +111,23 @@ int get_scheduling_statistic(struct switch_info * tasks_info)   /*246*/
 
 
 
-int hw2_debug(int pid, struct debug_struct* debug)					/*247 - for debug using*/
+int hw2_debug(int pid, struct debug_struct* debug)                  /*247 - for debug using*/
 {
     unsigned int res;
     __asm__ volatile (
-			"movl $247, %%eax;"
-			"movl %1, %%ebx;"
-			"movl %2, %%ecx;"
-			"int $0x80;"
-			"movl %%eax,%0"
-			: "=m" (res)
-			: "m" (pid), "m" ((long)debug)
-			: "%eax","%ebx","%ecx"
-	);
+            "movl $247, %%eax;"
+            "movl %1, %%ebx;"
+            "movl %2, %%ecx;"
+            "int $0x80;"
+            "movl %%eax,%0"
+            : "=m" (res)
+            : "m" (pid), "m" ((long)debug)
+            : "%eax","%ebx","%ecx"
+    );
      if (res>=(unsigned long)(-125))
     {
-		errno = -res;
-		res = -1;
+        errno = -res;
+        res = -1;
     }
     return (int) res;
 }
