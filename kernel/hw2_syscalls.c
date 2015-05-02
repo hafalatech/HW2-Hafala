@@ -85,15 +85,8 @@ int sys_remaining_trials(int pid) {		  /*syscall 245*/
 	return res;
 }
 
-struct debug_struct
-{
-    int priority;
-    int requested_time;                 /* HW2 Roy: Range: 1-5000 in miliseconds */
-    int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
-    int trial_num;
-};
 
-int sys_hw2_debug(int pid) {	  /*syscall 247*/
-	return 0;
-}
+
+
+
 

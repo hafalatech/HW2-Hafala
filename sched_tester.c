@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
         int requested_time_array[3] = {long_requested_time,mid_requested_time,short_requested_time};
         int i = 1;
         int j = 0;
+		int res_debug;
 
         if ((argc-1) % 2 != 0)
         {
@@ -71,18 +72,33 @@ int main(int argc, char *argv[])
                                 struct sched_param param;
                                 param.number_of_trials = number_of_trials;
                                 param.requested_time = requested_time_array[j];
-                                int res = sched_setscheduler(pid, SCHED_SHORT, &param);
-
-                                //struct debug_struct *debug = malloc(sizeof (struct debug_struct));
-                                //hw2_debug(int pid , debug);
-
-                                //printf("\n");
-
-
+                                
+								struct debug_struct* debug = malloc(sizeof( struct debug_struct));
+								res_debug = hw2_debug(pid, debug);
+								if(res_debug == 0){
+									printf("|Priority\t|Policy\t|requested_time\t|number_of_trials\t|trial_num\t|is_overdue\n");
+									printf("%d\t|%d\t|", debug->priority, debug->policy);
+									printf("%d\t|%d\t|", debug->requested_time, debug->number_of_trials);
+									printf("%d\t|%d\t|", debug->trial_num, debug->is_overdue);
+									printf("\n");
+								}
+								
+								int res = sched_setscheduler(pid, SCHED_SHORT, &param);
 
                                 if (res != 0) {
                                         printf("sched_setscheduler FAILED , got %d\n",res);
                                 }
+								
+								
+								res_debug = hw2_debug(pid, debug);
+								if(res_debug == 0){
+									printf("|Priority\t|Policy\t|requested_time\t|number_of_trials\t|trial_num\t|is_overdue\n");
+									printf("%d\t|%d\t|", debug->priority, debug->policy);
+									printf("%d\t|%d\t|", debug->requested_time, debug->number_of_trials);
+									printf("%d\t|%d\t|", debug->trial_num, debug->is_overdue);
+									printf("\n");
+								}
+								
                         }
                         else {
                                 sched_yield();

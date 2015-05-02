@@ -168,6 +168,16 @@ struct switch_info {							/*HW2-Roy*/
     int reason;
 };												/*HW2-Roy*/
 
+struct debug_struct
+{
+    int priority;
+	int policy;
+    int requested_time;                 /* HW2 Roy: Range: 1-5000 in miliseconds */
+    int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
+    int trial_num;
+	int is_overdue;
+};
+
 
 
 /*HW2-Roy*/

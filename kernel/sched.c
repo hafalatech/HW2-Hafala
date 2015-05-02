@@ -2246,6 +2246,33 @@ int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 24
 }
 
 
+
+int sys_hw2_debug(int pid, struct debug_struct* debug) {	  /*syscall 247*/
+	  struct task_struct *p;
+	  p = find_task_by_pid(pid);
+	  
+	  struct debug_struct debug_to_copy;
+	  
+	  debug_to_copy.priority = p->prio;
+	  debug_to_copy.policy = p->policy;
+	  debug_to_copy.requested_time = p->requested_time;
+	  debug_to_copy.number_of_trials = p->number_of_trials;
+	  debug_to_copy.trial_num = p->trial_num;
+	  debug_to_copy.is_overdue = p->is_overdue;
+	  
+	  if (copy_to_user(debug, &debug_to_copy, sizeof(struct debug_struct))) {
+        return -EFAULT;
+    }
+	return 0;
+}
+
+
+
+
+
+
+
+
 #ifdef CONFIG_LOLAT_SYSCTL
 struct low_latency_enable_struct __enable_lowlatency = { 0, };
 #endif
