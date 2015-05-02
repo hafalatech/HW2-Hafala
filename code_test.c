@@ -17,7 +17,7 @@ void doLongTask()
 void doMediumTask()
 {
 	int j;
-	for(j=0; 2500 > i ; j++)
+	for(j=0; 2500 > j; j++)
 	{
 		;
 	}
@@ -40,190 +40,197 @@ void testOther()
 	assert(errno == 22);
 	assert(remaining_trials(thisId) == -1);
 	assert(errno == 22);
+	//assert(is_SHORT(thisId) == -1);
 	printf("OK\n");
 }
 
-void testMakeLshort()
+void testMakeShort()
 {
-	int thisId = getpid();
-	struct sched_param param;
-	int expected_requested_time = 4000;
-	int expected_number_of_trials = 35;
+	 int thisId = getpid();
+	 struct sched_param param;
+	 int expected_requested_time = 4000;
+	 int expected_number_of_trials = 35;
 
+	 param.requested_time = expected_requested_time;
+	 param.number_of_trials = expected_number_of_trials;
+
+	 //make it short
+	 sched_setscheduler(thisId, SCHED_SHORT, &param);
+
+	 //check that it became short
+	 //assert(is_SHORT(thisId) >= 0);     
+	 assert(sched_getscheduler(thisId) == SCHED_SHORT);
+	 assert(sched_getparam(thisId, &param) == 0); //get the param struct from process, 0 is Success
+
+	 //check the values "thisId" have after turning it to short
+	 assert(param.requested_time == expected_requested_time);
+	 assert(param.number_of_trials == expected_number_of_trials);
+
+
+	 int i;
+	 doMediumTask();
+	 assert(sched_getparam(thisId, &param) == 0);
+	 int afterTime = remaining_time(thisId);
+	 assert(afterTime > 0);
+	 assert(afterTime < expected_requested_time);
+	 assert(remaining_trials(thisId) > 0);
+	 printf("OK\n");
+}
+
+void testMakeSonShort()
+ {
+	int id = fork();
+	int status;
+	if (id > 0) {
+	struct sched_param param;
+	int expected_requested_time = 5000;
+	int expected_number_of_trials = 8;
 	param.requested_time = expected_requested_time;
 	param.number_of_trials = expected_number_of_trials;
-
-	//make it short
-	sched_setscheduler(thisId, SCHED_SHORT, &param);
-
-	//check that it became short
-	assert(sched_getscheduler(thisId) == SCHED_SHORT);
-	assert(sched_getparam(thisId, &param) == 0); //get the param struct from process, 0 is Success
-
-	//check the values "thisId" have after turning it to short
+	sched_setscheduler(id, SCHED_SHORT, &param);
+	assert(sched_getscheduler(id) == SCHED_SHORT);
+	assert(sched_getparam(id, &param) == 0);
 	assert(param.requested_time == expected_requested_time);
 	assert(param.number_of_trials == expected_number_of_trials);
-
-
-	int i;
-	doMediumTask();
-	assert(sched_getparam(thisId, &param) == 0);
-	int afterTime = remaining_time(thisId);
-	assert(afterTime > 0);
-	assert(afterTime < expected_requested_time);
-	assert(lshort_query_overdue_time(thisId) == 0);
+	wait(&status);
 	printf("OK\n");
+	} else if (id == 0) {
+		//assert(is_SHORT(id) >= 0);
+		doShortTask();
+		_exit(0);
+	}
 }
 
-// void testMakeSonLshort()
-// {
-// ﻿  int id = fork();
-// ﻿  int status;
-// ﻿  if (id > 0) {
-// ﻿  ﻿  struct sched_param param;
-// ﻿  ﻿  int expected_requested_time = 30000;
-// ﻿  ﻿  int expected_level = 8;
-// ﻿  ﻿  param.lshort_params.requested_time = expected_requested_time;
-// ﻿  ﻿  param.lshort_params.level = expected_level;
-// ﻿  ﻿  sched_setscheduler(id, SCHED_LSHORT, &param);
-// ﻿  ﻿  assert(sched_getscheduler(id) == SCHED_LSHORT);
-// ﻿  ﻿  assert(sched_getparam(id, &param) == 0);
-// ﻿  ﻿  assert(param.lshort_params.requested_time == expected_requested_time);
-// ﻿  ﻿  assert(param.lshort_params.level == expected_level);
-// ﻿  ﻿  wait(&status);
-// ﻿  ﻿  printf("OK\n");
-// ﻿  } else if (id == 0) {
-// ﻿  ﻿  doShortTask();
-// ﻿  ﻿  _exit(0);
-// ﻿  }
-// }
+void testBadParams()
+{
+	int id = fork();
+	int status;
+	if (id>0)
+	{
+		struct sched_param param;
+		int expected_requested_time = 6000;
+		int expected_number_of_trials = 6;
+		param.requested_time = expected_requested_time;
+		param.number_of_trials = expected_number_of_trials;
+		assert(sched_setscheduler(id, SCHED_SHORT, &param) == -1);
+		assert(errno = 22);
+		assert(sched_getscheduler(id) == 0); //??????????
 
-// void testBadParams()
-// {
-// ﻿  int id = fork();
-// ﻿  int status;
-// ﻿  if (id>0)
-// ﻿  {
-// ﻿  ﻿  struct sched_param param;
-// ﻿  ﻿  int expected_requested_time = 7;
-// ﻿  ﻿  int expected_level = 51;
-// ﻿  ﻿  param.lshort_params.requested_time = expected_requested_time;
-// ﻿  ﻿  param.lshort_params.level = expected_level;
-// ﻿  ﻿  assert(sched_setscheduler(id, SCHED_LSHORT, &param) == -1);
-// ﻿  ﻿  assert(errno = 22);
-// ﻿  ﻿  assert(sched_getscheduler(id) == 0);
 
-// ﻿  ﻿  expected_requested_time = 310000;
-// ﻿  ﻿  expected_level = 7;
-// ﻿  ﻿  param.lshort_params.requested_time = expected_requested_time;
-// ﻿  ﻿  param.lshort_params.level = expected_level;
-// ﻿  ﻿  assert(sched_setscheduler(id, SCHED_LSHORT, &param) == -1);
-// ﻿  ﻿  assert(errno = 22);
-// ﻿  ﻿  assert(sched_getscheduler(id) == 0);
-// ﻿  ﻿  wait(&status);
-// ﻿  ﻿  printf("OK\n");
-// ﻿  } else if (id == 0) {
-// ﻿  ﻿  doShortTask();
-// ﻿  ﻿  _exit(0);
-// ﻿  }
-// }
+		expected_requested_time = 4000;
+		expected_number_of_trials = 200;
+		param.requested_time = expected_requested_time;
+		param.number_of_trials = expected_number_of_trials;
+		assert(sched_setscheduler(id, SCHED_LSHORT, &param) == -1);
+		assert(errno = 22);
+		assert(sched_getscheduler(id) == 0); //??????????
+		wait(&status);
+		printf("OK\n");
+		} else if (id == 0) {
+		doShortTask();
+		_exit(0);
+		}
+}
 
-// void testSysCalls()
-// {
-// ﻿  int id = fork();
-// ﻿  int status;
-// ﻿  if (id > 0)
-// ﻿  {
-// ﻿  ﻿  assert(lshort_query_remaining_time(id) == -1);
-// ﻿  ﻿  assert(errno == 22);
-// ﻿  ﻿  assert(lshort_query_overdue_time(id) == -1);
-// ﻿  ﻿  assert(errno == 22);
+void testSysCalls()
+{
+	int id = fork();
+	int status;
+	if (id > 0)
+	{
+		assert(remaining_time(id) == -1);
+		assert(errno == 22);
+		assert(remaining_trials(id) == -1);
+		assert(errno == 22);
 
-// ﻿  ﻿  struct sched_param param;
-// ﻿  ﻿  int expected_requested_time = 30000;
-// ﻿  ﻿  int expected_level = 8;
-// ﻿  ﻿  param.lshort_params.requested_time = expected_requested_time;
-// ﻿  ﻿  param.lshort_params.level = expected_level;
-// ﻿  ﻿  sched_setscheduler(id, SCHED_LSHORT, &param);
-// ﻿  ﻿  int remaining_time = lshort_query_remaining_time(id);
-// ﻿  ﻿  int overdue_time = lshort_query_overdue_time(id);
-// ﻿  ﻿  assert(remaining_time <= expected_requested_time);
-// ﻿  ﻿  assert(remaining_time > 0);
-// ﻿  ﻿  assert(overdue_time == 0);
-// ﻿  ﻿  wait(&status);
-// ﻿  ﻿  printf("OK\n");
-// ﻿  } else if (id == 0) {
-// ﻿  ﻿  doShortTask();
-// ﻿  ﻿  _exit(0);
-// ﻿  }
-// }
+		struct sched_param param;
+		int expected_requested_time = 4000;
+		int expected_number_of_trials = 8;
+		param.requested_time = expected_requested_time;
+		param.number_of_trials = expected_number_of_trials;
+		sched_setscheduler(id, SCHED_SHORT, &param);
+		int remaining_time_check = remaining_time(id);
+		int remaining_trials_check = remaining_trials(id);
+		assert(remaining_time_check <= expected_requested_time);
+		assert(remaining_time_check > 0);
+		assert(remaining_trials_check == 0);   // ???????
+		wait(&status);
+		printf("OK\n");
+	}
+	else if (id == 0) {
+		//assert(is_SHORT(id) >= 0);
+		doShortTask();
+		_exit(0);
+	}
+}
 
-// void testFork()
-// {
-// ﻿  int expected_requested_time = 30000;
-// ﻿  int id = fork();
-// ﻿  int status;
-// ﻿  if (id > 0) {
-// ﻿  ﻿  struct sched_param param;
-// ﻿  ﻿  int expected_level = 8;
-// ﻿  ﻿  param.lshort_params.requested_time = expected_requested_time;
-// ﻿  ﻿  param.lshort_params.level = expected_level;
-// ﻿  ﻿  sched_setscheduler(id, SCHED_LSHORT, &param);
-// ﻿  ﻿  assert(sched_getscheduler(id) == SCHED_LSHORT);
-// ﻿  ﻿  assert(sched_getparam(id, &param) == 0);
-// ﻿  ﻿  assert(param.lshort_params.requested_time == expected_requested_time);
-// ﻿  ﻿  assert(param.lshort_params.level == expected_level);
-// ﻿  ﻿  wait(&status);
-// ﻿  ﻿  printf("OK\n");
-// ﻿  } else if (id == 0) {
-// ﻿  ﻿  assert(lshort_query_remaining_time(getpid()) == expected_requested_time);
-// ﻿  ﻿  int son = fork();
-// ﻿  ﻿  if (son == 0)
-// ﻿  ﻿  {
-// ﻿  ﻿  ﻿  int grandson_initial_time = lshort_query_remaining_time(getpid());
-// ﻿  ﻿  ﻿  assert(grandson_initial_time < (expected_requested_time*2)/3);
-// ﻿  ﻿  ﻿  assert(grandson_initial_time > 0);
-// ﻿  ﻿  ﻿  doMediumTask();
-// ﻿  ﻿  ﻿  assert(lshort_query_remaining_time(getpid()) < grandson_initial_time);
-// ﻿  ﻿  ﻿  _exit(0);
-// ﻿  ﻿  }
-// ﻿  ﻿  else
-// ﻿  ﻿  {
-// ﻿  ﻿  ﻿  assert(lshort_query_remaining_time(getpid()) < expected_requested_time/2);
-// ﻿  ﻿  ﻿  wait(&status);
-// ﻿  ﻿  }
-// ﻿  ﻿  _exit(0);
-// ﻿  }
-// }
+void testFork()
+{
+	int expected_requested_time = 200;
+	int id = fork();
+	int status;
+	if (id > 0) {
+		struct sched_param param;
+		int expected_number_of_trials = 8;
+		param.requested_time = expected_requested_time;
+		param.number_of_trials = expected_number_of_trials;
+		sched_setscheduler(id, SCHED_SHORT, &param);
+		assert(is_SHORT(id) >= 0);
+		assert(sched_getscheduler(id) == SCHED_SHORT);
+		assert(sched_getparam(id, &param) == 0);
+		assert(param.requested_time == expected_requested_time);
+		assert(param.number_of_trials == expected_number_of_trials);
+		wait(&status);
+		printf("OK\n");
+	} else if (id == 0) {
+		assert(remaining_time(getpid()) == expected_requested_time);
+		int son = fork();	
+		if (son == 0)
+		{
+			int grandson_initial_time = remaining_time(getpid());
+			assert(grandson_initial_time < (expected_requested_time*2)/3); //?????????
+			assert(grandson_initial_time > 0);
+			doMediumTask();
+			assert(remaining_time(getpid()) < grandson_initial_time);
+			_exit(0);
+		}
+		else
+		{
+			assert(remaining_time(getpid()) < expected_requested_time/2);
+			wait(&status);
+		}
+		_exit(0);
+	}
+}
 
-// void testBecomingOverdue()
-// {
-// ﻿  int id = fork();
-// ﻿  int status;
-// ﻿  if (id > 0) {
-// ﻿  ﻿  struct sched_param param;
-// ﻿  ﻿  int expected_requested_time = 2;
-// ﻿  ﻿  int expected_level = 8;
-// ﻿  ﻿  param.lshort_params.requested_time = expected_requested_time;
-// ﻿  ﻿  param.lshort_params.level = expected_level;
-// ﻿  ﻿  sched_setscheduler(id, SCHED_LSHORT, &param);
-// ﻿  ﻿  assert(sched_getscheduler(id) == SCHED_LSHORT);
-// ﻿  ﻿  assert(sched_getparam(id, &param) == 0);
-// ﻿  ﻿  //assert(param.lshort_params.requested_time == expected_requested_time);
-// ﻿  ﻿  assert(param.lshort_params.level == expected_level);
-// ﻿  ﻿  wait(&status);
-// ﻿  ﻿  printf("OK\n");
-// ﻿  } else if (id == 0) {
-// ﻿  ﻿  int myId = getpid();
-// ﻿  ﻿  int i = lshort_query_overdue_time(myId);
-// ﻿  ﻿  for (i; i < 2; )
-// ﻿  ﻿  {
-// ﻿  ﻿  ﻿  i = lshort_query_overdue_time(myId);
-// ﻿  ﻿  ﻿  doShortTask();
-// ﻿  ﻿  }
-// ﻿  ﻿  _exit(0);
-// ﻿  }
-// }
+void testBecomingOverdue()
+{
+	int id = fork();
+	int status;
+	if (id > 0) {
+	struct sched_param param;
+	int expected_requested_time = 2;
+	int expected_level = 8;
+	param.lshort_params.requested_time = expected_requested_time;
+	param.lshort_params.level = expected_level;
+	sched_setscheduler(id, SCHED_LSHORT, &param);
+	assert(sched_getscheduler(id) == SCHED_LSHORT);
+	assert(sched_getparam(id, &param) == 0);
+	assert(param.lshort_params.requested_time == expected_requested_time);
+	assert(param.lshort_params.level == expected_level);
+	wait(&status);
+	printf("OK\n");
+	} else if (id == 0) {
+		int myId = getpid();
+		int i = lshort_query_overdue_time(myId);
+		for (i; i < 2; )
+		{
+			i = lshort_query_overdue_time(myId);
+			doShortTask();
+		}
+		_exit(0);
+	}
+}
 
 // void testScheduleRealTimeOverLShort()
 // {
@@ -484,20 +491,20 @@ int main()
 	printf("Testing SCHED_OTHER process... ");
 	testOther();
 
-// ﻿  printf("Testing making son process LSHORT... ");
-// ﻿  testMakeSonLshort();
+	printf("Testing making son process SHORT... ");
+	testMakeSonShort();
 
-// ﻿  printf("Testing bad parameters... ");
-// ﻿  testBadParams();
+	printf("Testing bad parameters... ");
+	testBadParams();
 
-// ﻿  printf("Testing new System Calls... ");
-// ﻿  testSysCalls();
+	printf("Testing new System Calls... ");
+	testSysCalls();
 
 // ﻿  printf("Testing becoming overdue... ");
 // ﻿  testBecomingOverdue();
 
-// ﻿  printf("Testing fork... ");
-// ﻿  testFork();
+	printf("Testing fork... ");
+	testFork();
 
 // ﻿  printf("Testing Overdues Round-Robin... \n");
 // ﻿  testOverdueRoundRobin();
@@ -520,8 +527,8 @@ int main()
 // ﻿  printf("Testing race: OTHER vs. OVERDUE #2 (OTHER is supposed to win)\n");
 // ﻿  testScheduleOtherOverOverdue2();
 
-// ﻿  printf("Testing making this process LSHORT... ");
-// ﻿  testMakeLshort();
-// ﻿  printf("Success!\n");
+	printf("Testing making this process SHORT... ");
+	testMakeShort();
+	printf("Success!\n");
 	return 0;
 }
