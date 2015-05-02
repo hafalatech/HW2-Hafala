@@ -303,7 +303,8 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		array = rq->shorts;
 		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
 			/*overdues*/
-			p->prio = 0;										/* HW2 Henn */
+			p->prio = 0;
+			array = rq->overdues;								/* HW2 Henn */
 		} 
 		else 
 		{      	// short process
@@ -478,6 +479,23 @@ int wake_up_process(task_t * p)
 void wake_up_forked_process(task_t * p)
 {
 	runqueue_t *rq = this_rq_lock();
+
+
+	/* HW2 Roy block start */
+	if(IS_SHORT(p)) 
+	{				
+		if(IS_OVERDUE(p))
+		{
+			dequeue_task(p, rq->shorts);
+			enqueue_task(p, rq->overdues);
+		}
+		else
+		{
+			dequeue_task(p, rq->shorts); //to maintain RR cause father must release the CPU for son
+			enqueue_task(p, rq->shorts);			
+		}
+	}
+	/* HW2 Roy block end */
 
 	p->state = TASK_RUNNING;
 	if (!rt_task(p)) {
@@ -1397,77 +1415,77 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 	retval = -EINVAL;
 
 
-		/*  HW2 Roy - block started */
-        /*
-         * If the chosen policy is Short, this verifies parameters and updates the process accordingly
-         */
-        if (policy == SCHED_SHORT) {    
-        	printk("[HW2 setscheduler]\n"); 
-        	printk("[HW2 setscheduler]\n"); 
-        	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
-    		/*
-    		*	Make sure that the user can change the policy for all his processes, 
-    			and root can change the policy for all processes in the system , 
-    			but neither user nor root can change the policy of a SHORT-process, 
-    			"Operation not permitted" error should return.
-    		*/   
-            if ((p->uid != current->uid) && (current->uid != 0)) 
-            { 
-            	printk("[HW2 setscheduler] - no autorities to change , invalid\n");
-                retval = -EPERM;
-                goto out_unlock;
-            }
-            /*
-            * Input check
-            */
-            if ((lp.requested_time < 1) || (lp.requested_time > 5000))
-            {
-            	printk("[HW2 setscheduler] - requested_time value invalid, got %d\n" , lp.requested_time);
-                goto out_unlock;
-            }
-            if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
-            {
-            	printk("[HW2 setscheduler] - number_of_trials value invalid got %d\n" , lp.number_of_trials);
-                goto out_unlock;
-            }
-            printk("[HW2 setscheduler] - Passed all validations\n");  
-            /*
-            * here we make the actual fields set
-            */
-            current->need_resched = 1;   /* HW2 because p might be more amzing */
-            array = p->array;
-            if (array)
-                deactivate_task(p, task_rq(p));
-
-            /*  i.e.  (10 * HZ / 1000) is equals to 10 msec */
-            p->requested_time = (lp.requested_time * HZ)/1000;// Converting requested time to ticks
-            p->number_of_trials = lp.number_of_trials;
-            p->trial_num = 1;
-            p->is_overdue = 0;
-            p->time_slice = p->requested_time; //in ticks
-            p->prio = p->static_prio;
-
-            printk("[HW2 setscheduler] - requested_time = %d\n",p->requested_time); 
-            printk("[HW2 setscheduler] - number_of_trials = %d\n",p->number_of_trials); 
-            printk("[HW2 setscheduler] - time_slice = %d\n",p->time_slice);
-
-            p->policy = policy;
-            if (p->time_slice == 0) {
-            	printk("[HW2 setscheduler] - pid=%d time_slice is 0 so making it overdue\n", p->pid);
-                /*
-                 * Even though the requested_time is POSITIVE, it might be less than 1 tick,
-                 * therefore we set the process to overdue from the start
-                 */
-                p->is_overdue = 1;
-                p->prio = 0;
-            }
-            if (array) 
-                activate_task(p, task_rq(p));
-
-            retval = 0;
+	/*  HW2 Roy - block started */
+    /*
+     * If the chosen policy is Short, this verifies parameters and updates the process accordingly
+     */
+    if (policy == SCHED_SHORT) {    
+    	printk("[HW2 setscheduler]\n"); 
+    	printk("[HW2 setscheduler]\n"); 
+    	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
+		/*
+		*	Make sure that the user can change the policy for all his processes, 
+			and root can change the policy for all processes in the system , 
+			but neither user nor root can change the policy of a SHORT-process, 
+			"Operation not permitted" error should return.
+		*/   
+        if ((p->uid != current->uid) && (current->uid != 0)) 
+        { 
+        	printk("[HW2 setscheduler] - no autorities to change , invalid\n");
+            retval = -EPERM;
             goto out_unlock;
-        }  
-        /*  HW2 Roy - block ended */
+        }
+        /*
+        * Input check
+        */
+        if ((lp.requested_time < 1) || (lp.requested_time > 5000))
+        {
+        	printk("[HW2 setscheduler] - requested_time value invalid, got %d\n" , lp.requested_time);
+            goto out_unlock;
+        }
+        if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
+        {
+        	printk("[HW2 setscheduler] - number_of_trials value invalid got %d\n" , lp.number_of_trials);
+            goto out_unlock;
+        }
+        printk("[HW2 setscheduler] - Passed all validations\n");  
+        /*
+        * here we make the actual fields set
+        */
+        current->need_resched = 1;   /* HW2 because p might be more amzing */
+        array = p->array;
+        if (array)
+            deactivate_task(p, task_rq(p));
+
+        /*  i.e.  (10 * HZ / 1000) is equals to 10 msec */
+        p->requested_time = (lp.requested_time * HZ)/1000;// Converting requested time to ticks
+        p->number_of_trials = lp.number_of_trials;
+        p->trial_num = 1;
+        p->is_overdue = 0;
+        p->time_slice = p->requested_time; //in ticks
+        p->prio = p->static_prio;
+
+        printk("[HW2 setscheduler] - requested_time = %d\n",p->requested_time); 
+        printk("[HW2 setscheduler] - number_of_trials = %d\n",p->number_of_trials); 
+        printk("[HW2 setscheduler] - time_slice = %d\n",p->time_slice);
+
+        p->policy = policy;
+        if (p->time_slice == 0) {
+        	printk("[HW2 setscheduler] - pid=%d time_slice is 0 so making it overdue\n", p->pid);
+            /*
+             * Even though the requested_time is POSITIVE, it might be less than 1 tick,
+             * therefore we set the process to overdue from the start
+             */
+            p->is_overdue = 1;
+            p->prio = 0;
+        }
+        if (array) 
+            activate_task(p, task_rq(p));
+
+        retval = 0;
+        goto out_unlock;
+    }  
+    /*  HW2 Roy - block ended */
 
 	if (lp.sched_priority < 0 || lp.sched_priority > MAX_USER_RT_PRIO-1)
 		goto out_unlock;
@@ -1549,6 +1567,8 @@ asmlinkage long sys_sched_getparam(pid_t pid, struct sched_param *param)
 	if (!p)
 		goto out_unlock;
 	lp.sched_priority = p->rt_priority;
+	lp.requested_time = p->requested_time; /* HW2 Roy */
+	lp.number_of_trials = p->number_of_trials; /* HW2 Roy */
 	read_unlock(&tasklist_lock);
 
 	/*
