@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
         int number_of_trials;
         int num;
         int pid;
-        int long_requested_time = 1;
-        int mid_requested_time = 1;        
+        int long_requested_time = 5000;
+        int mid_requested_time = 2500;        
         int short_requested_time = 1;
         int requested_time_array[3] = {long_requested_time,mid_requested_time,short_requested_time};
         int i = 1;
@@ -72,6 +72,14 @@ int main(int argc, char *argv[])
                                 param.number_of_trials = number_of_trials;
                                 param.requested_time = requested_time_array[j];
                                 int res = sched_setscheduler(pid, SCHED_SHORT, &param);
+
+                                //struct debug_struct *debug = malloc(sizeof (struct debug_struct));
+                                //hw2_debug(int pid , debug);
+
+                                //printf("\n");
+
+
+
                                 if (res != 0) {
                                         printf("sched_setscheduler FAILED , got %d\n",res);
                                 }

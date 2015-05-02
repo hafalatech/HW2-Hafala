@@ -1,5 +1,6 @@
 #include <asm/errno.h>
 extern int errno;
+extern struct debug_struct;
 
 
 #define SCHED_SHORT    4               /* HW2 - Roy for sched_tester.c*/
@@ -111,5 +112,6 @@ int hw2_debug(int pid)					/*247 - for debug using*/
                     : "0" (247) ,"b" (pid)
                     : "memory"
     );
-    return 0;
+    //res is the address of p
+    return res;
 }

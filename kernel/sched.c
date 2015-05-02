@@ -144,8 +144,7 @@ struct runqueue {
 	unsigned long nr_running, nr_switches, expired_timestamp;
 	signed long nr_uninterruptible;
 	task_t *curr, *idle;
-	prio_array_t *active, *expired, *shorts, arrays[3];  /* HW2 Roy */
-	list_t overdues;									 /* HW2 Roy */
+	prio_array_t *active, *expired, *shorts, *overdues , arrays[4];  /* HW2 Roy */								 
 	int prev_nr_running[NR_CPUS];
 	task_t *migration_thread;
 	list_t migration_queue;
@@ -303,16 +302,12 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		 */
 		array = rq->shorts;
 		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
-        	printk("[HW2 activate_task]\n"); 
-        	printk("[HW2 activate_task]\n"); 
-			printk("[HW2 activate_task] - pid %d is IS_OVERDUE, inserting it to rq->overdues\n",p->pid);
-			list_add_tail(&p->run_list, &rq->overdues); 		/* HW2 Henn- todo: will work????????? I wish */
+			/*overdues*/
 			p->prio = 0;										/* HW2 Henn */
-			return;												/* HW2 Henn */
 		} 
 		else 
 		{      	// short process
-			p->prio = effective_prio(p);
+			p->prio = effective_prio(p); // HW2 ASK LOTEM
 		}
 	}
 	
@@ -325,7 +320,7 @@ static inline void deactivate_task(struct task_struct *p, runqueue_t *rq)
 	rq->nr_running--;
 	if (p->state == TASK_UNINTERRUPTIBLE)
 		rq->nr_uninterruptible++;
-	dequeue_task(p, p->array); //todo is this going to work on overdue
+	dequeue_task(p, p->array); 
 	p->array = NULL;
 }
 
@@ -810,12 +805,12 @@ void make_short_an_overdue(task_t *p){
 	runqueue_t *rq = this_rq(); // the runqueue of the current cpu
 	dequeue_task(p, rq->shorts);
 	p->is_overdue = 1;
-	p->prio = 0; // this doesnt matter cause an Overdue-SHORT-processes do not consider their priority
+	p->prio = 0; // all overdues must have the same prio , 0 .
 	p->time_slice = 0; // again, this doesnt matter
 	printk("[HW2 make_short_an_overdue]\n");
 	printk("[HW2 make_short_an_overdue]\n");
 	printk("[HW2 make_short_an_overdue] - Trying to make pid=%d an OVERDUE\n",p->pid);
-	list_add_tail(&p->run_list, &rq->overdues);	/* HW2 Roy  todo: check if this line is ok */	
+	enqueue_task(p, rq->overdues); /*overdues*/	
 }
 
 
@@ -896,7 +891,7 @@ void scheduler_tick(int user_tick, int system)
         	{
         		// this process was a SHORT but reached its limit
         		make_short_an_overdue(p);
-        		set_tsk_need_resched(p);
+        		set_tsk_need_resched(p);  // todo: we just made p an overdue, do we need to resched it?!? we must keep prio=0!!
 				last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
         		goto out;
         	} 
@@ -908,7 +903,7 @@ void scheduler_tick(int user_tick, int system)
 				{
 					// next time_slice is 0 so make it an overdue
 					make_short_an_overdue(p);
-					set_tsk_need_resched(p);
+        			set_tsk_need_resched(p);  // todo: we just made p an overdue, do we need to resched it?!? we must keep prio=0!!
 					last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
 					goto out;
 				}
@@ -1023,9 +1018,12 @@ pick_next_task:
         idx = sched_find_first_bit(array->bitmap);				/* HW2 Henn */
 
         if (unlikely(!array->nr_active)) {						/* HW2 Henn */
-    		next =list_entry(&rq->overdues, task_t, run_list);  /* HW2 Roy test */
+    		//next =list_entry(&rq->overdues, task_t, run_list);  /* HW2 Roy test */
             //next = &rq->overdues;								/* HW2 Henn */
-            goto switch_tasks;									/* HW2 Henn */
+            //goto switch_tasks;									/* HW2 Henn */
+
+            array = rq->overdues;									/* HW2 Henn overdues */
+            idx = sched_find_first_bit(array->bitmap);			/* HW2 Henn */
         }
     } else if (process_type == SCHED_OTHER_PROCESS) {			/* HW2 Henn */
         if ((rq->shorts)->nr_active) {							/* HW2 Henn */
@@ -1252,7 +1250,7 @@ void set_user_nice(task_t *p, long nice)
         if (IS_OVERDUE(p)) {						/* HW2 Roy */
             p->prio = 0;							/* HW2 Roy */
         } else {									/* HW2 Roy */
-            p->prio = effective_prio(p);			/* HW2 Roy */
+            p->prio = effective_prio(p);			/* HW2 Roy todo: should this be effective prio?!*/
         }											/* HW2 Roy */
     }												/* HW2 Roy */
 	if (array) {
@@ -1262,7 +1260,6 @@ void set_user_nice(task_t *p, long nice)
 		 * or increased its priority then reschedule its CPU:
 		 */
 		if ((NICE_TO_PRIO(nice) < p->static_prio) || (p == rq->curr))
-			//todo reason??? higher prio
 			resched_task(rq->curr);
 	}
 out_unlock:
@@ -1368,7 +1365,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
     /*
      * This prevents a SHORT process from changing it's policy
      */
-    if (p->policy == SCHED_SHORT) {				/* HW2 - Henn - todo - should we  check also about SCHED_FIFO and SCHED_RR ?*/ 
+    if (p->policy == SCHED_SHORT) {				/* HW2 - Henn */
         retval = -EPERM;
         goto out_unlock;
     }
@@ -1404,7 +1401,8 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
     			but neither user nor root can change the policy of a SHORT-process, 
     			"Operation not permitted" error should return.
     		*/   
-            if ((p->uid != current->uid) && (current->uid != 0)) { 
+            if ((p->uid != current->uid) && (current->uid != 0)) 
+            { 
             	printk("[HW2 setscheduler] - no autorities to change , invalid\n");
                 retval = -EPERM;
                 goto out_unlock;
@@ -1417,44 +1415,32 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             	printk("[HW2 setscheduler] - requested_time value invalid, got %d\n" , lp.requested_time);
                 goto out_unlock;
             }
-
             if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
             {
             	printk("[HW2 setscheduler] - number_of_trials value invalid got %d\n" , lp.number_of_trials);
                 goto out_unlock;
             }
-
             printk("[HW2 setscheduler] - Passed all validations\n");  
             /*
-            * here we make the actual set
+            * here we make the actual fields set
             */
-            current->need_resched = 1; // when returning from kernel to userland, we need to resched because we are changing prio
-            printk("[HW2 setscheduler] - setting current->need_resched = 1\n"); 
+            current->need_resched = 1; // todo: varify this, when returning from kernel to userland, we need to resched because we are changing prio
             array = p->array;
             if (array)
-            {
                 deactivate_task(p, task_rq(p));
-            }
-            else // todo - delete this else
-            { 
-            	printk("[HW2 setscheduler] - array is null \n"); // todo - delete this else
-			}
 
-            printk("[HW2 setscheduler] - setting p fields;\n"); 
             /*  i.e.  (10 * HZ / 1000) is equals to 10 msec */
-            p->requested_time = lp.requested_time * HZ / 1000;// Converting requested time to ticks
-            printk("[HW2 setscheduler] - requested_time = %d\n",p->requested_time); 
+            p->requested_time = (lp.requested_time * HZ)/1000;// Converting requested time to ticks
             p->number_of_trials = lp.number_of_trials;
-            printk("[HW2 setscheduler] - number_of_trials = %d\n",p->number_of_trials); 
             p->trial_num = 1;
-            printk("[HW2 setscheduler] - trial_num = %d\n",p->trial_num);
             p->is_overdue = 0;
-            printk("[HW2 setscheduler] - is_overdue = %d\n",p->is_overdue);
-
             p->time_slice = p->requested_time; //in ticks
-            printk("[HW2 setscheduler] - time_slice = %d\n",p->time_slice);
             p->prio = p->static_prio;
-            printk("[HW2 setscheduler] - p->prio is set to %d\n" , p->prio);
+
+            printk("[HW2 setscheduler] - requested_time = %d\n",p->requested_time); 
+            printk("[HW2 setscheduler] - number_of_trials = %d\n",p->number_of_trials); 
+            printk("[HW2 setscheduler] - time_slice = %d\n",p->time_slice);
+
             p->policy = policy;
             if (p->time_slice == 0) {
             	printk("[HW2 setscheduler] - pid=%d time_slice is 0 so making it overdue\n", p->pid);
@@ -1466,16 +1452,9 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
                 p->prio = 0;
             }
             if (array) 
-            {
                 activate_task(p, task_rq(p));
-            }
-            else
-            { 
-            	printk("[HW2 setscheduler] - array is null\n"); // todo - delete this else
-            }
 
             retval = 0;
-            printk("[HW2 setscheduler] - Going out_unlock\n");
             goto out_unlock;
         }  
         /*  HW2 Roy - block ended */
@@ -1685,11 +1664,12 @@ asmlinkage long sys_sched_yield(void)
 		goto out_unlock;
 	}
 
-	if (IS_OVERDUE(current)) /* HW2 */
-	{ /* HW2 */
-		list_add_tail(&current->run_list, &rq->overdues); /* HW2 todo: is this line working? */
-		goto out_unlock; /* HW2 */
-	} /* HW2 */
+	//if (IS_OVERDUE(current)) /* HW2 overdues*/ no need for this anymore, cause array above is correct
+	//{ /* HW2 overdues*/
+		//list_add_tail(&current->run_list, &rq->overdues); 
+		
+		//goto out_unlock; /* HW2 */
+	//} /* HW2 */
 
 	list_del(&current->run_list);
 	if (!list_empty(array->queue + current->prio)) {
@@ -1939,6 +1919,7 @@ void __init sched_init(void)
 		rq->active = rq->arrays;
 		rq->expired = rq->arrays + 1;
 		rq->shorts = rq->arrays + 2;                   // HW2 - Henn
+		rq->overdues = rq->arrays + 3;                   // HW2 - Henn overdues
 		spin_lock_init(&rq->lock);
 		INIT_LIST_HEAD(&rq->migration_queue);
 
@@ -1951,7 +1932,7 @@ void __init sched_init(void)
 			// delimiter for bitsearch
 			__set_bit(MAX_PRIO, array->bitmap);
 		}
-		INIT_LIST_HEAD(&rq->overdues);					// HW2 - Henn
+		//INIT_LIST_HEAD(&rq->overdues);					// HW2 - Henn overdues
 		rq->monitor_index = 0;						// HW2 - Henn
 		rq->monitor_counter = 0;						// HW2 - Henn
 		rq->left_to_save = MONITOR_THRESHOLD;			// HW2 - Henn
@@ -2226,7 +2207,7 @@ int ll_copy_from_user(void *to, const void *from_user, unsigned long len)
 }
 
 int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 246*/
-    unsigned long flags; //todo: Check if needed   
+    unsigned long flags;   
 	runqueue_t *rq = this_rq(); // the runqueue of the current cpu
     int index = rq->monitor_index;
     int result = rq->monitor_counter;
@@ -2238,7 +2219,7 @@ int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 24
 		return -EINVAL;
     }
 
-    local_irq_save(flags); //todo: Check if needed
+    local_irq_save(flags);
     
 	if(result >= MONITOR_MAX_SIZE) { 
 		result = MONITOR_MAX_SIZE;
@@ -2255,7 +2236,7 @@ int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 24
 		j++;
 	}
     
-	local_irq_restore(flags); //todo: Check if needed
+	local_irq_restore(flags);
     
 	if (copy_to_user(tasks_info, monitor_copy, sizeof(struct switch_info[MONITOR_MAX_SIZE]))) {
         return -EFAULT;
