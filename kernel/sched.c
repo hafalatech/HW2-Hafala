@@ -307,10 +307,9 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		} 
 		else 
 		{      	// short process
-			p->prio = effective_prio(p); // HW2 ASK LOTEM
+			p->prio = p->static_prio; 							/* HW2 Roy */
 		}
 	}
-	
 	enqueue_task(p, array);
 	rq->nr_running++;
 }
@@ -879,11 +878,15 @@ void scheduler_tick(int user_tick, int system)
    	/* HW2 - Henn - start */
     if (IS_SHORT(p)) 
     {
+    	//todo need to remove and add to the end of the line cause RR
+
+
     	// update fields
 		(p->time_slice)--;
         if (p->time_slice == 0) {     	                   
         	(p->trial_num)++;	//finished current timeslice so increment its trialNum  
-        }      
+        }
+
         // handle SHORT processes
         if (!IS_OVERDUE(p) && (p->time_slice == 0)) 
         { 
@@ -891,7 +894,7 @@ void scheduler_tick(int user_tick, int system)
         	{
         		// this process was a SHORT but reached its limit
         		make_short_an_overdue(p);
-        		set_tsk_need_resched(p);  // todo: we just made p an overdue, do we need to resched it?!? we must keep prio=0!!
+        		set_tsk_need_resched(p);  /* HW2 Roy */
 				last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
         		goto out;
         	} 
@@ -903,15 +906,26 @@ void scheduler_tick(int user_tick, int system)
 				{
 					// next time_slice is 0 so make it an overdue
 					make_short_an_overdue(p);
-        			set_tsk_need_resched(p);  // todo: we just made p an overdue, do we need to resched it?!? we must keep prio=0!!
+        			set_tsk_need_resched(p); /* HW2 Roy */
 					last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
+					goto out;
+				} 
+				else 
+				{
+					//here is a short process that its time_slice has ended
+					//but we calculated a new time_slice for it and its > 0
+					//so this SHORT should go to the end of the line (RR)
+					dequeue_task(p, rq->shorts);
+					set_tsk_need_resched(p);
+					enqueue_task(p, rq->shorts);
 					goto out;
 				}
         	}
 		} 
 		else if (IS_OVERDUE(p)) 
 		{
-			//set_tsk_need_resched(p); //todo: should we add this???
+			//set_tsk_need_resched(p);
+			//should run like FIFO realtime so its fine.
 			goto out;
 		}
    	/* HW2 - Henn - end */
@@ -1245,13 +1259,9 @@ void set_user_nice(task_t *p, long nice)
 		dequeue_task(p, array);
 	p->static_prio = NICE_TO_PRIO(nice);
 	p->prio = NICE_TO_PRIO(nice);
-    if (IS_SHORT(p))								/* HW2 Roy */
+    if (IS_OVERDUE(p))								/* HW2 Roy */
     {												/* HW2 Roy */
-        if (IS_OVERDUE(p)) {						/* HW2 Roy */
-            p->prio = 0;							/* HW2 Roy */
-        } else {									/* HW2 Roy */
-            p->prio = effective_prio(p);			/* HW2 Roy todo: should this be effective prio?!*/
-        }											/* HW2 Roy */
+        p->prio = 0;								/* HW2 Roy */
     }												/* HW2 Roy */
 	if (array) {
 		enqueue_task(p, array);
@@ -1424,7 +1434,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
             /*
             * here we make the actual fields set
             */
-            current->need_resched = 1; // todo: varify this, when returning from kernel to userland, we need to resched because we are changing prio
+            current->need_resched = 1;   /* HW2 because p might be more amzing */
             array = p->array;
             if (array)
                 deactivate_task(p, task_rq(p));
