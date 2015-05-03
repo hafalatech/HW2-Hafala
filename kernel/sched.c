@@ -486,13 +486,14 @@ void wake_up_forked_process(task_t * p)
 	{				
 		if(IS_OVERDUE(p))
 		{
-			dequeue_task(p, rq->shorts);
-			enqueue_task(p, rq->overdues);
+			dequeue_task(current, rq->shorts);
+			enqueue_task(current, rq->overdues);
 		}
 		else
 		{
-			dequeue_task(p, rq->shorts); //to maintain RR cause father must release the CPU for son
-			enqueue_task(p, rq->shorts);			
+			// todo - varify this is done on p and not on current?!?!?!
+			dequeue_task(current, rq->shorts); //to maintain RR cause father must release the CPU for son
+			enqueue_task(current, rq->shorts);			
 		}
 	}
 	/* HW2 Roy block end */

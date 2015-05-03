@@ -139,7 +139,7 @@ void testMakeSonShort()
 	 	//up to here it runs fine, maybe the problem is in the test, or in the fork, need to check thoroughly
 	 	//up to here it runs fine, maybe the problem is in the test, or in the fork, need to check thoroughly
 
-		assert(remaining_time(son_id) == (son_expected_time_slice* HZ)/1000)); 
+		assert(remaining_time(son_id) == (son_expected_time_slice* HZ)/1000); 
 		assert(param.number_of_trials == son_expected_number_of_trials);
 
 		wait(&status);
@@ -151,7 +151,7 @@ void testMakeSonShort()
 		assert(sched_getparam(father_id, &param) == 0);//returns the struct of the fathe
 
 		assert(param.requested_time == father_expected_requested_time);
-		assert(remaining_time(father_id) == (father_expected_time_slice* HZ)/1000));
+		assert(remaining_time(father_id) == (father_expected_time_slice* HZ)/1000 );
 		assert(param.number_of_trials == father_expected_number_of_trials);
 
 
