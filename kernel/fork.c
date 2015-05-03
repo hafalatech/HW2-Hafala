@@ -758,6 +758,14 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
         int father_static_prio = current->static_prio;
         int father_requested_time = current->requested_time;
 
+        printk("[HW2 do_fork] - current->time_slice = %d\n",remaining_time);
+        printk("[HW2 do_fork] - current->number_of_trials = %d\n",current->number_of_trials);
+        printk("[HW2 do_fork] - current->trial_num = %d\n",current->trial_num);
+        printk("[HW2 do_fork] - current->policy = %d\n",current->policy);
+        printk("[HW2 do_fork] - current->static_prio = %d\n",current->static_prio);
+        printk("[HW2 do_fork] - current->requested_time = %d\n",current->requested_time);
+
+
 
         p->policy = father_policy;
         p->static_prio = father_static_prio;

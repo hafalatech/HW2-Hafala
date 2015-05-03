@@ -48,7 +48,7 @@ int sys_remaining_time(int pid)	{ /*syscall 244*/
 	int res = -EINVAL;
 	//Returning 0 in case process is OVERDUE or remaining_time if process is SHORT
 	if(target->policy == SCHED_SHORT) {
-		res = target->time_slice;
+		res = (target->time_slice  * 1000 )/ HZ;
 		if(target->is_overdue == 1){
 			res = 0;
 		}
