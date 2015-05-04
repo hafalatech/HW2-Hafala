@@ -1530,7 +1530,7 @@ asmlinkage long sys_sched_getparam(pid_t pid, struct sched_param *param)
 	if (!p)
 		goto out_unlock;
 	lp.sched_priority = p->rt_priority;
-	lp.requested_time = p->requested_time; /* HW2 Roy */
+	lp.requested_time = p->requested_time / HZ * 1000; /* HW2 Roy */
 	lp.number_of_trials = p->number_of_trials; /* HW2 Roy */
 	read_unlock(&tasklist_lock);
 

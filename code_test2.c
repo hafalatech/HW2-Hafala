@@ -82,7 +82,7 @@ void doShortTask()
 void doMediumTask()
 {
 	int j;
-	for(j=0; j< 10000 ; j++)
+	for(j=0; j< 1000 ; j++)
 	{
 		doShortTask();
 	}
