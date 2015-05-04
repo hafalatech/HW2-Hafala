@@ -55,6 +55,7 @@ void print_debug(int pid)
 
         printf("\t\t\t\t--------------------------------------------------------\n");
         printf("\n");
+        free(debug);
         return;
 }
 
@@ -81,7 +82,7 @@ void doShortTask()
 void doMediumTask()
 {
 	int j;
-	for(j=0; j< 100 ; j++)
+	for(j=0; j< 10000 ; j++)
 	{
 		doShortTask();
 	}
@@ -152,7 +153,7 @@ void testSysCalls()
   param.requested_time = expected_requested_time;
   param.number_of_trials = expected_number_of_trials;
   sched_setscheduler(id, SCHED_SHORT, &param);
-  assert(is_SHORT(id) >= 0);
+  assert(is_SHORT(id) >= 0); //0 is overdue 1 is short
   int remaining_time_check = remaining_time(id); 
   int remaining_trials_check = remaining_trials(id);
   doLongTask();
@@ -175,7 +176,6 @@ void testFork()
 	//this test check that the father makes his son short, then the son(already short) fork a grandson,
 	//which should born as short  
     int expected_requested_time = 5000;
-    printf(" pid of father is %d\n", getpid());
     int id = fork();
     int status;
     if (id > 0) {
@@ -198,64 +198,122 @@ void testFork()
 		assert(remaining_time_before_fork == 5000); //before fork should be expected_requested_time
 		assert(sched_getparam(getpid(), &outputParamSon) == 0);    // get the details of the son  
 		assert(outputParamSon.requested_time  ==  MILI_TO_TICKS(expected_requested_time)); //brfore fork
-		printf("inside son before it forked\n");
-    	print_debug(getpid());
 		int son = fork();
 		if (son == 0)
         {
-        	printf("inside grandson after fork\n");
 			//the grandson
-        	print_debug(getpid());
 			int grandson_initial_time = remaining_time(getpid());
 			assert(grandson_initial_time == (expected_requested_time+1)/2);
-			//assert(grandson_initial_time <= expected_requested_time/2);	//TODO - Check Trial_number
-			
+
+			printf("%d before long \n", remaining_time(getpid()));
 			doLongTask();
+			printf("%d after long \n", remaining_time(getpid()));
 			assert(remaining_time(getpid()) < grandson_initial_time);
 			assert(remaining_time(getpid()) > 0);
 			_exit(0);
         }
         else
         {
-        	printf("inside son (father of grandson) after fork\n");
-        	printf("remaining_time: %d \n",remaining_time(getpid()));
 			//the son (father of grandson) after fork
-        	print_debug(getpid());
-			//assert(remaining_time(getpid())/HZ *1000 <= expected_requested_time/2);
+			assert(remaining_time(getpid()) == expected_requested_time/2);
 			wait(&status);
         }
         _exit(0);
     }
 }
 
+void testBecomingOverdueBecauseOfTrials()					
+{
+    int id = fork();
+    int status;
+    if (id > 0) {
+        struct sched_param param;
+        int expected_requested_time = 60;
+        int expected_trials = 2;
+        param.requested_time = expected_requested_time;
+        param.number_of_trials = expected_trials;
+        sched_setscheduler(id, SCHED_SHORT, &param);
+        assert(sched_getscheduler(id) == SCHED_SHORT);
+        assert(sched_getparam(id, &param) == 0);
+        assert(param.number_of_trials == expected_trials);
+        wait(&status);
+        printf("OK\n");
+    } else if (id == 0) {
+        doLongTask();
+        printf(" remaining_trials is %d\n", remaining_trials(getpid()) );
+        _exit(0);
+    }
+}
+
+
+void testBecomingOverdueBecauseOfTime()					
+{											//because we need to check the trial num
+    int id = fork();
+    int status;
+    if (id > 0) {
+        struct sched_param param;
+        int expected_requested_time =5;
+        int expected_trials = 50;
+        param.requested_time = expected_requested_time;
+        param.number_of_trials = expected_trials;
+        sched_setscheduler(id, SCHED_SHORT, &param);
+
+
+        assert(sched_getscheduler(id) == SCHED_SHORT);
+        assert(sched_getparam(id, &param) == 0);
+        assert(param.number_of_trials == expected_trials);
+        wait(&status);
+        printf("OK\n");
+    } else if (id == 0) {
+        int myId = getpid();
+        int i = remaining_time(myId);
+		doMediumTask();
+        printf("masheo katan %d\n", remaining_time(myId) );
+        doLongTask();  
+        printf(" remaining_trials is %d\n", remaining_trials(getpid()) );      
+        printf("masheo katan %d\n", remaining_time(myId) );
+        assert(is_SHORT(myId) == 0 );
+        _exit(0);
+    }
+}
 
 void testBecomingOverdue()					
 {
 	int id = fork();
     int status;
     if (id > 0) {
-            struct sched_param param;
-            int expected_requested_time = 5 ;
-            int expected_trials = 2;
-            param.requested_time = expected_requested_time;
-            param.number_of_trials = expected_trials;
-            sched_setscheduler(id, SCHED_SHORT, &param);
-            print_debug(getpid());
-            //doShortTask();
-            assert(sched_getscheduler(id) == SCHED_SHORT);
-            assert(sched_getparam(id, &param) == 0);
-            assert(param.number_of_trials == expected_trials);
-            wait(&status);
-            printf("OK\n");
+    	//the father
+        struct sched_param param;
+        int expected_requested_time = 8;
+        int expected_trials = 2;
+        param.requested_time = expected_requested_time;
+        param.number_of_trials = expected_trials;
+        sched_setscheduler(id, SCHED_SHORT, &param); //MAKE THE SON SHORT
+        //print_debug(getpid());
+
+
+        assert(sched_getscheduler(id) == SCHED_SHORT);
+        assert(sched_getparam(id, &param) == 0);
+        assert(param.number_of_trials == expected_trials);
+
+        wait(&status);
+        printf("OK\n");
     } else if (id == 0) {
-            int myId = getpid();
-            int i = remaining_time(myId);
-            for (i; i < 2; )
-            {
-                    i = remaining_time(myId);
-                    doShortTask();
-            }
-            _exit(0);
+    	//the son
+    	printf("remaining_time before %d\n", remaining_time(getpid()));
+    	printf("remaining_trials before %d\n", remaining_trials(getpid()));
+
+		assert(is_SHORT(getpid()) == 1); //0 is overdue 1 is short
+		doMediumTask();
+		doMediumTask();
+		doMediumTask();
+		doMediumTask();
+		doMediumTask();
+		printf("remaining_time after%d\n", remaining_time(getpid()));
+		printf("remaining_trials after %d\n", remaining_trials(getpid()));
+        //doLongTask();
+		//assert(is_SHORT(getpid()) == 0); //0 is overdue 1 is short
+        _exit(0);
     }
 }
 
@@ -634,8 +692,15 @@ int main()
 	// printf("Testing new System Calls... ");
 	// testSysCalls();
 
-	printf("Testing fork... ");
-	testFork();
+	// printf("Testing fork... ");
+	// testFork();
+
+	// printf("Testing testBecomingOverdueBecauseOfTrials... ");
+	// testBecomingOverdueBecauseOfTrials();
+
+	printf("Testing testBecomingOverdueBecauseOfTime... ");
+	testBecomingOverdueBecauseOfTime();
+
 
 	// printf("Testing becoming overdue... ");
 	// testBecomingOverdue();

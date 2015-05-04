@@ -300,8 +300,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		/*
 		 * HW2 Roy - This manages Short processes' activate procedure
 		 */
-		array = rq->shorts;
-		if ( IS_OVERDUE(p) ){									/* HW2 Henn */
+		if (p->is_overdue == 1){									/* HW2 Henn */
 			/*overdues*/
 			p->prio = 0;
 			array = rq->overdues;								/* HW2 Henn */
@@ -309,6 +308,7 @@ static inline void activate_task(task_t *p, runqueue_t *rq)
 		else 
 		{      	// short process
 			p->prio = p->static_prio; 							/* HW2 Roy */
+			array = rq->shorts;									/* HW2 Roy */
 		}
 	}
 	enqueue_task(p, array);
@@ -480,7 +480,6 @@ void wake_up_forked_process(task_t * p)
 {
 	runqueue_t *rq = this_rq_lock();
 
-
 	/* HW2 Roy block start */
 	if(IS_SHORT(current)) 
 	{				
@@ -500,7 +499,7 @@ void wake_up_forked_process(task_t * p)
 	/* HW2 Roy block end */
 
 	p->state = TASK_RUNNING;
-	if (!rt_task(p)) {
+	if (!rt_task(p)) { /*HW2 Roy rt_task already checks !IS_SHORT */
 		/*
 		 * We decrease the sleep average of forking parents
 		 * and children as well, to keep max-interactive tasks
@@ -819,20 +818,6 @@ static inline void idle_tick(void)
 			STARVATION_LIMIT * ((rq)->nr_running) + 1))
 
 
-/* HW2 */
-void make_short_an_overdue(task_t *p){
-	runqueue_t *rq = this_rq(); // the runqueue of the current cpu
-	dequeue_task(p, rq->shorts);
-	p->is_overdue = 1;
-	p->prio = 0; // all overdues must have the same prio , 0 .
-	p->time_slice = 0; // again, this doesnt matter
-	printk("[HW2 make_short_an_overdue]\n");
-	printk("[HW2 make_short_an_overdue]\n");
-	printk("[HW2 make_short_an_overdue] - Trying to make pid=%d an OVERDUE\n",p->pid);
-	enqueue_task(p, rq->overdues); /*overdues*/	
-}
-
-
 
 /*
  * This function gets called by the timer code, with HZ frequency.
@@ -859,7 +844,7 @@ void scheduler_tick(int user_tick, int system)
 	kstat.per_cpu_system[cpu] += system;
 
 	/* Task might have expired already, but not scheduled off yet */
-	if ((p->array != rq->active) && (!IS_SHORT(p))) {
+	if ((p->array != rq->active) && (!IS_SHORT(p))) { /* HW2 Roy */
 		set_tsk_need_resched(p);
 		last_reason = The_time_slice_of_the_previous_task_has_ended; /* HW2 Roy */
 		return;
@@ -896,62 +881,43 @@ void scheduler_tick(int user_tick, int system)
 
 
    	/* HW2 - Henn - start */
-    if (IS_SHORT(p)) 
-    {
-    	//todo need to remove and add to the end of the line cause RR
-
-
+    if (IS_SHORT(p) && !IS_OVERDUE(p)) {
     	// update fields
 		(p->time_slice)--;
         if (p->time_slice == 0) {     	                   
         	(p->trial_num)++;	//finished current timeslice so increment its trialNum  
         }
-
         // handle SHORT processes
         if (!IS_OVERDUE(p) && (p->time_slice == 0)) 
-        { 
-        	if(p->trial_num > p->number_of_trials)
-        	{
-        		// this process was a SHORT but reached its limit
-        		make_short_an_overdue(p);
-        		set_tsk_need_resched(p);  /* HW2 Roy */
+        {
+        	//int next_time_slice = (p->requested_time)/(p->trial_num);
+            dequeue_task(p, rq->shorts);
+        	set_tsk_need_resched(p);
+        	if(p->trial_num > p->number_of_trials) {
+				p->is_overdue = 1;
+				p->prio = 0;
+				p->time_slice = 0;
+				enqueue_task(p, rq->overdues);        		
 				last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
-        		goto out;
-        	} 
-        	else 
-        	{
-        		//calculate new time_slice
+        	} else {
 				p->time_slice = (p->requested_time)/(p->trial_num);
-				if(p->time_slice == 0)
-				{
-					// next time_slice is 0 so make it an overdue
-					make_short_an_overdue(p);
-        			set_tsk_need_resched(p); /* HW2 Roy */
+				if(p->time_slice == 0) {
+					p->is_overdue = 1;
+					p->prio = 0;
+					p->time_slice = 0;
+					enqueue_task(p, rq->overdues);  
 					last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
-					goto out;
-				} 
-				else 
-				{
-					//here is a short process that its time_slice has ended
-					//but we calculated a new time_slice for it and its > 0
-					//so this SHORT should go to the end of the line (RR)
-					dequeue_task(p, rq->shorts);
-					set_tsk_need_resched(p);
+				} else {
 					enqueue_task(p, rq->shorts);
-					goto out;
+					last_reason = The_time_slice_of_the_previous_task_has_ended; /* HW2 Roy */
 				}
         	}
-		} 
-		else if (IS_OVERDUE(p)) 
-		{
-			//set_tsk_need_resched(p);
-			//should run like FIFO realtime so its fine.
-			goto out;
 		}
    	/* HW2 - Henn - end */
 
 	} else if (!--p->time_slice) {
 		dequeue_task(p, rq->active);
+		last_reason = The_time_slice_of_the_previous_task_has_ended; /* HW2 Roy*/
 		set_tsk_need_resched(p);
 		p->prio = effective_prio(p);
 		p->first_time_slice = 0;
@@ -961,8 +927,9 @@ void scheduler_tick(int user_tick, int system)
 			if (!rq->expired_timestamp)
 				rq->expired_timestamp = jiffies;
 			enqueue_task(p, rq->expired);
-		} else
+		} else {
 			enqueue_task(p, rq->active);
+		}
 	}
 out:
 #if CONFIG_SMP
@@ -1036,9 +1003,7 @@ pick_next_task:
 			array = rq->active;
 			rq->expired_timestamp = 0;
 		}
-
-		idx = sched_find_first_bit(array->bitmap);
-
+		idx = sched_find_first_bit(array->bitmap); //must find someone cause someone exists
         if (idx < MAX_RT_PRIO) {           						/* HW2 Henn */    
             process_type = REAL_TIME_PROCESS; 					/* HW2 Henn */
         } else {												/* HW2 Henn */
@@ -1052,11 +1017,7 @@ pick_next_task:
         idx = sched_find_first_bit(array->bitmap);				/* HW2 Henn */
 
         if (unlikely(!array->nr_active)) {						/* HW2 Henn */
-    		//next =list_entry(&rq->overdues, task_t, run_list);  /* HW2 Roy test */
-            //next = &rq->overdues;								/* HW2 Henn */
-            //goto switch_tasks;									/* HW2 Henn */
-
-            array = rq->overdues;									/* HW2 Henn overdues */
+            array = rq->overdues;								/* HW2 Henn overdues */
             idx = sched_find_first_bit(array->bitmap);			/* HW2 Henn */
         }
     } else if (process_type == SCHED_OTHER_PROCESS) {			/* HW2 Henn */
@@ -1955,7 +1916,7 @@ void __init sched_init(void)
 		spin_lock_init(&rq->lock);
 		INIT_LIST_HEAD(&rq->migration_queue);
 
-		for (j = 0; j < 3; j++) {						// HW2 - Henn
+		for (j = 0; j < 4; j++) {						// HW2 - Henn
 			array = rq->arrays + j;
 			for (k = 0; k < MAX_PRIO; k++) {
 				INIT_LIST_HEAD(array->queue + k);

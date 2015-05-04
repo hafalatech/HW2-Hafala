@@ -747,13 +747,13 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
     /* HW2 - Henn block start */
     if (IS_SHORT(current))
     {
+        unsigned long flags;
+        local_irq_save(flags);
     	printk("[HW2 do_fork] - Father pid = %d, son pid = %d\n",current->pid, p->pid);
     	if(!IS_OVERDUE(current))
     	{
 			printk("[HW2 do_fork] - SHORT process is forking a SHORT son\n");
         }
-        unsigned long flags;
-        local_irq_save(flags);
         int remaining_time = current->time_slice;
         int remaining_trials = current->number_of_trials - current->trial_num;
         int father_policy = current->policy;
@@ -811,8 +811,8 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
         printk("[HW2 do_fork] - father requested_time = %d\n",current->requested_time);
         printk("[HW2 do_fork] - father trial_num = %d\n",current->trial_num);
 
-        local_irq_restore(flags);
 		last_reason = A_task_was_created; /*HW2- Henn*/
+        local_irq_restore(flags);
 	}
     /* HW2 - Henn block end */
 
