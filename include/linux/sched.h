@@ -176,6 +176,7 @@ struct debug_struct
     int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
     int trial_num;
 	int is_overdue;
+	int time_slice;
 };
 
 

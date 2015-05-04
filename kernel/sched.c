@@ -482,17 +482,18 @@ void wake_up_forked_process(task_t * p)
 
 
 	/* HW2 Roy block start */
-	if(IS_SHORT(p)) 
+	if(IS_SHORT(current)) 
 	{				
-		if(IS_OVERDUE(p))
+		if(IS_OVERDUE(current) && current->array == rq->shorts)
 		{
 			dequeue_task(current, rq->shorts);
+			current->prio = 0;
 			enqueue_task(current, rq->overdues);
 		}
 		else
 		{
-			// todo - varify this is done on p and not on current?!?!?!
-			dequeue_task(current, rq->shorts); //to maintain RR cause father must release the CPU for son
+			//to maintain RR cause father must release the CPU for son
+			dequeue_task(current, rq->shorts); 
 			enqueue_task(current, rq->shorts);			
 		}
 	}
@@ -1463,7 +1464,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
         p->number_of_trials = lp.number_of_trials;
         p->trial_num = 1;
         p->is_overdue = 0;
-        p->time_slice = p->requested_time; //in ticks
+        p->time_slice = (lp.requested_time * HZ)/1000;// Converting requested time to ticks)
         p->prio = p->static_prio;
 
         printk("[HW2 setscheduler] - requested_time = %d\n",p->requested_time); 
@@ -2290,6 +2291,7 @@ int sys_hw2_debug(int pid, struct debug_struct* debug) {	  /*syscall 247*/
 	  debug_to_copy.number_of_trials = p->number_of_trials;
 	  debug_to_copy.trial_num = p->trial_num;
 	  debug_to_copy.is_overdue = p->is_overdue;
+	  debug_to_copy.time_slice = p->time_slice;
 	  
 	  if (copy_to_user(debug, &debug_to_copy, sizeof(struct debug_struct))) {
         return -EFAULT;

@@ -2,7 +2,7 @@
 extern int errno;
 extern struct debug_struct;
 
-
+#define HZ 512
 #define SCHED_SHORT    4               /* HW2 - Roy for sched_tester.c*/
 
 struct switch_info {                            /*HW2-Roy*/
@@ -22,6 +22,7 @@ struct debug_struct
     int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
     int trial_num;
 	int is_overdue;
+    int time_slice;
 };
 
 struct sched_param {

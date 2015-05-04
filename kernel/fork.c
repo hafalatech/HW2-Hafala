@@ -727,6 +727,7 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
 	__cli();
 	if (!current->time_slice)
 		BUG();
+
 	p->time_slice = (current->time_slice + 1) >> 1;
 	p->first_time_slice = 1;
 	current->time_slice >>= 1;
@@ -746,6 +747,7 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
     /* HW2 - Henn block start */
     if (IS_SHORT(current))
     {
+    	printk("[HW2 do_fork] - Father pid = %d, son pid = %d\n",current->pid, p->pid);
     	if(!IS_OVERDUE(current))
     	{
 			printk("[HW2 do_fork] - SHORT process is forking a SHORT son\n");
@@ -770,14 +772,14 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
         p->policy = father_policy;
         p->static_prio = father_static_prio;
         p->number_of_trials = ( remaining_trials +1 ) / 2;
-        p->time_slice = ( remaining_time + 1 ) / 2;
+        //p->time_slice = ( remaining_time + 1 ) / 2; already done by fork "p->time_slice = (current->time_slice + 1) >> 1;"
         p->requested_time = father_requested_time;
         p->trial_num = 1;
         p->is_overdue = 0;   
 
 
         current->number_of_trials = ( remaining_trials ) / 2;
-        current->time_slice = ( remaining_time ) / 2;
+        //current->time_slice = ( remaining_time ) / 2; already done by fork "current->time_slice >>= 1;"
 
         if (IS_OVERDUE(current))
         {
