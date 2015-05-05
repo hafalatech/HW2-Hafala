@@ -755,14 +755,14 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
 			printk("[HW2 do_fork] - SHORT process is forking a SHORT son\n");
         }
         int remaining_time = current->time_slice;
-        int remaining_trials = current->number_of_trials - current->trial_num;
+        int remaining_trials = current->trial_num - current->trial_num_counter;
         int father_policy = current->policy;
         int father_static_prio = current->static_prio;
         int father_requested_time = current->requested_time;
 
         printk("[HW2 do_fork] - current->time_slice = %d\n",remaining_time);
-        printk("[HW2 do_fork] - current->number_of_trials = %d\n",current->number_of_trials);
         printk("[HW2 do_fork] - current->trial_num = %d\n",current->trial_num);
+        printk("[HW2 do_fork] - current->trial_num_counter = %d\n",current->trial_num_counter);
         printk("[HW2 do_fork] - current->policy = %d\n",current->policy);
         printk("[HW2 do_fork] - current->static_prio = %d\n",current->static_prio);
         printk("[HW2 do_fork] - current->requested_time = %d\n",current->requested_time);
@@ -771,14 +771,14 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
 
         p->policy = father_policy;
         p->static_prio = father_static_prio;
-        p->number_of_trials = ( remaining_trials +1 ) / 2;
+        p->trial_num = ( remaining_trials +1 ) / 2;
         //p->time_slice = ( remaining_time + 1 ) / 2; already done by fork "p->time_slice = (current->time_slice + 1) >> 1;"
         p->requested_time = father_requested_time;
-        p->trial_num = 1;
+        p->trial_num_counter = 1;
         p->is_overdue = 0;   
 
 
-        current->number_of_trials = ( remaining_trials ) / 2;
+        current->trial_num = ( remaining_trials ) / 2;
         //current->time_slice = ( remaining_time ) / 2; already done by fork "current->time_slice >>= 1;"
 
         if (IS_OVERDUE(current))
@@ -789,27 +789,27 @@ int do_fork(unsigned long clone_flags, unsigned long stack_start,
     		p->time_slice = 0;
             p->prio = 0;
         }
-        printk("[HW2 do_fork] - son number_of_trials = %d\n",p->number_of_trials);
+        printk("[HW2 do_fork] - son trial_num = %d\n",p->trial_num);
         printk("[HW2 do_fork] - son time_slice = %d\n",p->time_slice);
         printk("[HW2 do_fork] - son requested_time = %d\n",p->requested_time);
-        printk("[HW2 do_fork] - son trial_num = %d\n",p->trial_num);
+        printk("[HW2 do_fork] - son trial_num_counter = %d\n",p->trial_num_counter);
 
         /*A SHORT-process that used all of its trials or that his
          *next time slice equals to 0 and didn’t finish will be 
          *considered an Overdue-SHORT-process.*/
-        if (current->number_of_trials==0 || current->time_slice==0)
+        if (current->trial_num==0 || current->time_slice==0)
         {
-        	printk("[HW2 do_fork] - FATHER Became OVERDUE cause number_of_trials==0 || time_slice==0 \n");
-        	//father became an overdue after cutting in half the number_of_trials and time_slice
+        	printk("[HW2 do_fork] - FATHER Became OVERDUE cause trial_num==0 || time_slice==0 \n");
+        	//father became an overdue after cutting in half the trial_num and time_slice
     		current->is_overdue = 1;
     		current->time_slice = 0;
             current->prio = 0;
         }
 
-        printk("[HW2 do_fork] - father number_of_trials = %d\n",current->number_of_trials);
+        printk("[HW2 do_fork] - father trial_num = %d\n",current->trial_num);
         printk("[HW2 do_fork] - father time_slice = %d\n",current->time_slice);
         printk("[HW2 do_fork] - father requested_time = %d\n",current->requested_time);
-        printk("[HW2 do_fork] - father trial_num = %d\n",current->trial_num);
+        printk("[HW2 do_fork] - father trial_num_counter = %d\n",current->trial_num_counter);
 
 		last_reason = A_task_was_created; /*HW2- Henn*/
         local_irq_restore(flags);

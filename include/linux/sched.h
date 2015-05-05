@@ -124,7 +124,7 @@ extern unsigned long nr_uninterruptible(void);
 struct sched_param {
 	int sched_priority;
 	int requested_time;					/* HW2 Roy: Range: 1-5000 in miliseconds */
-	int number_of_trials;				/* HW2 Roy: Range: 1-50 original number of trials */
+	int trial_num;				/* HW2 Roy: Range: 1-50 original number of trials */
 };
 
 /*HW2-Roy start*/
@@ -173,8 +173,8 @@ struct debug_struct
     int priority;
 	int policy;
     int requested_time;                 /* HW2 Roy: Range: 1-5000 in miliseconds */
-    int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
-    int trial_num;
+    int trial_num;               /* HW2 Roy: Range: 1-50 original number of trials */
+    int trial_num_counter;
 	int is_overdue;
 	int time_slice;
 };
@@ -524,8 +524,8 @@ struct task_struct {
 	void *journal_info;
 
 	int requested_time;					/* HW2 in miliseconds */
-	int trial_num;						/* HW2 current trial */
-	int number_of_trials;				/* HW2 original number of trials */
+	int trial_num_counter;						/* HW2 current trial */
+	int trial_num;				/* HW2 original number of trials */
 	int is_overdue;						/* HW2 */
 };
 
@@ -633,8 +633,8 @@ extern struct exec_domain	default_exec_domain;
     alloc_lock:		SPIN_LOCK_UNLOCKED,				\
     journal_info:	NULL,						\
 	requested_time:		0,						/* HW2 */	\
-	trial_num:			1,						/* HW2 current trial */	\
-	number_of_trials:	0,						/* HW2 original number of trials */	\
+	trial_num_counter:			1,						/* HW2 current trial */	\
+	trial_num:	0,						/* HW2 original number of trials */	\
 	is_overdue:			0,						/* HW2 */	\
 }
 

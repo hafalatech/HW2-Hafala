@@ -19,8 +19,8 @@ struct debug_struct
     int priority;
 	int policy;
     int requested_time;                 /* HW2 Roy: Range: 1-5000 in miliseconds */
-    int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
-    int trial_num;
+    int trial_num;               /* HW2 Roy: Range: 1-50 original number of trials */
+    int trial_num_counter;
 	int is_overdue;
     int time_slice;
 };
@@ -28,7 +28,7 @@ struct debug_struct
 struct sched_param {
     int sched_priority;
     int requested_time;                 /* HW2 Roy: Range: 1-5000 in miliseconds */
-    int number_of_trials;               /* HW2 Roy: Range: 1-50 original number of trials */
+    int trial_num;               /* HW2 Roy: Range: 1-50 original number of trials */
 };
 
 int is_SHORT(int pid)				/*243*/

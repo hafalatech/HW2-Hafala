@@ -888,22 +888,22 @@ void scheduler_tick(int user_tick, int system)
     	// update fields
 		(p->time_slice)--;
         if (p->time_slice == 0) {     	                   
-        	(p->trial_num)++;	//finished current timeslice so increment its trialNum  
+        	(p->trial_num_counter)++;	//finished current timeslice so increment its trialNum  
         }
         // handle SHORT processes
         if (!IS_OVERDUE(p) && (p->time_slice == 0)) 
         {
-        	//int next_time_slice = (p->requested_time)/(p->trial_num);
+        	//int next_time_slice = (p->requested_time)/(p->trial_num_counter);
             dequeue_task(p, rq->shorts);
         	set_tsk_need_resched(p);
-        	if(p->trial_num > p->number_of_trials) {
+        	if(p->trial_num_counter > p->trial_num) {
 				p->is_overdue = 1;
 				p->prio = 0;
 				p->time_slice = 0;
 				enqueue_task(p, rq->overdues);        		
 				last_reason = A_SHORT_process_became_overdue; /* HW2 Roy */
         	} else {
-				p->time_slice = (p->requested_time)/(p->trial_num);
+				p->time_slice = (p->requested_time)/(p->trial_num_counter);
 				if(p->time_slice == 0) {
 					p->is_overdue = 1;
 					p->prio = 0;
@@ -1399,7 +1399,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 
     	if(changeShortCameFromSetParam) // try to do set_param on a SHORT process, so only change requested_time
     	{
-    		if(lp.requested_time < p->requested_time && lp.number_of_trials == p->number_of_trials) // todo check this if
+    		if(lp.requested_time < p->requested_time && lp.trial_num == p->trial_num) // todo check this if
     		{
     			p->requested_time = lp.requested_time;
     			retval = 0;
@@ -1430,9 +1430,9 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
         	printk("[HW2 setscheduler] - requested_time value invalid, got %d\n" , lp.requested_time);
             goto out_unlock;
         }
-        if ((lp.number_of_trials < 1) || (lp.number_of_trials > 50))
+        if ((lp.trial_num < 1) || (lp.trial_num > 50))
         {
-        	printk("[HW2 setscheduler] - number_of_trials value invalid got %d\n" , lp.number_of_trials);
+        	printk("[HW2 setscheduler] - trial_num value invalid got %d\n" , lp.trial_num);
             goto out_unlock;
         }
         printk("[HW2 setscheduler] - Passed all validations\n");  
@@ -1446,14 +1446,14 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 
         /*  i.e.  (10 * HZ / 1000) is equals to 10 msec */
         p->requested_time = (lp.requested_time * HZ)/1000;// Converting requested time to ticks
-        p->number_of_trials = lp.number_of_trials;
-        p->trial_num = 1;
+        p->trial_num = lp.trial_num;
+        p->trial_num_counter = 1;
         p->is_overdue = 0;
         p->time_slice = (lp.requested_time * HZ)/1000;// Converting requested time to ticks)
         p->prio = p->static_prio;
 
         printk("[HW2 setscheduler] - requested_time = %d\n",p->requested_time); 
-        printk("[HW2 setscheduler] - number_of_trials = %d\n",p->number_of_trials); 
+        printk("[HW2 setscheduler] - trial_num = %d\n",p->trial_num); 
         printk("[HW2 setscheduler] - time_slice = %d\n",p->time_slice);
 
         p->policy = policy;
@@ -1555,7 +1555,7 @@ asmlinkage long sys_sched_getparam(pid_t pid, struct sched_param *param)
 		goto out_unlock;
 	lp.sched_priority = p->rt_priority;
 	lp.requested_time = p->requested_time / HZ * 1000; /* HW2 Roy */
-	lp.number_of_trials = p->number_of_trials; /* HW2 Roy */
+	lp.trial_num = p->trial_num; /* HW2 Roy */
 	read_unlock(&tasklist_lock);
 
 	/*
@@ -2273,8 +2273,8 @@ int sys_hw2_debug(int pid, struct debug_struct* debug) {	  /*syscall 247*/
 	  debug_to_copy.priority = p->prio;
 	  debug_to_copy.policy = p->policy;
 	  debug_to_copy.requested_time = p->requested_time;
-	  debug_to_copy.number_of_trials = p->number_of_trials;
 	  debug_to_copy.trial_num = p->trial_num;
+	  debug_to_copy.trial_num_counter = p->trial_num_counter;
 	  debug_to_copy.is_overdue = p->is_overdue;
 	  debug_to_copy.time_slice = p->time_slice;
 	  
