@@ -483,11 +483,14 @@ void wake_up_forked_process(task_t * p)
 	/* HW2 Roy block start */
 	if(IS_SHORT(current)) 
 	{				
-		if(IS_OVERDUE(current) && current->array == rq->shorts)
+		if(IS_OVERDUE(current))
 		{
-			dequeue_task(current, rq->shorts);
-			current->prio = 0;
-			enqueue_task(current, rq->overdues);
+			if (current->array == rq->shorts) //father was short, and became overdue because of fork
+			{
+				dequeue_task(current, rq->shorts);
+				current->prio = 0;
+				enqueue_task(current, rq->overdues);
+			}
 		}
 		else
 		{
@@ -1356,14 +1359,24 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
     /*
      * This prevents a SHORT process from changing it's policy
      */
-    if (p->policy == SCHED_SHORT) {				/* HW2 - Henn */
-        retval = -EPERM;
-        goto out_unlock;
+ 	int changeShortCameFromSetParam = 0; 			/*  HW2 Roy flag */
+    if (p->policy == SCHED_SHORT) {				/*  HW2 Roy */
+        if(policy != -1)	/*  HW2 Roy did NOT came from set_param */
+        {
+	        retval = -EPERM;
+	        goto out_unlock;
+        }
+        else
+        {
+        	changeShortCameFromSetParam = 1;
+        }
     }
 
 
+
+
 	if (policy < 0)
-		policy = p->policy;
+		policy = p->policy;	
 	else {
 		retval = -EINVAL;
 		if (policy != SCHED_FIFO && policy != SCHED_RR && policy != SCHED_OTHER
@@ -1382,7 +1395,18 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
     /*
      * If the chosen policy is Short, this verifies parameters and updates the process accordingly
      */
-    if (policy == SCHED_SHORT) {    
+    if (policy == SCHED_SHORT) {
+
+    	if(changeShortCameFromSetParam) // try to do set_param on a SHORT process, so only change requested_time
+    	{
+    		if(lp.requested_time < p->requested_time && lp.number_of_trials == p->number_of_trials) // todo check this if
+    		{
+    			p->requested_time = lp.requested_time;
+    			retval = 0;
+    		}
+    		goto out_unlock;
+    	}
+
     	printk("[HW2 setscheduler]\n"); 
     	printk("[HW2 setscheduler]\n"); 
     	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
