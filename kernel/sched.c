@@ -156,6 +156,20 @@ struct runqueue {
 
 Reason_Of_Switching last_reason;	/* HW2 Roy */
 
+/*HW2-Roy*/
+void create_new_monitor_entry(struct switch_info *info_struct, int prevPid, int nextPid, int prevPolicy,int nextPolicy,unsigned long Time, int Reason)
+{
+    info_struct->previous_pid = prevPid;
+    info_struct->next_pid = nextPid;
+    info_struct->previous_policy = prevPolicy;
+    info_struct->next_policy = nextPolicy;
+    info_struct->time = Time;
+    info_struct->reason = Reason;
+} 
+/*HW2-Roy*/
+
+
+
 
 static struct runqueue runqueues[NR_CPUS] __cacheline_aligned;
 
@@ -1042,12 +1056,12 @@ switch_tasks:
 	if (likely(prev != next)) {
 		if(rq->left_to_save > 0)
 		{
-			struct switch_info* new_entry = &(rq->monitor_array[rq->monitor_index]);									/* HW2 Roy */
-			rq->monitor_index = (rq->monitor_index + 1) % 150; 															/* HW2 Roy */
+			struct switch_info* new_entry = &(rq->monitor_array[rq->monitor_index]);									/* HW2 Roy */ 															/* HW2 Roy */
 			(rq->left_to_save)--;																						/* HW2 Roy */
 			(rq->monitor_counter)++;																					/* HW2 Roy */
 			unsigned long time= jiffies;																				/* HW2 Roy */													
-			CREATE_NEW_MONITOR_ENTRY(new_entry, prev->pid, next->pid, prev->policy, next->policy, time, last_reason); 	/* HW2 Roy */
+			create_new_monitor_entry(new_entry, prev->pid, next->pid, prev->policy, next->policy, time, last_reason); 	/* HW2 Roy */
+			rq->monitor_index = (rq->monitor_index + 1) % MONITOR_MAX_SIZE;
 		}
 		rq->nr_switches++;
 		rq->curr = next;
@@ -1254,7 +1268,10 @@ void set_user_nice(task_t *p, long nice)
 		 * or increased its priority then reschedule its CPU:
 		 */
 		if ((NICE_TO_PRIO(nice) < p->static_prio) || (p == rq->curr))
+		{
+			last_reason = A_task_with_higher_priority_returns_from_waiting; /* HW2 Roy */
 			resched_task(rq->curr);
+		}
 	}
 out_unlock:
 	task_rq_unlock(rq, &flags);
@@ -1406,10 +1423,6 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
     		}
     		goto out_unlock;
     	}
-
-    	printk("[HW2 setscheduler]\n"); 
-    	printk("[HW2 setscheduler]\n"); 
-    	printk("[HW2 setscheduler] - Trying to make pid=%d a SCHED_SHORT\n",pid);
 		/*
 		*	Make sure that the user can change the policy for all his processes, 
 			and root can change the policy for all processes in the system , 
@@ -1418,7 +1431,6 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 		*/   
         if ((p->uid != current->uid) && (current->uid != 0)) 
         { 
-        	printk("[HW2 setscheduler] - no autorities to change , invalid\n");
             retval = -EPERM;
             goto out_unlock;
         }
@@ -1427,19 +1439,17 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
         */
         if ((lp.requested_time < 1) || (lp.requested_time > 5000))
         {
-        	printk("[HW2 setscheduler] - requested_time value invalid, got %d\n" , lp.requested_time);
             goto out_unlock;
         }
         if ((lp.trial_num < 1) || (lp.trial_num > 50))
         {
-        	printk("[HW2 setscheduler] - trial_num value invalid got %d\n" , lp.trial_num);
             goto out_unlock;
         }
-        printk("[HW2 setscheduler] - Passed all validations\n");  
         /*
         * here we make the actual fields set
         */
         current->need_resched = 1;   /* HW2 because p might be more amzing */
+        last_reason = A_task_with_higher_priority_returns_from_waiting;
         array = p->array;
         if (array)
             deactivate_task(p, task_rq(p));
@@ -1451,14 +1461,8 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
         p->is_overdue = 0;
         p->time_slice = (lp.requested_time * HZ)/1000;// Converting requested time to ticks)
         p->prio = p->static_prio;
-
-        printk("[HW2 setscheduler] - requested_time = %d\n",p->requested_time); 
-        printk("[HW2 setscheduler] - trial_num = %d\n",p->trial_num); 
-        printk("[HW2 setscheduler] - time_slice = %d\n",p->time_slice);
-
         p->policy = policy;
         if (p->time_slice == 0) {
-        	printk("[HW2 setscheduler] - pid=%d time_slice is 0 so making it overdue\n", p->pid);
             /*
              * Even though the requested_time is POSITIVE, it might be less than 1 tick,
              * therefore we set the process to overdue from the start
@@ -1954,6 +1958,15 @@ void __init sched_init(void)
 		rq->monitor_counter = 0;						// HW2 - Henn
 		rq->left_to_save = MONITOR_THRESHOLD;			// HW2 - Henn
 		last_reason = Default;							// HW2 - Henn
+        for (j = 0; j < MONITOR_MAX_SIZE; j++)
+        {
+                rq->monitor_array[j].previous_pid=0;
+                rq->monitor_array[j].next_pid=0;
+                rq->monitor_array[j].previous_policy=0;
+                rq->monitor_array[j].next_policy=0;
+                rq->monitor_array[j].time=0;
+                rq->monitor_array[j].reason=0;
+        }
 	}
 	/*
 	 * We have to do a little magic to get the first
@@ -2236,19 +2249,19 @@ int sys_get_scheduling_statistic(struct switch_info * tasks_info) {	/*syscall 24
 		return -EINVAL;
     }
 
-    local_irq_save(flags);
+    local_irq_save(flags); //Disables interrups to prevent contaminate current monitor data.
     
 	if(result >= MONITOR_MAX_SIZE) { 
 		result = MONITOR_MAX_SIZE;
 	}		
 
 
-	for (i = index; i >= 0; i--) {
+	for (i = index-1; i >= 0; i--) {
 		COPY_STRUCT(monitor_copy[j], (rq->monitor_array)[i]);
 		j++;
 	}
 	
-	for (i = index+1; i < MONITOR_MAX_SIZE; i++) {
+	for (i = result-1 ; i >= index; i--) {
 		COPY_STRUCT(monitor_copy[j], (rq->monitor_array)[i]);
 		j++;
 	}

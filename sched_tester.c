@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 const char* policies[] =
 {
         "SCHED_OTHER", //0
@@ -15,13 +16,13 @@ const char* policies[] =
 const char* reasons[] =
 {
         "Default",
-        "A task was created",
-        "A task ended",
-        "A task yields the CPU",
-        "An LSHORT process became overdue",
-        "A previous task goes out for waiting",
-        "A task with higher priority returns from waiting",
-        "The time slice of the previous task has ended"
+        "A task was created",                                                                     
+        "A task ended",                                                                           
+        "A task yields the CPU",                                                          
+        "A SHORT process became overdue",                                       
+        "A previous task goes out for waiting",                            
+        "A task with higher priority returns from waiting",       
+        "The time slice of the previous task has ended",
 };
 
 int fibonaci(int n)
@@ -33,53 +34,9 @@ int fibonaci(int n)
         return fibonaci(n-1) + fibonaci(n-2);
 }
 
-void print_debug(int pid)
-{
-        int res_debug;
-        struct debug_struct* debug = malloc(sizeof( struct debug_struct));
-        res_debug = hw2_debug(pid, debug);
-        if(res_debug != 0){
-                printf("print_debug failed\n");
-                return;
-        }
-        
-        char* policy_string;
-        if (debug->policy != 4)
-        {
-                policy_string = policies[debug->policy];
-        }
-        else
-        {
-                if(debug->is_overdue == 0)
-                {
-                        policy_string = policies[4];
-                }
-                else
-                {
-                        policy_string = policies[5];
-                }
-        }
-
-        printf("------------------DEBUG FOR PID=%d------------------\n",pid);
-        
-
-        printf("|Priority\t|Policy\t\t|requested_time\t|number_of_trials\t|trial_num\t\n");
-        printf("|%d\t\t|%s\t|", debug->priority, policy_string);
-        printf("%d\t\t|%d\t\t\t|", debug->requested_time, debug->trial_num);
-        printf("%d\t\t", debug->trial_num);
-        printf("\n");
-
-
-        printf("--------------------------------------------------------\n");
-        printf("\n");
-        return;
-}
-
-
-
-
 int main(int argc, char *argv[])
 {
+        int MONITOR_MAX_SIZE = 150;
         char *endptr;
         int status;
         int number_of_trials;
@@ -116,15 +73,13 @@ int main(int argc, char *argv[])
                                 struct sched_param param;
                                 param.trial_num = number_of_trials;
                                 param.requested_time = requested_time_array[j];
-                                
-                                print_debug(pid);                        
-                                int res = sched_setscheduler(pid, SCHED_SHORT, &param);
-                                print_debug(pid);
+                                                       
+                                int res = sched_setscheduler(pid, SCHED_SHORT, &param); //make my son short
                                 if (res != 0) {
-                                        printf("sched_setscheduler FAILED , got %d\n",res);
+                                        printf("Invalid input, number_of_trials %d is not between [1-50]\n",number_of_trials);
                                 }                                                                                
                         }
-                        else {
+                        else if (pid ==0) {
                                 sched_yield();
                                 fibonaci(num);
                                 _exit(0);
@@ -132,9 +87,9 @@ int main(int argc, char *argv[])
                 }
 
                 while (wait(&status) != -1);            // Wait for all sons to finish
-                struct switch_info monitor[150];         //declare the monitor array
+                struct switch_info monitor[MONITOR_MAX_SIZE];         //declare the monitor array
 
-                for (i=0 ; i<150 ; i++) {                //reset monitor array values
+                for (i=0 ; i<MONITOR_MAX_SIZE ; i++) {                //reset monitor array values
                         monitor[i].time=0;
                         monitor[i].previous_pid=0;
                         monitor[i].previous_policy=0;
@@ -144,13 +99,15 @@ int main(int argc, char *argv[])
                 }
                 
                 int result = get_scheduling_statistic(monitor);
-                if (result > 150)
-                        result = 150;
-                printf("                Got monitor result = %d\n",result );
+
+                if (result > MONITOR_MAX_SIZE)
+                        result = MONITOR_MAX_SIZE;
+                printf("\n"); 
+                printf("Got %d entries\n",result );
                 printf("\n"); 
                 // Print the output
                 printf("|Time\t|Prev\t|PreviousPolicy\t|Next\t|Next Policy\t|Reason\n");
-                for (i=0; i < result; i++)
+                for (i= result - 1 ; i >=0 ; i--)
                 {
                         printf("%lu\t|%d\t|", monitor[i].time, monitor[i].previous_pid);
                         printf("%s", policies[monitor[i].previous_policy]);
@@ -162,7 +119,7 @@ int main(int argc, char *argv[])
                 }
                 printf("\n");
                 printf("*************************************************\n");
-                printf("Finished Test\n");
+                printf("Finished Test with requested_time = %d\n",requested_time_array[j]);
                 printf("*************************************************\n");
                 printf("\n");
                 printf("\n");

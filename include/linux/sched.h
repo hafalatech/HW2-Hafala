@@ -181,17 +181,6 @@ struct debug_struct
 
 
 
-/*HW2-Roy*/
-#define CREATE_NEW_MONITOR_ENTRY(info_struct,prevPid,nextPid,prevPolicy,nextPolicy,Time,Reason)\
-{\
-        info_struct->previous_pid = prevPid;\
-        info_struct->next_pid = nextPid;\
-        info_struct->previous_policy = prevPolicy;\
-        info_struct-> next_policy = nextPolicy;\
-        info_struct->  time = Time;\
-        info_struct-> reason = Reason;\
-} 
-/*HW2-Roy*/
 
 
 

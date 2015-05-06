@@ -20,10 +20,10 @@ int sys_is_SHORT(int pid) {    			/*syscall 243*/
 	int res = -EINVAL;
 	//Returning 0 in case process is OVERDUE or 1 if process is SHORT
 	if(target->policy == SCHED_SHORT) {
+		res = 1;
 		if(target->is_overdue == 1){
 			res = 0;
 		}
-		res = 1;
 	}
 	return res;
 }

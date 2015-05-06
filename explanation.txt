@@ -1,0 +1,9 @@
+From the results of the monitor, we can see that when a process becomes SHORT, 
+its priority is higher then OTHER, we can see this when we monitor a switch from OTHER to SHORT, the reason is 
+“A task with higher priority returns from waiting”, After that, the SHORT process is running until it ends or until it becomes OVERDUE,
+Therefor, if it finishes its task while still remaining ‘NOT  OVERDUE’, we see the reason for the switch as “A task ended”, as expected from the assignment requirements.
+Otherwise, if the process becomes OVERDUE we can see that it frees the CPU, with reason 
+“A task with higher priority returns from waiting” and only returns with the reason “A previous task goes out for waiting”, as expected.
+
+Also, between SHORT to SHORT switch, we can see that the reason is “A task yields the CPU” 
+

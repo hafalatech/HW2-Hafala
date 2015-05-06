@@ -1,0 +1,1535 @@
+THIS IS THE RESULT OF THE FOLLOWING COMMAND:
+./sched_tester 0 10 100 5 101 43 50 10
+
+*************************************************
+Starting fibonaci test with requested_time = 5000
+*************************************************
+Invalid input, number_of_trials 0 is not between [1-50]
+Invalid input, number_of_trials 100 is not between [1-50]
+Invalid input, number_of_trials 101 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2204886	|426	|SCHED_OTHER	|7985	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204892	|7985	|SCHED_OTHER	|7984	|SCHED_OTHER	|A task ended
+2204893	|7984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1101	|SCHED_OTHER	|7984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|7984	|SCHED_OTHER	|7981	|SCHED_OTHER	|A task ended
+2204893	|7981	|SCHED_OTHER	|1110	|SCHED_OTHER	|A task ended
+2204893	|1110	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task ended
+2204893	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1109	|SCHED_OTHER	|1110	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1110	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204893	|1109	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2204896	|0	|SCHED_OTHER	|2	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204896	|2	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204896	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204896	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204896	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204897	|1109	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2204904	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204904	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2204918	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204918	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204918	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204918	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204918	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204918	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2204928	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2204928	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2204929	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206436	|7986	|SCHED_OTHER	|7987	|SCHED_OTHER	|A previous task goes out for waiting
+2206437	|7987	|SCHED_OTHER	|7988	|SCHED_OTHER	|A task ended
+2206437	|7988	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206437	|426	|SCHED_OTHER	|7988	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206437	|7988	|SCHED_OTHER	|7986	|SCHED_OTHER	|A task ended
+2206437	|7986	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206437	|426	|SCHED_OTHER	|7986	|SCHED_OTHER	|A previous task goes out for waiting
+2206437	|7986	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2206437	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206443	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206443	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206443	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206443	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206443	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206443	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206454	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206454	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206464	|0	|SCHED_OTHER	|1103	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206464	|1103	|SCHED_OTHER	|865	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206464	|865	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206466	|0	|SCHED_OTHER	|1095	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206466	|1095	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206468	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206468	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206468	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206468	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206468	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206468	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206479	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206479	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206489	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206489	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206493	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|1110	|SCHED_OTHER	|7989	|SCHED_OTHER	|A previous task goes out for waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|678	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|678	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task yields the CPU
+2206713	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|7993	|SCHED_SHORT	|A task with higher priority returns from waiting
+2206713	|7993	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2206713	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2206713	|7989	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|16	|SCHED_OTHER	|7990	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|7990	|SCHED_OTHER	|7991	|SCHED_OTHER	|A task yields the CPU
+2206713	|7991	|SCHED_OTHER	|7990	|SCHED_OTHER	|A task yields the CPU
+2206713	|7990	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|16	|SCHED_OTHER	|7990	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7990	|SCHED_OTHER	|7991	|SCHED_OTHER	|A task ended
+2206713	|7991	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task ended
+2206713	|7992	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task yields the CPU
+2206713	|7989	|SCHED_OTHER	|7992	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|7992	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|16	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7992	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|16	|SCHED_OTHER	|7992	|SCHED_OTHER	|A previous task goes out for waiting
+2206718	|7992	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|1101	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|7992	|SCHED_OTHER	|678	|SCHED_OTHER	|The time slice of the previous task has ended
+2206722	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|678	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task yields the CPU
+2206723	|7992	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206723	|984	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|7992	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|1109	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|7992	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|7992	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 5000
+*************************************************
+
+
+
+*************************************************
+Starting fibonaci test with requested_time = 2500
+*************************************************
+Invalid input, number_of_trials 0 is not between [1-50]
+Invalid input, number_of_trials 100 is not between [1-50]
+Invalid input, number_of_trials 101 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2206489	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206489	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2206493	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206493	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|1110	|SCHED_OTHER	|7989	|SCHED_OTHER	|A previous task goes out for waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206712	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|678	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|678	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task yields the CPU
+2206713	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7989	|SCHED_OTHER	|7993	|SCHED_SHORT	|A task with higher priority returns from waiting
+2206713	|7993	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2206713	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2206713	|7989	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|16	|SCHED_OTHER	|7990	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|7990	|SCHED_OTHER	|7991	|SCHED_OTHER	|A task yields the CPU
+2206713	|7991	|SCHED_OTHER	|7990	|SCHED_OTHER	|A task yields the CPU
+2206713	|7990	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|16	|SCHED_OTHER	|7990	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7990	|SCHED_OTHER	|7991	|SCHED_OTHER	|A task ended
+2206713	|7991	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task ended
+2206713	|7992	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task yields the CPU
+2206713	|7989	|SCHED_OTHER	|7992	|SCHED_OTHER	|A previous task goes out for waiting
+2206713	|7992	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|16	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|7992	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206713	|16	|SCHED_OTHER	|7992	|SCHED_OTHER	|A previous task goes out for waiting
+2206718	|7992	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206718	|1101	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|7992	|SCHED_OTHER	|678	|SCHED_OTHER	|The time slice of the previous task has ended
+2206722	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206722	|678	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task yields the CPU
+2206723	|7992	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206723	|984	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|7992	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|1109	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|7992	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|7992	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|7997	|SCHED_SHORT	|A task with higher priority returns from waiting
+2209466	|7997	|SCHED_SHORT	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2209466	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2209466	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|16	|SCHED_OTHER	|7994	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|7994	|SCHED_OTHER	|7995	|SCHED_OTHER	|A task yields the CPU
+2209466	|7995	|SCHED_OTHER	|7994	|SCHED_OTHER	|A task yields the CPU
+2209466	|7994	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|7995	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|7995	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|7996	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2209467	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2209467	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|678	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task yields the CPU
+2209468	|7996	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|1101	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209479	|7996	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209479	|984	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209485	|7996	|SCHED_OTHER	|678	|SCHED_OTHER	|The time slice of the previous task has ended
+2209485	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2209485	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A previous task goes out for waiting
+2212109	|7996	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 2500
+*************************************************
+
+
+
+*************************************************
+Starting fibonaci test with requested_time = 1
+*************************************************
+Invalid input, number_of_trials 0 is not between [1-50]
+Invalid input, number_of_trials 100 is not between [1-50]
+Invalid input, number_of_trials 101 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2206732	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206732	|1109	|SCHED_OTHER	|7992	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|7992	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2206743	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|7992	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2209466	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|7997	|SCHED_SHORT	|A task with higher priority returns from waiting
+2209466	|7997	|SCHED_SHORT	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2209466	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2209466	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|16	|SCHED_OTHER	|7994	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|7994	|SCHED_OTHER	|7995	|SCHED_OTHER	|A task yields the CPU
+2209466	|7995	|SCHED_OTHER	|7994	|SCHED_OTHER	|A task yields the CPU
+2209466	|7994	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|7995	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|7995	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2209466	|7989	|SCHED_OTHER	|7996	|SCHED_OTHER	|A previous task goes out for waiting
+2209466	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209466	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2209467	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2209467	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|7996	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209467	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2209467	|678	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task yields the CPU
+2209468	|7996	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209468	|1101	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209479	|7996	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209479	|984	|SCHED_OTHER	|7996	|SCHED_OTHER	|A task with higher priority returns from waiting
+2209485	|7996	|SCHED_OTHER	|678	|SCHED_OTHER	|The time slice of the previous task has ended
+2209485	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2209485	|16	|SCHED_OTHER	|7996	|SCHED_OTHER	|A previous task goes out for waiting
+2212109	|7996	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2212109	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2212109	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2212109	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2212109	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2212109	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|426	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|678	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task yields the CPU
+2212110	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|682	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|7989	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2212110	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2212110	|16	|SCHED_OTHER	|7998	|SCHED_OTHER	|A previous task goes out for waiting
+2212110	|7998	|SCHED_OTHER	|7999	|SCHED_OTHER	|A task yields the CPU
+2212110	|7999	|SCHED_OTHER	|7998	|SCHED_OTHER	|A task yields the CPU
+2212110	|7998	|SCHED_OTHER	|7999	|SCHED_OTHER	|A task ended
+2212110	|7999	|SCHED_OTHER	|8000	|SCHED_OTHER	|A task ended
+2212110	|8000	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task yields the CPU
+2212110	|7989	|SCHED_OTHER	|8000	|SCHED_OTHER	|A previous task goes out for waiting
+2212110	|8000	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|16	|SCHED_OTHER	|8000	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|8000	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|16	|SCHED_OTHER	|8000	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|8000	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212110	|16	|SCHED_OTHER	|8000	|SCHED_OTHER	|A previous task goes out for waiting
+2212118	|8000	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212118	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212118	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212118	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212118	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212118	|1101	|SCHED_OTHER	|8000	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|8000	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|984	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2212129	|16	|SCHED_OTHER	|8000	|SCHED_OTHER	|A previous task goes out for waiting
+2212129	|8000	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|16	|SCHED_OTHER	|8000	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|8000	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|16	|SCHED_OTHER	|8000	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|8000	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2212129	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2212129	|678	|SCHED_OTHER	|8000	|SCHED_OTHER	|A task yields the CPU
+2214729	|8000	|SCHED_OTHER	|7989	|SCHED_OTHER	|A task ended
+2214729	|7989	|SCHED_OTHER	|8001	|SCHED_SHORT	|A previous task goes out for waiting
+2214729	|8001	|SCHED_SHORT	|7989	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 1
+*************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+THIS IS THE RESULT OF THE FOLLOWING COMMAND:
+./sched_tester 99 3 1 5 50 7
+
+
+*************************************************
+Starting fibonaci test with requested_time = 5000
+*************************************************
+Invalid input, number_of_trials 99 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2237229	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2237229	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2237243	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252565	|8008	|SCHED_OTHER	|8009	|SCHED_OTHER	|A previous task goes out for waiting
+2252565	|8009	|SCHED_OTHER	|8010	|SCHED_OTHER	|A task ended
+2252566	|8010	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252566	|426	|SCHED_OTHER	|8010	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252566	|8010	|SCHED_OTHER	|8008	|SCHED_OTHER	|A task ended
+2252566	|8008	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252566	|426	|SCHED_OTHER	|8008	|SCHED_OTHER	|A previous task goes out for waiting
+2252566	|8008	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2252566	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252568	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252568	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252568	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252568	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252568	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252568	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252579	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252579	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252581	|0	|SCHED_OTHER	|1060	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252581	|1060	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252589	|0	|SCHED_OTHER	|1103	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252589	|1103	|SCHED_OTHER	|865	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252589	|865	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252590	|0	|SCHED_OTHER	|1095	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252590	|1095	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252593	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252593	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252593	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252593	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252593	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252593	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252604	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252604	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2252618	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252618	|426	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252618	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252618	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2252618	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267906	|8011	|SCHED_OTHER	|8012	|SCHED_OTHER	|A previous task goes out for waiting
+2267907	|8012	|SCHED_OTHER	|8013	|SCHED_OTHER	|A task ended
+2267907	|8013	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267907	|426	|SCHED_OTHER	|8013	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267907	|8013	|SCHED_OTHER	|8011	|SCHED_OTHER	|A task ended
+2267907	|8011	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267907	|426	|SCHED_OTHER	|8011	|SCHED_OTHER	|A previous task goes out for waiting
+2267907	|8011	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2267907	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267918	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267929	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267929	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267941	|0	|SCHED_OTHER	|1060	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267941	|1060	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267943	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267954	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267954	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267959	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267959	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267964	|0	|SCHED_OTHER	|1103	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267964	|1103	|SCHED_OTHER	|865	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267964	|865	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267965	|0	|SCHED_OTHER	|1095	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267965	|1095	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267968	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267968	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267968	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283249	|8014	|SCHED_OTHER	|8015	|SCHED_OTHER	|A previous task goes out for waiting
+2283249	|8015	|SCHED_OTHER	|8016	|SCHED_OTHER	|A task ended
+2283250	|8016	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283250	|426	|SCHED_OTHER	|8016	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283250	|8016	|SCHED_OTHER	|8014	|SCHED_OTHER	|A task ended
+2283250	|8014	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283250	|426	|SCHED_OTHER	|8014	|SCHED_OTHER	|A previous task goes out for waiting
+2283250	|8014	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2283250	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283255	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283255	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283265	|0	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|1109	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283269	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283276	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283276	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283294	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283301	|0	|SCHED_OTHER	|1060	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283301	|1060	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283302	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283302	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283305	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283305	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2295024	|1110	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task yields the CPU
+2295025	|8017	|SCHED_OTHER	|8019	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295025	|8019	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2295025	|682	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|8020	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295025	|8020	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2295025	|682	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|16	|SCHED_OTHER	|8018	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|8018	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 5000
+*************************************************
+
+
+
+*************************************************
+Starting fibonaci test with requested_time = 2500
+*************************************************
+Invalid input, number_of_trials 99 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2252618	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267906	|8011	|SCHED_OTHER	|8012	|SCHED_OTHER	|A previous task goes out for waiting
+2267907	|8012	|SCHED_OTHER	|8013	|SCHED_OTHER	|A task ended
+2267907	|8013	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267907	|426	|SCHED_OTHER	|8013	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267907	|8013	|SCHED_OTHER	|8011	|SCHED_OTHER	|A task ended
+2267907	|8011	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267907	|426	|SCHED_OTHER	|8011	|SCHED_OTHER	|A previous task goes out for waiting
+2267907	|8011	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2267907	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267918	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267918	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267929	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267929	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267941	|0	|SCHED_OTHER	|1060	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267941	|1060	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267943	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267943	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267954	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267954	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267959	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267959	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267964	|0	|SCHED_OTHER	|1103	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267964	|1103	|SCHED_OTHER	|865	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267964	|865	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267965	|0	|SCHED_OTHER	|1095	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267965	|1095	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2267968	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267968	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2267968	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283249	|8014	|SCHED_OTHER	|8015	|SCHED_OTHER	|A previous task goes out for waiting
+2283249	|8015	|SCHED_OTHER	|8016	|SCHED_OTHER	|A task ended
+2283250	|8016	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283250	|426	|SCHED_OTHER	|8016	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283250	|8016	|SCHED_OTHER	|8014	|SCHED_OTHER	|A task ended
+2283250	|8014	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283250	|426	|SCHED_OTHER	|8014	|SCHED_OTHER	|A previous task goes out for waiting
+2283250	|8014	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2283250	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283255	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283255	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283265	|0	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283265	|1109	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283269	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283269	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283276	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283276	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283294	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283301	|0	|SCHED_OTHER	|1060	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283301	|1060	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283302	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283302	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283305	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283305	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2295024	|1110	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task yields the CPU
+2295025	|8017	|SCHED_OTHER	|8019	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295025	|8019	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2295025	|682	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|8020	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295025	|8020	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2295025	|682	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|16	|SCHED_OTHER	|8018	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|8018	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task yields the CPU
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|8017	|SCHED_OTHER	|8022	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295026	|8022	|SCHED_SHORT	|8017	|SCHED_OTHER	|A task ended
+2295026	|8017	|SCHED_OTHER	|8023	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295026	|8023	|SCHED_SHORT	|8017	|SCHED_OTHER	|A task ended
+2295026	|8017	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|16	|SCHED_OTHER	|8021	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|8021	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8021	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|8021	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 2500
+*************************************************
+
+
+
+*************************************************
+Starting fibonaci test with requested_time = 1
+*************************************************
+Invalid input, number_of_trials 99 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2283269	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283276	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283276	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283294	|0	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283294	|1101	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283301	|0	|SCHED_OTHER	|1060	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283301	|1060	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283302	|0	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283302	|426	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2283305	|0	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2283305	|984	|SCHED_OTHER	|0	|SCHED_OTHER	|A previous task goes out for waiting
+2295024	|1110	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295024	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task yields the CPU
+2295025	|8017	|SCHED_OTHER	|8019	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295025	|8019	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2295025	|682	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|8020	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295025	|8020	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2295025	|682	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|16	|SCHED_OTHER	|8018	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|8018	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task yields the CPU
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|426	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295025	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295025	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|8017	|SCHED_OTHER	|8022	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295026	|8022	|SCHED_SHORT	|8017	|SCHED_OTHER	|A task ended
+2295026	|8017	|SCHED_OTHER	|8023	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295026	|8023	|SCHED_SHORT	|8017	|SCHED_OTHER	|A task ended
+2295026	|8017	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|16	|SCHED_OTHER	|8021	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|8021	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8021	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|8021	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295026	|8017	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295026	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295026	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|426	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|678	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task yields the CPU
+2295027	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|426	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295027	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295027	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|426	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295027	|8017	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|426	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295027	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|8017	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|8017	|SCHED_OTHER	|16	|SCHED_OTHER	|A task was created
+2295028	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task was created
+2295028	|8017	|SCHED_OTHER	|16	|SCHED_OTHER	|A task was created
+2295028	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295028	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2295028	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2295028	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295028	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A previous task goes out for waiting
+2295028	|8017	|SCHED_OTHER	|8024	|SCHED_OTHER	|A previous task goes out for waiting
+2295028	|8024	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|16	|SCHED_OTHER	|8024	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|8024	|SCHED_OTHER	|16	|SCHED_OTHER	|A task ended
+2295028	|16	|SCHED_OTHER	|8017	|SCHED_OTHER	|A task ended
+2295028	|8017	|SCHED_OTHER	|8025	|SCHED_SHORT	|A previous task goes out for waiting
+2295028	|8025	|SCHED_SHORT	|8026	|SCHED_SHORT	|A task yields the CPU
+2295028	|8026	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2295028	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2295028	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2295028	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2295028	|16	|SCHED_OTHER	|8026	|SCHED_SHORT	|A previous task goes out for waiting
+2295028	|8026	|SCHED_SHORT	|8025	|SCHED_SHORT	|A task yields the CPU
+2295028	|8025	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|16	|SCHED_OTHER	|8025	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295028	|8025	|SCHED_SHORT	|8017	|SCHED_OTHER	|A task ended
+2295028	|8017	|SCHED_OTHER	|8026	|SCHED_SHORT	|A previous task goes out for waiting
+2295028	|8026	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2295028	|16	|SCHED_OTHER	|8026	|SCHED_SHORT	|A task with higher priority returns from waiting
+2295028	|8026	|SCHED_SHORT	|8017	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 1
+*************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+THIS IS THE RESULT OF THE FOLLOWING COMMAND:
+./sched_tester 98 10 97 20 2 25 3 30 100 35 4 40 5 45
+
+
+*************************************************
+Starting fibonaci test with requested_time = 5000
+*************************************************
+Invalid input, number_of_trials 98 is not between [1-50]
+Invalid input, number_of_trials 97 is not between [1-50]
+Invalid input, number_of_trials 100 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2317731	|426	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317731	|8033	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317731	|426	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317732	|8033	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317732	|426	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317732	|8033	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317732	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317732	|678	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task yields the CPU
+2317732	|8033	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317732	|682	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task with higher priority returns from waiting
+2317732	|8033	|SCHED_OTHER	|8036	|SCHED_SHORT	|A task with higher priority returns from waiting
+2317732	|8036	|SCHED_SHORT	|682	|SCHED_OTHER	|A task ended
+2317732	|682	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task ended
+2317732	|8033	|SCHED_OTHER	|8037	|SCHED_SHORT	|A task with higher priority returns from waiting
+2317737	|8037	|SCHED_SHORT	|984	|SCHED_OTHER	|A task ended
+2317737	|984	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task ended
+2317737	|8033	|SCHED_OTHER	|8039	|SCHED_SHORT	|A task with higher priority returns from waiting
+2318342	|8039	|SCHED_SHORT	|984	|SCHED_OTHER	|A task ended
+2318342	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task ended
+2318342	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1101	|SCHED_OTHER	|2	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|2	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|426	|SCHED_OTHER	|1	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318342	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318343	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318343	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318344	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318344	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318344	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318344	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318344	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318344	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2318345	|8033	|SCHED_OTHER	|678	|SCHED_OTHER	|A task was created
+2318345	|678	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task yields the CPU
+2318345	|8033	|SCHED_OTHER	|8040	|SCHED_SHORT	|A task with higher priority returns from waiting
+2324190	|8040	|SCHED_SHORT	|984	|SCHED_OTHER	|A SHORT process became overdue
+2324190	|984	|SCHED_OTHER	|1097	|SCHED_OTHER	|A SHORT process became overdue
+2324190	|1097	|SCHED_OTHER	|1101	|SCHED_OTHER	|A SHORT process became overdue
+2324190	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|1101	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|426	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|1109	|SCHED_OTHER	|923	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|923	|SCHED_OTHER	|1102	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|1102	|SCHED_OTHER	|7	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|7	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|16	|SCHED_OTHER	|3	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|3	|SCHED_OTHER	|5	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|5	|SCHED_OTHER	|1060	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|1060	|SCHED_OTHER	|1103	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|1103	|SCHED_OTHER	|865	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|865	|SCHED_OTHER	|1095	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|1095	|SCHED_OTHER	|1093	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|1093	|SCHED_OTHER	|1	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|1	|SCHED_OTHER	|1081	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|1081	|SCHED_OTHER	|1099	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|8034	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task ended
+2324190	|8033	|SCHED_OTHER	|8035	|SCHED_OTHER	|A previous task goes out for waiting
+2324190	|8035	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task yields the CPU
+2324190	|8038	|SCHED_OTHER	|8035	|SCHED_OTHER	|A task yields the CPU
+2324190	|8035	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|16	|SCHED_OTHER	|8035	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324190	|8035	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324191	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2324191	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2324191	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2324191	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2324191	|16	|SCHED_OTHER	|8035	|SCHED_OTHER	|A previous task goes out for waiting
+2324191	|8035	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task ended
+2324191	|8038	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324191	|16	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324191	|8038	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324191	|16	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324191	|8038	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324191	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2324191	|678	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task yields the CPU
+2324193	|8038	|SCHED_OTHER	|678	|SCHED_OTHER	|The time slice of the previous task has ended
+2324193	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2324193	|16	|SCHED_OTHER	|8038	|SCHED_OTHER	|A previous task goes out for waiting
+2324193	|8038	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324193	|16	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324193	|8038	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324193	|16	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324193	|8038	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324193	|16	|SCHED_OTHER	|8038	|SCHED_OTHER	|A previous task goes out for waiting
+2324201	|8038	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324201	|984	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324215	|8038	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324215	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324215	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324215	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324215	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324215	|1101	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324226	|8038	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324226	|984	|SCHED_OTHER	|8038	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324240	|8038	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324240	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324240	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|8038	|SCHED_OTHER	|678	|SCHED_OTHER	|A task ended
+2324245	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|678	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task yields the CPU
+2324245	|8033	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2324245	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2324245	|16	|SCHED_OTHER	|8040	|SCHED_SHORT	|A previous task goes out for waiting
+2324245	|8040	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|16	|SCHED_OTHER	|8040	|SCHED_SHORT	|A task with higher priority returns from waiting
+2324245	|8040	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|16	|SCHED_OTHER	|8040	|SCHED_SHORT	|A task with higher priority returns from waiting
+2324245	|8040	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2324245	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2324245	|16	|SCHED_OTHER	|8040	|SCHED_SHORT	|A previous task goes out for waiting
+2324245	|8040	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|16	|SCHED_OTHER	|8040	|SCHED_SHORT	|A task with higher priority returns from waiting
+2324245	|8040	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|16	|SCHED_OTHER	|8040	|SCHED_SHORT	|A task with higher priority returns from waiting
+2324245	|8040	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2324245	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324245	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2324245	|16	|SCHED_OTHER	|8040	|SCHED_SHORT	|A previous task goes out for waiting
+2324245	|8040	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2324971	|8040	|SCHED_SHORT	|8033	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 5000
+*************************************************
+
+
+
+*************************************************
+Starting fibonaci test with requested_time = 2500
+*************************************************
+Invalid input, number_of_trials 98 is not between [1-50]
+Invalid input, number_of_trials 97 is not between [1-50]
+Invalid input, number_of_trials 100 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2324977	|8033	|SCHED_OTHER	|8046	|SCHED_SHORT	|A task with higher priority returns from waiting
+2325569	|8046	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task ended
+2325569	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|1101	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|426	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325569	|1109	|SCHED_OTHER	|3	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325570	|3	|SCHED_OTHER	|5	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325570	|5	|SCHED_OTHER	|1097	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325570	|1097	|SCHED_OTHER	|1103	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325570	|1103	|SCHED_OTHER	|865	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325570	|865	|SCHED_OTHER	|1095	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325570	|1095	|SCHED_OTHER	|8033	|SCHED_OTHER	|A task with higher priority returns from waiting
+2325570	|8033	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2328492	|8047	|SCHED_SHORT	|984	|SCHED_OTHER	|A SHORT process became overdue
+2328492	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A SHORT process became overdue
+2328492	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1101	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|426	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1109	|SCHED_OTHER	|3	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|3	|SCHED_OTHER	|5	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|5	|SCHED_OTHER	|1097	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1097	|SCHED_OTHER	|1103	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1103	|SCHED_OTHER	|865	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|865	|SCHED_OTHER	|1095	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1095	|SCHED_OTHER	|7	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|7	|SCHED_OTHER	|1	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1	|SCHED_OTHER	|1102	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1102	|SCHED_OTHER	|1081	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|1081	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|16	|SCHED_OTHER	|1099	|SCHED_OTHER	|A previous task goes out for waiting
+2328492	|1099	|SCHED_OTHER	|1102	|SCHED_OTHER	|A previous task goes out for waiting
+2328492	|1102	|SCHED_OTHER	|8033	|SCHED_OTHER	|A previous task goes out for waiting
+2328492	|8033	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2328492	|678	|SCHED_OTHER	|8041	|SCHED_OTHER	|A task yields the CPU
+2328492	|8041	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2328492	|8041	|SCHED_OTHER	|8042	|SCHED_OTHER	|A task ended
+2328492	|8042	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task yields the CPU
+2328492	|8045	|SCHED_OTHER	|8042	|SCHED_OTHER	|A task yields the CPU
+2328492	|8042	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|16	|SCHED_OTHER	|8042	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|8042	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328492	|16	|SCHED_OTHER	|8042	|SCHED_OTHER	|A previous task goes out for waiting
+2328492	|8042	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task ended
+2328497	|8045	|SCHED_OTHER	|8033	|SCHED_OTHER	|The time slice of the previous task has ended
+2328497	|8033	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2328497	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328497	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328497	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328497	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328497	|678	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task yields the CPU
+2328503	|8045	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328503	|984	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328517	|8045	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328517	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328517	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328517	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328517	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328517	|1101	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328528	|8045	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328528	|984	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328542	|8045	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328542	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328542	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328542	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328542	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328542	|1101	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328544	|8045	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328544	|426	|SCHED_OTHER	|8045	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328546	|8045	|SCHED_OTHER	|678	|SCHED_OTHER	|A task ended
+2328546	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2328546	|16	|SCHED_OTHER	|8033	|SCHED_OTHER	|A previous task goes out for waiting
+2328546	|8033	|SCHED_OTHER	|8047	|SCHED_SHORT	|A previous task goes out for waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2328547	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A previous task goes out for waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2328547	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2328547	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2328547	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A previous task goes out for waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2328547	|8047	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2328547	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2328547	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2328547	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2329376	|8048	|SCHED_OTHER	|8049	|SCHED_OTHER	|A previous task goes out for waiting
+2329376	|8049	|SCHED_OTHER	|8050	|SCHED_OTHER	|A task ended
+2329376	|8050	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329376	|426	|SCHED_OTHER	|8050	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329376	|8050	|SCHED_OTHER	|8048	|SCHED_OTHER	|A task ended
+2329376	|8048	|SCHED_OTHER	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329376	|426	|SCHED_OTHER	|8048	|SCHED_OTHER	|A previous task goes out for waiting
+2329376	|8048	|SCHED_OTHER	|426	|SCHED_OTHER	|A task ended
+2329377	|426	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task ended
+2329378	|8047	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329378	|984	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2329392	|8047	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329392	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329392	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329392	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329392	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329392	|1101	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2329403	|8047	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329403	|984	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2329417	|8047	|SCHED_SHORT	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|1109	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|984	|SCHED_OTHER	|1109	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|1109	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329417	|1101	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2329428	|8047	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329428	|984	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2329429	|8047	|SCHED_SHORT	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329429	|426	|SCHED_OTHER	|8047	|SCHED_SHORT	|A task with higher priority returns from waiting
+2329442	|8047	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329442	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2329442	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332227	|8047	|SCHED_SHORT	|8033	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 2500
+*************************************************
+
+
+
+*************************************************
+Starting fibonaci test with requested_time = 1
+*************************************************
+Invalid input, number_of_trials 98 is not between [1-50]
+Invalid input, number_of_trials 97 is not between [1-50]
+Invalid input, number_of_trials 100 is not between [1-50]
+
+Got 150 entries
+
+|Time	|Prev	|PreviousPolicy	|Next	|Next Policy	|Reason
+2332282	|16	|SCHED_OTHER	|8053	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332282	|8053	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332282	|16	|SCHED_OTHER	|8053	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332282	|8053	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332282	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2332282	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332282	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332282	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332282	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332282	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2332284	|8053	|SCHED_SHORT	|8033	|SCHED_OTHER	|A task ended
+2332284	|8033	|SCHED_OTHER	|8054	|SCHED_SHORT	|A previous task goes out for waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2332284	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2332284	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2332284	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A previous task goes out for waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2332284	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2332284	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2332284	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A previous task goes out for waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|8054	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332284	|8054	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332284	|16	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2332284	|678	|SCHED_OTHER	|682	|SCHED_OTHER	|A task yields the CPU
+2332284	|682	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2332290	|8054	|SCHED_SHORT	|8033	|SCHED_OTHER	|A task ended
+2332290	|8033	|SCHED_OTHER	|8056	|SCHED_SHORT	|A previous task goes out for waiting
+2332290	|8056	|SCHED_SHORT	|8057	|SCHED_SHORT	|A task yields the CPU
+2332290	|8057	|SCHED_SHORT	|8056	|SCHED_SHORT	|A task yields the CPU
+2332292	|8056	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332292	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332292	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332292	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332292	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332292	|1101	|SCHED_OTHER	|8056	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332303	|8056	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332303	|984	|SCHED_OTHER	|8056	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332317	|8056	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332317	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332317	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332317	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332317	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332317	|1101	|SCHED_OTHER	|8056	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332328	|8056	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332328	|984	|SCHED_OTHER	|8056	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332342	|8056	|SCHED_SHORT	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332342	|426	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332342	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332342	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332342	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332342	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332342	|1101	|SCHED_OTHER	|8056	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332353	|8056	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332353	|984	|SCHED_OTHER	|8056	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332367	|8056	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332892	|8056	|SCHED_SHORT	|8033	|SCHED_OTHER	|A task ended
+2332892	|8033	|SCHED_OTHER	|8057	|SCHED_SHORT	|A previous task goes out for waiting
+2332903	|8057	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332903	|984	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332914	|8057	|SCHED_SHORT	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332914	|426	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332917	|8057	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332917	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332917	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332917	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332917	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332917	|1101	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332928	|8057	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332928	|984	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332942	|8057	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332942	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332942	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332942	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332942	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332942	|1101	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332953	|8057	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332953	|984	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332966	|8057	|SCHED_SHORT	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332966	|426	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2332967	|8057	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332967	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332967	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332967	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332967	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2332967	|1101	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336088	|874	|SCHED_OTHER	|8058	|SCHED_OTHER	|A task was created
+2336088	|8058	|SCHED_OTHER	|8059	|SCHED_OTHER	|A previous task goes out for waiting
+2336088	|8059	|SCHED_OTHER	|678	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336088	|678	|SCHED_OTHER	|8059	|SCHED_OTHER	|A task yields the CPU
+2336088	|8059	|SCHED_OTHER	|678	|SCHED_OTHER	|A task yields the CPU
+2336088	|678	|SCHED_OTHER	|16	|SCHED_OTHER	|A previous task goes out for waiting
+2336088	|16	|SCHED_OTHER	|8057	|SCHED_SHORT	|A previous task goes out for waiting
+2336088	|8057	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336088	|16	|SCHED_OTHER	|8059	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336088	|8059	|SCHED_OTHER	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336088	|16	|SCHED_OTHER	|8059	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336088	|8059	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336088	|8057	|SCHED_SHORT	|16	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336088	|16	|SCHED_OTHER	|8059	|SCHED_OTHER	|A previous task goes out for waiting
+2336088	|8059	|SCHED_OTHER	|678	|SCHED_OTHER	|A previous task goes out for waiting
+2336088	|678	|SCHED_OTHER	|8058	|SCHED_OTHER	|A previous task goes out for waiting
+2336088	|8058	|SCHED_OTHER	|8057	|SCHED_SHORT	|A previous task goes out for waiting
+2336088	|8057	|SCHED_SHORT	|8059	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336089	|8059	|SCHED_OTHER	|8058	|SCHED_OTHER	|A task ended
+2336089	|8058	|SCHED_OTHER	|874	|SCHED_OTHER	|A task ended
+2336089	|874	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task ended
+2336092	|8057	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336092	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336092	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336092	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336092	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336092	|1101	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336103	|8057	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336103	|984	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336106	|8057	|SCHED_SHORT	|1093	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336106	|1093	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336106	|984	|SCHED_OTHER	|1093	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336106	|1093	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336106	|984	|SCHED_OTHER	|1093	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336106	|1093	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336117	|8057	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336117	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336117	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336117	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336117	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336117	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336117	|1101	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336128	|8057	|SCHED_SHORT	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336128	|984	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336138	|8057	|SCHED_SHORT	|426	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336138	|426	|SCHED_OTHER	|8057	|SCHED_SHORT	|A task with higher priority returns from waiting
+2336142	|8057	|SCHED_SHORT	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336142	|1101	|SCHED_OTHER	|984	|SCHED_OTHER	|A task with higher priority returns from waiting
+2336142	|984	|SCHED_OTHER	|1101	|SCHED_OTHER	|A task with higher priority returns from waiting
+2339505	|8057	|SCHED_SHORT	|8033	|SCHED_OTHER	|A task ended
+
+*************************************************
+Finished Test with requested_time = 1
+*************************************************
+
+
+
+
+
+
