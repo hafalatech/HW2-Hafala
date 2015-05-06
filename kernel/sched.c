@@ -1399,7 +1399,7 @@ static int setscheduler(pid_t pid, int policy, struct sched_param *param)
 
     	if(changeShortCameFromSetParam) // try to do set_param on a SHORT process, so only change requested_time
     	{
-    		if(lp.requested_time < p->requested_time && lp.trial_num == p->trial_num) // todo check this if
+    		if(lp.requested_time < p->requested_time && lp.requested_time > 0 && lp.trial_num == p->trial_num) // todo check this if
     		{
     			p->requested_time = lp.requested_time;
     			retval = 0;
