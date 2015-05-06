@@ -688,8 +688,8 @@ int main()
     printf("Testing becoming overdue because of Time... ");
     testBecomingOverdueBecauseOfTime();
 
-    printf("Testing SHORT processes Round-Robin... \n");
-    testSHORTRoundRobinNew();
+    // printf("Testing SHORT processes Round-Robin... \n");
+    // testSHORTRoundRobinNew();
 
     printf("testChangeRequestedTimeForShort... ");
     testChangeRequestedTimeForShort();

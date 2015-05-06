@@ -65,7 +65,7 @@ void print_debug(int pid)
 
         printf("|Priority\t|Policy\t\t|requested_time\t|number_of_trials\t|trial_num\t\n");
         printf("|%d\t\t|%s\t|", debug->priority, policy_string);
-        printf("%d\t\t|%d\t\t\t|", debug->requested_time, debug->number_of_trials);
+        printf("%d\t\t|%d\t\t\t|", debug->requested_time, debug->trial_num);
         printf("%d\t\t", debug->trial_num);
         printf("\n");
 
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
                         pid = fork();
                         if (pid > 0) {
                                 struct sched_param param;
-                                param.number_of_trials = number_of_trials;
+                                param.trial_num = number_of_trials;
                                 param.requested_time = requested_time_array[j];
                                 
                                 print_debug(pid);                        
