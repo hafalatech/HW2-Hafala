@@ -63,9 +63,9 @@ void print_debug(int pid)
         printf("------------------DEBUG FOR PID=%d------------------\n",pid);
         
 
-        printf("|Priority\t|Policy\t\t|requested_time\t|trial_num\t|trial_num\t\n");
+        printf("|Priority\t|Policy\t\t|requested_time\t|number_of_trials\t|trial_num\t\n");
         printf("|%d\t\t|%s\t|", debug->priority, policy_string);
-        printf("%d\t\t|%d\t\t\t|", debug->requested_time, debug->trial_num);
+        printf("%d\t\t|%d\t\t\t|", debug->requested_time, debug->number_of_trials);
         printf("%d\t\t", debug->trial_num);
         printf("\n");
 
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 {
         char *endptr;
         int status;
-        int trial_num;
+        int number_of_trials;
         int num;
         int pid;
         int long_requested_time = 5000;
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
                 while (i < argc)
                 {
                         // Parse the arguments from strings to integers
-                        trial_num = strtol(argv[i], &endptr, 10);
+                        number_of_trials = strtol(argv[i], &endptr, 10);
                         i++;
                         num = strtol(argv[i], &endptr, 10);
                         i++;
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
                         pid = fork();
                         if (pid > 0) {
                                 struct sched_param param;
-                                param.trial_num = trial_num;
+                                param.number_of_trials = number_of_trials;
                                 param.requested_time = requested_time_array[j];
                                 
                                 print_debug(pid);                        
